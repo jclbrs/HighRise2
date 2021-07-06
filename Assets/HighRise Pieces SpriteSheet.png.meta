@@ -1,0 +1,872 @@
+fileFormatVersion: 2
+guid: 56783ab1fdf6a2343b7c5e3b345b5f30
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5971929422847523044
+    second: HighRise Pieces SpriteSheet_0
+  - first:
+      213: 1342326785392077389
+    second: HighRise Pieces SpriteSheet_1
+  - first:
+      213: -8641513025125321647
+    second: HighRise Pieces SpriteSheet_2
+  - first:
+      213: 7401071750834850664
+    second: HighRise Pieces SpriteSheet_3
+  - first:
+      213: 3444742821864112017
+    second: HighRise Pieces SpriteSheet_4
+  - first:
+      213: -1593509807796275446
+    second: HighRise Pieces SpriteSheet_5
+  - first:
+      213: -5981917616324070873
+    second: HighRise Pieces SpriteSheet_6
+  - first:
+      213: -2623569770171051501
+    second: HighRise Pieces SpriteSheet_7
+  - first:
+      213: 4101727391759305868
+    second: HighRise Pieces SpriteSheet_8
+  - first:
+      213: -2757442685684261046
+    second: HighRise Pieces SpriteSheet_9
+  - first:
+      213: 2786876905487753468
+    second: HighRise Pieces SpriteSheet_10
+  - first:
+      213: -8367664099455064640
+    second: HighRise Pieces SpriteSheet_11
+  - first:
+      213: -1502060959910448307
+    second: HighRise Pieces SpriteSheet_12
+  - first:
+      213: 6798853987055340352
+    second: HighRise Pieces SpriteSheet_13
+  - first:
+      213: -2488664306464380355
+    second: HighRise Pieces SpriteSheet_14
+  - first:
+      213: 4918350702258757409
+    second: HighRise Pieces SpriteSheet_15
+  - first:
+      213: 2848739594708830376
+    second: HighRise Pieces SpriteSheet_16
+  - first:
+      213: 1820375598661843778
+    second: HighRise Pieces SpriteSheet_17
+  - first:
+      213: -6978881118695000138
+    second: HighRise Pieces SpriteSheet_18
+  - first:
+      213: -4934290916909781947
+    second: HighRise Pieces SpriteSheet_19
+  - first:
+      213: -218090343855250182
+    second: HighRise Pieces SpriteSheet_20
+  - first:
+      213: 5706201927525578737
+    second: HighRise Pieces SpriteSheet_21
+  - first:
+      213: -5290418923413920289
+    second: HighRise Pieces SpriteSheet_22
+  - first:
+      213: -5961263663419991626
+    second: HighRise Pieces SpriteSheet_23
+  - first:
+      213: 7812474360287051362
+    second: HighRise Pieces SpriteSheet_24
+  - first:
+      213: 4239048042961605623
+    second: HighRise Pieces SpriteSheet_25
+  - first:
+      213: -8024951098512612043
+    second: HighRise Pieces SpriteSheet_26
+  - first:
+      213: 2112879835951085213
+    second: HighRise Pieces SpriteSheet_27
+  - first:
+      213: -8344201558927815211
+    second: HighRise Pieces SpriteSheet_28
+  - first:
+      213: -5910468446011712395
+    second: HighRise Pieces SpriteSheet_29
+  - first:
+      213: 6989962198510366091
+    second: HighRise Pieces SpriteSheet_30
+  - first:
+      213: 1507426327642722512
+    second: HighRise Pieces SpriteSheet_31
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e8b7806b2e80e250800000000000000
+      internalID: 5971929422847523044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4a69cf6917e0a210800000000000000
+      internalID: 1342326785392077389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1547e7730bd231880800000000000000
+      internalID: -8641513025125321647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86b80b97b83e5b660800000000000000
+      internalID: 7401071750834850664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19f79cf685f2ecf20800000000000000
+      internalID: 3444742821864112017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a07b338c547b2e9e0800000000000000
+      internalID: -1593509807796275446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7223a5b1f95fbfca0800000000000000
+      internalID: -5981917616324070873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_7
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 200
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 312508db135379bd0800000000000000
+      internalID: -2623569770171051501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8c8d47b4534ce830800000000000000
+      internalID: 4101727391759305868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_9
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4f5a47ac789bb9d0800000000000000
+      internalID: -2757442685684261046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_10
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf06650b7c9fca620800000000000000
+      internalID: 2786876905487753468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_11
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c52138d5d510eb80800000000000000
+      internalID: -8367664099455064640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_12
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d433e85e38b972be0800000000000000
+      internalID: -1502060959910448307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_13
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04b8e2aeda16a5e50800000000000000
+      internalID: 6798853987055340352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_14
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3a2fffaffc767dd0800000000000000
+      internalID: -2488664306464380355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_15
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 136
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12f1de8b7ed714440800000000000000
+      internalID: 4918350702258757409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a8c5307191c88720800000000000000
+      internalID: 2848739594708830376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_17
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24b370456f5434910800000000000000
+      internalID: 1820375598661843778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_18
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b7f0862998062f90800000000000000
+      internalID: -6978881118695000138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_19
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54ce727dd80e58bb0800000000000000
+      internalID: -4934290916909781947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_20
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af4a09ddcff29fcf0800000000000000
+      internalID: -218090343855250182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_21
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f7bfca9b60803f40800000000000000
+      internalID: 5706201927525578737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_22
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd5a8ecd408a496b0800000000000000
+      internalID: -5290418923413920289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_23
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 72
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b958614846554da0800000000000000
+      internalID: -5961263663419991626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26eb1c5d90c7b6c60800000000000000
+      internalID: 7812474360287051362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_25
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 8
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f39a825cbf14da30800000000000000
+      internalID: 4239048042961605623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_26
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 8
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53566417e75a1a090800000000000000
+      internalID: -8024951098512612043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_27
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 8
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9633fa2405725d10800000000000000
+      internalID: 2112879835951085213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_28
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 8
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ddc8d144e0733c80800000000000000
+      internalID: -8344201558927815211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_29
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 8
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57c115b634cc9fda0800000000000000
+      internalID: -5910468446011712395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_30
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 8
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8d6e9bc595510160800000000000000
+      internalID: 6989962198510366091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HighRise Pieces SpriteSheet_31
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 8
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d0573022447be410800000000000000
+      internalID: 1507426327642722512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

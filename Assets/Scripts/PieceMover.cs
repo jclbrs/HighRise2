@@ -20,7 +20,9 @@ public class PieceMover : MonoBehaviour
 	public float YIncrement = 0.1f;
 	public float YPosnToSpringOver = 2.0f;
 	public int PlatformPosition = 0;
+	public float BlockWidth = 0.14f;
 	public PieceState CurrentState;
+	public Vector2 CenterOfMass;
 
 	private Rigidbody2D _rigidbody;
 	private 
@@ -28,6 +30,7 @@ public class PieceMover : MonoBehaviour
 	{
 		_rigidbody = GetComponent<Rigidbody2D>();
 		CurrentState = PieceState.SpringUp;
+		CenterOfMass = _rigidbody.centerOfMass;
 	}
 
 	void Update()
@@ -37,6 +40,7 @@ public class PieceMover : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		CenterOfMass = _rigidbody.centerOfMass;
 		switch (CurrentState)
 		{
 			case PieceState.SpringUp:
@@ -46,11 +50,11 @@ public class PieceMover : MonoBehaviour
 					CurrentState = PieceState.SpringOver;
 				break;
 			case PieceState.SpringOver:
-				if (transform.position.x > 0.4f * PlatformPosition)
+				if (transform.position.x > BlockWidth * PlatformPosition)
 					transform.position = new Vector2(transform.position.x - 0.05f, transform.position.y);
 				else
 				{
-					transform.position = new Vector2(0.4f * PlatformPosition, transform.position.y);
+					transform.position = new Vector2(BlockWidth * PlatformPosition, transform.position.y);
 					CurrentState = PieceState.SpringDown;
 				}
 				break;

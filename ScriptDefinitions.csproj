@@ -59,12 +59,17 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Logic\SpringboardLogic.cs" />
     <Compile Include="Assets\Scripts\Logic\LandingZoneLogic.cs" />
     <Compile Include="Assets\Scripts\Logic\PieceLibrary.cs" />
+    <Compile Include="Assets\Scripts\Logic\LogicController.cs" />
     <Compile Include="Assets\Scripts\PieceMover.cs" />
-    <Compile Include="Assets\Scripts\Logic\Models\LandingZoneBlock.cs" />
+    <Compile Include="Assets\Scripts\Logic\Data.cs" />
+    <Compile Include="Assets\Scripts\Logic\Models\LandingZoneCell.cs" />
+    <Compile Include="Assets\Scripts\Logic\BinsLogic.cs" />
     <Compile Include="Assets\Scripts\Logic\Models\Piece.cs" />
-    <Compile Include="Assets\Scripts\Logic\Models\SpringboardPiece.cs" />
+    <Compile Include="Assets\Scripts\Logic\Enums\PieceState.cs" />
+    <Compile Include="Assets\Scripts\Logic\Enums\PlacePieceStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\ScriptDefinitions.asmdef" />

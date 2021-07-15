@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Logic.Models
 {
-    public class LandingZoneBlock
+    public class LandingZoneCell
     {
         // Each block has a logical width of 1.0f (for calculation purposes)
 
@@ -18,7 +18,7 @@ namespace Assets.Scripts.Logic.Models
         // If their center of mass is within this block's width, the the Accumulated XCenterOfMass is the calculation of the new Mass Center
         public float AccumulatedXCenterOfMass { get; set; }
 
-        public LandingZoneBlock()
+        public LandingZoneCell()
 		{
             PieceId = int.MinValue;
             AccumulatedXCenterOfMass = 0.0f;

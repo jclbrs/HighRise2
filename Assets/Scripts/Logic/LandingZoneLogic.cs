@@ -3,46 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Logic.Enums;
 using Assets.Scripts.Logic.Models;
 
 namespace Assets.Scripts.Logic
 {
-	public enum PlacePieceStatus
-	{
-		Ok,
-		BadRowArg,
-		BadColArg,
-		InvalidPieceId,
-		AnotherPiecePresent,
-		TooFarToTheRight
-	}
-
 	public class LandingZoneLogic
 	{
-        public LandingZoneBlock[,] LandingZoneCells; // 
         public int NumRowsInLandingZone { get; private set; } = 21;
         public int NumColsInLandingZone { get; private set; } =  5;
-		private PieceLibrary _pieceLibrary;
 
         public LandingZoneLogic()
 		{
 			ClearLandingZone();
-			_pieceLibrary = new PieceLibrary();
 		}
 
 		public void ClearLandingZone()
 		{
-			LandingZoneCells = new LandingZoneBlock[NumRowsInLandingZone, NumColsInLandingZone];
+			Data.LandingZone = new LandingZoneCell[NumRowsInLandingZone, NumColsInLandingZone];
 			for (int row = 0; row < NumRowsInLandingZone; row++)
 			{
 				for (int col = 0; col < NumColsInLandingZone; col++)
 				{
-					LandingZoneCells[row, col] = new LandingZoneBlock();
+					Data.LandingZone[row, col] = new LandingZoneCell();
 				}
 			}
 		}
 
-		public void DropPiecesFromSpringboard(List<SpringboardPiece> pieces)
+		public void DropPiecesFromSpringboard(List<Piece> pieces)
 		{
 			StartNewPiecesPositioning(pieces);
 			DropPiecesToRestingPosition(pieces);
@@ -55,19 +43,26 @@ namespace Assets.Scripts.Logic
 			// If not, start tumbling
 		}
 
-		private void DropPiecesToRestingPosition(List<SpringboardPiece> pieces)
+		private void DropPiecesToRestingPosition(List<Piece> pieces)
 		{
-			throw new NotImplementedException();
+			foreach (Piece piece in pieces)
+			{
+				for (int pieceCol = 0; pieceCol < piece.GetWidth(); pieceCol++)
+				{
+					// joe continue here
+				}
+			}
+			// joe continue here
 		}
 
 		// Place all pieces from springboard to top of landing zone
-		public void StartNewPiecesPositioning(List<SpringboardPiece> pieces)
+		public void StartNewPiecesPositioning(List<Piece> pieces)
 		{
 			PlacePieceStatus placePieceStatus;
-			foreach (SpringboardPiece springboardPiece in pieces)
+			foreach (Piece piece in pieces)
 			{
-				if (!TryPlacePiece(springboardPiece.PieceId, NumRowsInLandingZone-1 - 3, springboardPiece.Col, out placePieceStatus))
-					throw new Exception($"Exception dropping piece {springboardPiece.PieceId} onto landing area at col {springboardPiece.Col}");
+				if (!TryPlacePiece(piece.Id, NumRowsInLandingZone-1 - 3, piece.SpringboardColumn, out placePieceStatus))
+					throw new Exception($"Exception dropping piece {piece.Id} onto landing area at col {piece.SpringboardColumn}");
 			}
 		}
 
@@ -89,7 +84,7 @@ namespace Assets.Scripts.Logic
 			Piece piece = null;
 			try
 			{
-				piece = _pieceLibrary.Pieces[pieceId];
+				piece = PieceLibrary.Pieces[pieceId];
 			}
 			catch (Exception)
 			{
@@ -109,7 +104,7 @@ namespace Assets.Scripts.Logic
 				for (int pieceCol = 0; pieceCol < 3; pieceCol++)
 				{
 					if (piece.Shape[pieceRow, pieceCol] && (col + pieceCol < NumColsInLandingZone))
-						LandingZoneCells[row + pieceRow, col + pieceCol].PieceId = pieceId;
+						Data.LandingZone[row + pieceRow, col + pieceCol].PieceId = pieceId;
 				}
 			}
 			return true;
@@ -125,7 +120,7 @@ namespace Assets.Scripts.Logic
             {
                 for (int col = 0; col < NumColsInLandingZone; col++)
                 {
-                    if (LandingZoneCells[row, col] == null || LandingZoneCells[row, col].PieceId == 0)
+                    if (Data.LandingZone[row, col] == null || Data.LandingZone[row, col].PieceId == 0)
                         continue;
 
                     // continue here

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Logic.Enums;
 using Assets.Scripts.Logic.Models;
 using NUnit.Framework;
 using UnityEngine;
@@ -46,5 +47,11 @@ public class PieceTests
 		Assert.AreEqual(3, p.GetWidth());
 	}
 
+	[Test]
+	public void NewPiece_ExpectInactiveState()
+	{
+		Piece p = new Piece(123, 100, true, false, false, true, false, false, true, true, true);
+		Assert.AreEqual(PieceState.NotActive, p.CurrentState);
+	}
 
 }

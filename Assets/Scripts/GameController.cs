@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.SimulationLogic;
@@ -7,60 +8,102 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
 	public GameObject PiecePrefab;
+	public Vector2 Bin0Position;
+	public float BinXSpacing;
+	public float BinPieceYSpacing;
 
 	void Start()
 	{
-		// Instantiate(BlockPrefab, new Vector3(1.0f, 1.0f));
-		// joe test drawing a piece
+		try
+		{
+			float x = Bin0Position.x;
+			CreatePiece(13, x, Bin0Position.y);
+			CreatePiece(4, x, Bin0Position.y + BinPieceYSpacing);
+			CreatePiece(0, x, Bin0Position.y + 2 * BinPieceYSpacing);
+			CreatePiece(43, x, Bin0Position.y + 3 * BinPieceYSpacing);
 
-		CreatePiece();
+			x = Bin0Position.x + BinXSpacing;
+			//CreatePiece(55, x, Bin0Position.y); // joe, this piece fails.  Find out why
+			CreatePiece(17, x, Bin0Position.y); // this too .  ????
+
+			CreatePiece(18, x, Bin0Position.y + BinPieceYSpacing);
+			CreatePiece(2, x, Bin0Position.y + 2 * BinPieceYSpacing);
+			CreatePiece(21, x, Bin0Position.y + 3 * BinPieceYSpacing);
+
+			x = Bin0Position.x + 2 * BinXSpacing;
+			CreatePiece(60, x, Bin0Position.y);
+			CreatePiece(44, x, Bin0Position.y + BinPieceYSpacing);
+			CreatePiece(30, x, Bin0Position.y + 2 * BinPieceYSpacing);
+			CreatePiece(3, x, Bin0Position.y + 3 * BinPieceYSpacing);
+
+			x = Bin0Position.x + 3 * BinXSpacing;
+			CreatePiece(31, x, Bin0Position.y);
+			CreatePiece(42, x, Bin0Position.y + BinPieceYSpacing);
+			CreatePiece(60, x, Bin0Position.y + 2 * BinPieceYSpacing);
+			CreatePiece(15, x, Bin0Position.y + 3 * BinPieceYSpacing);
+		}
+		catch (Exception ex)
+		{
+			Debug.LogException(ex);
+		}
 	}
 
-	private void CreatePiece()
+	private void CreatePiece(int pieceId, float x, float y)
 	{
-		// Joe continue here
 		GameObject selectedPiece = Instantiate(PiecePrefab);
-		selectedPiece.transform.position = new Vector3(5.0f, 5.0f);
+		selectedPiece.transform.position = new Vector3(x, y);
+		PieceManager pieceManager = selectedPiece.GetComponent<PieceManager>();
+		pieceManager.yMove = 0.0f;
 
-		Piece simPiece = PieceLibrary.Pieces[13];
+		Piece simPiece = PieceLibrary.Pieces[pieceId];
 		Debug.Log($"PieceId: {simPiece.Id}");
 		ConstructPieceShape(selectedPiece, simPiece);
-		Debug.Log($"Child: {selectedPiece.transform.GetChild(0).name}");
 	}
 
 	private void ConstructPieceShape(GameObject pieceContainer, Piece simPiece)
 	{
 		bool[,] simShape = simPiece.Shape;
+		GameObject currentBlock;
+		int row = int.MinValue;
+		int col = int.MinValue;
 		// Activate/Deactivate the blocks for the shape
-		for (int row = 0; row < 3; row++)
+		try
 		{
-			for (int col = 0; col < 3; col++)
+			for (row = 0; row < 3; row++)
 			{
-				GameObject currentBlock = pieceContainer.transform.Find($"Block_{col}-{row}").gameObject;
-				currentBlock.SetActive(simShape[col, row]);
-
-				// Activate/Deactivate the borders, based on its neighbors
-				if (currentBlock.activeSelf)
+				for (col = 0; col < 3; col++)
 				{
-					if (row < 2 && simShape[col, row + 1]) // could have piece above it
-						currentBlock.transform.Find("Border_top").gameObject.SetActive(false);
-					if (row > 0 && simShape[col, row - 1]) // could have piece below it
-						currentBlock.transform.Find("Border_btm").gameObject.SetActive(false);
-					if (col < 2 && simShape[col + 1, row]) // could have piece to the right
-						currentBlock.transform.Find("Border_rgt").gameObject.SetActive(false);
-					if (col > 0 && simShape[col - 1, row]) // could have piece to the left
-						currentBlock.transform.Find("Border_lft").gameObject.SetActive(false);
-				}
+					currentBlock = pieceContainer.transform.Find($"Block_{col}-{row}").gameObject;
+					currentBlock.SetActive(simShape[col, row]);
 
+					// Activate/Deactivate the borders, based on its neighbors
+					if (currentBlock.activeSelf)
+					{
+						if (row < 2 && simShape[col, row + 1]) // could have piece above it
+							currentBlock.transform.Find("Border_top").gameObject.SetActive(false);
+						if (row > 0 && simShape[col, row - 1]) // could have piece below it
+							currentBlock.transform.Find("Border_btm").gameObject.SetActive(false);
+						if (col < 2 && simShape[col + 1, row]) // could have piece to the right
+							currentBlock.transform.Find("Border_rgt").gameObject.SetActive(false);
+						if (col > 0 && simShape[col - 1, row]) // could have piece to the left
+							currentBlock.transform.Find("Border_lft").gameObject.SetActive(false);
+					}
+
+				}
 			}
 		}
-    }
+		catch (Exception ex)
+		{
+			Debug.LogError($"Error building pieceid {simPiece.Id} at row:{row}, col:{col}");
+		}
 
-    // Update is called once per frame
-    void Update()
-{
+	}
 
-}
+	// Update is called once per frame
+	void Update()
+	{
+
+	}
 }
 
 /*

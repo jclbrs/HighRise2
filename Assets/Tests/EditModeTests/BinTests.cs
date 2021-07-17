@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Logic;
-using Assets.Scripts.Logic.Enums;
-using Assets.Scripts.Logic.Models;
+using Assets.Scripts.SimulationLogic;
+using Assets.Scripts.SimulationLogic.Enums;
+using Assets.Scripts.SimulationLogic.Models;
 using NUnit.Framework;
-using ScriptDefinitions.Assets.Scripts.Logic;
+using ScriptDefinitions.Assets.Scripts.SimulationLogic;
 using UnityEngine;
 using UnityEngine.TestTools;
 

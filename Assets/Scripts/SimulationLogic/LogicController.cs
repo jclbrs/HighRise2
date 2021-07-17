@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Assets.Scripts.Logic;
+using Assets.Scripts.SimulationLogic;
 
-namespace ScriptDefinitions.Assets.Scripts.Logic
+namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 {
     public class LogicController
     {

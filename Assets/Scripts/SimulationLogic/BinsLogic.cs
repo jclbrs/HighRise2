@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Assets.Scripts.Logic;
-using Assets.Scripts.Logic.Enums;
-using Assets.Scripts.Logic.Models;
+using Assets.Scripts.SimulationLogic;
+using Assets.Scripts.SimulationLogic.Enums;
+using Assets.Scripts.SimulationLogic.Models;
 
-namespace ScriptDefinitions.Assets.Scripts.Logic
+namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 {
     public class BinsLogic
     {

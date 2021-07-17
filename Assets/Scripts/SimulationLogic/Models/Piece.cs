@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Assets.Scripts.Logic.Enums;
+using Assets.Scripts.SimulationLogic.Enums;
 
-namespace Assets.Scripts.Logic.Models
+namespace Assets.Scripts.SimulationLogic.Models
 {
     public class Piece
     {
@@ -17,7 +17,7 @@ namespace Assets.Scripts.Logic.Models
                                                    // it refers to the bottom left of the piece, even if the piece is '7' shaped, and nothing solid there
         public int SpringboardRow { get; set; } // this will be set where the piece is set after dropping into the landing zone
 
-        public Piece(int id, int levelFirstAppears, bool r0c0, bool r0c1, bool r0c2, bool r1c0, bool r1c1, bool r1c2, bool r2c0, bool r2c1, bool r2c2)
+        public Piece(int id, int levelFirstAppears, bool c0r0, bool c1r0, bool c2r0, bool c0r1, bool c1r1, bool c2r1, bool c0r2, bool c1r2, bool c2r2)
         {
             Id = id;
             LevelFirstAppears = levelFirstAppears;
@@ -26,15 +26,15 @@ namespace Assets.Scripts.Logic.Models
             SpringboardRow = int.MinValue; 
             Shape = new bool[3, 3];
             // defines the shape of the piece with 9 blocks in a 3x3 array
-            Shape[0, 0] = r0c0; // bottom left
-            Shape[0, 1] = r0c1;
-            Shape[0, 2] = r0c2;
-            Shape[1, 0] = r1c0;
-            Shape[1, 1] = r1c1;
-            Shape[1, 2] = r1c2;
-            Shape[2, 0] = r2c0;
-            Shape[2, 1] = r2c1;
-            Shape[2, 2] = r2c2; // upper right
+            Shape[0, 0] = c0r0; // bottom left
+            Shape[1, 0] = c1r0;
+            Shape[2, 0] = c2r0;
+            Shape[0, 1] = c0r1;
+            Shape[1, 1] = c1r1;
+            Shape[2, 1] = c2r1;
+            Shape[0, 2] = c0r2;
+            Shape[1, 2] = c1r2;
+            Shape[2, 2] = c2r2; // upper right
         }
 
         public int GetWidth()

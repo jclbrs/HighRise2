@@ -18,6 +18,15 @@ public class BinsManager : MonoBehaviour
 		_binPieceYSpacing = binPieceYSpacing;
 	}
 
+	public List<float> GetBinXPosns()
+	{
+		List<float> xPosns = new List<float>();
+		for (int i = 0; i < _numBins; i++)
+		{
+			xPosns.Add(_bin0Posn.x + i * _binXSpacing);
+		}
+		return xPosns;
+	}
 	public void CreateBinsForLevel(int currentLevel, PieceFactory pieceFactory)
 	{
 		try

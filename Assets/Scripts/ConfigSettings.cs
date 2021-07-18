@@ -9,8 +9,12 @@ using UnityEngine;
 public class ConfigSettings : MonoBehaviour
 {
     public GameObject PiecePrefab;
+    public GameObject PlayerObject;
+    public GameObject SpringboardObject;
+
     public int NumBins;
     public Vector2 Bin0Posn;
     public float BinXSpacing;
     public float BinPieceYSpacing;
+    public float PlayerXOffsetFromBin;
 }

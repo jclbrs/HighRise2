@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
 	private ConfigSettings _config;
 	private BinsManager _binsManager;
 	private PieceFactory _pieceFactory;
+	private GameObject _playerObject;
+	private GameObject _springboardObject;
 	private int _currentLevel;
 
 	void Start()
@@ -17,11 +19,22 @@ public class GameController : MonoBehaviour
 		_currentLevel = 1;
 		_config = GetComponent<ConfigSettings>();
 
+		// The Piece Factory doesn't need to be it's own game object, so it is also another component
+		_pieceFactory = GetComponent<PieceFactory>();
+		_pieceFactory.InitializeSettings(_config.PiecePrefab);
+
+		// Player and springboard do not change throughout the game, so the controller is accessing them directly as game objects
+		_playerObject = _config.PlayerObject;
+		_springboardObject = _config.SpringboardObject;
+
+		// The bins do change throughout the game, so the manager for it is another component on this gameController object
 		_binsManager = GetComponent<BinsManager>();
 		_binsManager.InitializeSettings(_config.NumBins, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing);
 
-		_pieceFactory = GetComponent<PieceFactory>();
-		_pieceFactory.InitializeSettings(_config.PiecePrefab);
+		// Set up x positions that player can move to/from
+		List<float> binXPosns = _binsManager.GetBinXPosns();
+		List<float> springboardXPosns = _springboardObject.GetComponent<SpringboardController>().GetSpringboardXPosns();
+		_playerObject.GetComponent<PlayerController>().InitializeSettings(binXPosns, _config.PlayerXOffsetFromBin, springboardXPosns);
 
 		_binsManager.CreateBinsForLevel(_currentLevel, _pieceFactory);
 	}

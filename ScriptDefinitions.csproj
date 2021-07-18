@@ -65,14 +65,18 @@
     <Compile Include="Assets\Scripts\SimulationLogic\LogicController.cs" />
     <Compile Include="Assets\Scripts\PieceMover.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Data.cs" />
+    <Compile Include="Assets\Scripts\SimulationLogic\Enums\PieceState.cs" />
+    <Compile Include="Assets\Scripts\BorderCollisionDetector.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Models\LandingZoneCell.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\BinsLogic.cs" />
-    <Compile Include="Assets\Scripts\SimulationLogic\Models\Piece.cs" />
-    <Compile Include="Assets\Scripts\SimulationLogic\Enums\PieceState.cs" />
-    <Compile Include="Assets\Scripts\SimulationLogic\Enums\PlacePieceStatus.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
-    <Compile Include="Assets\Scripts\BorderCollisionDetector.cs" />
     <Compile Include="Assets\Scripts\PieceManager.cs" />
+    <Compile Include="Assets\Scripts\SimulationLogic\Models\Piece.cs" />
+    <Compile Include="Assets\Scripts\SimulationLogic\Enums\PlacePieceStatus.cs" />
+    <Compile Include="Assets\Scripts\BinsManager.cs" />
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\ConfigSettings.cs" />
+    <Compile Include="Assets\Scripts\PieceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\ScriptDefinitions.asmdef" />

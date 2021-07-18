@@ -18,18 +18,6 @@ public class BinsManager : MonoBehaviour
 		_binPieceYSpacing = binPieceYSpacing;
 	}
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 	public void CreateBinsForLevel(int currentLevel, PieceFactory pieceFactory)
 	{
 		try

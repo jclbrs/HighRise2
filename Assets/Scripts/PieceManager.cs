@@ -8,12 +8,6 @@ public class PieceManager : MonoBehaviour
 {
     public float yMove = -0.2f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         transform.position = new Vector3(transform.position.x, transform.position.y + yMove);

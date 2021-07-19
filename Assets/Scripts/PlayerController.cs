@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using Assets.Scripts.Enums;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public PlayerWantsBinPieceEvent BinPieceDropRequested;
+
     private List<float> _playerXBelowBins;
     private List<float> _springboardXPosns;
     private PlayerState _currentState;
@@ -14,8 +17,11 @@ public class PlayerController : MonoBehaviour
     private float _speed;
     private bool _isMoveRight; // -1 for left, +1 for right
 
-    // Update is called once per frame
-    void Update()
+	private void Start()
+	{
+	}
+
+	void Update()
     {
         HandleInput();
 
@@ -92,6 +98,11 @@ public class PlayerController : MonoBehaviour
                 default:
                     throw new Exception($"actions for {_currentState} not written yet");
             }
+        }
+        if (Input.GetKeyDown("space") && _currentState == PlayerState.IdleUnderBin)
+		{
+            _currentState = PlayerState.WaitingForBinPiece;
+            BinPieceDropRequested.Invoke(_currentXIndex);
         }
     }
 }

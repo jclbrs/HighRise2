@@ -12,6 +12,7 @@ namespace Assets.Scripts.Enums
 		MovingToBin,
 		PushingPieceToSpringboard,
 		IdleBySpringboard,
-		Climbing
+		Climbing,
+		WaitingForBinPiece
 	}
 }

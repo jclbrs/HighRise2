@@ -32,35 +32,35 @@ public class BinsManager : MonoBehaviour
 		try
 		{
 			float x = _bin0Posn.x;
-			pieceFactory.CreatePiece(13, x, _bin0Posn.y);
-			pieceFactory.CreatePiece(4, x, _bin0Posn.y + _binPieceYSpacing);
-			pieceFactory.CreatePiece(0, x, _bin0Posn.y + 2 * _binPieceYSpacing);
-			pieceFactory.CreatePiece(43, x, _bin0Posn.y + 3 * _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 13, x, _bin0Posn.y);
+			pieceFactory.CreatePiece(transform, 4, x, _bin0Posn.y + _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 0, x, _bin0Posn.y + 2 * _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 43, x, _bin0Posn.y + 3 * _binPieceYSpacing);
 
 			x = _bin0Posn.x + _binXSpacing;
-			pieceFactory.CreatePiece(55, x, _bin0Posn.y);
+			pieceFactory.CreatePiece(transform, 55, x, _bin0Posn.y);
 
-			pieceFactory.CreatePiece(18, x, _bin0Posn.y + _binPieceYSpacing);
-			pieceFactory.CreatePiece(2, x, _bin0Posn.y + 2 * _binPieceYSpacing);
-			pieceFactory.CreatePiece(21, x, _bin0Posn.y + 3 * _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 18, x, _bin0Posn.y + _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 2, x, _bin0Posn.y + 2 * _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 21, x, _bin0Posn.y + 3 * _binPieceYSpacing);
 
 			x = _bin0Posn.x + 2 * _binXSpacing;
-			pieceFactory.CreatePiece(60, x, _bin0Posn.y);
-			pieceFactory.CreatePiece(44, x, _bin0Posn.y + _binPieceYSpacing);
-			pieceFactory.CreatePiece(30, x, _bin0Posn.y + 2 * _binPieceYSpacing);
-			pieceFactory.CreatePiece(3, x, _bin0Posn.y + 3 * _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 60, x, _bin0Posn.y);
+			pieceFactory.CreatePiece(transform, 44, x, _bin0Posn.y + _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 30, x, _bin0Posn.y + 2 * _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 3, x, _bin0Posn.y + 3 * _binPieceYSpacing);
 
 			x = _bin0Posn.x + 3 * _binXSpacing;
-			pieceFactory.CreatePiece(31, x, _bin0Posn.y);
-			pieceFactory.CreatePiece(42, x, _bin0Posn.y + _binPieceYSpacing);
-			pieceFactory.CreatePiece(60, x, _bin0Posn.y + 2 * _binPieceYSpacing);
-			pieceFactory.CreatePiece(15, x, _bin0Posn.y + 3 * _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 31, x, _bin0Posn.y);
+			pieceFactory.CreatePiece(transform, 42, x, _bin0Posn.y + _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 60, x, _bin0Posn.y + 2 * _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 15, x, _bin0Posn.y + 3 * _binPieceYSpacing);
 
 			x = _bin0Posn.x + 4 * _binXSpacing;
-			pieceFactory.CreatePiece(3, x, _bin0Posn.y);
-			pieceFactory.CreatePiece(12, x, _bin0Posn.y + _binPieceYSpacing);
-			pieceFactory.CreatePiece(49, x, _bin0Posn.y + 2 * _binPieceYSpacing);
-			pieceFactory.CreatePiece(36, x, _bin0Posn.y + 3 * _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 3, x, _bin0Posn.y);
+			pieceFactory.CreatePiece(transform, 12, x, _bin0Posn.y + _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 49, x, _bin0Posn.y + 2 * _binPieceYSpacing);
+			pieceFactory.CreatePiece(transform, 36, x, _bin0Posn.y + 3 * _binPieceYSpacing);
 		}
 		catch (Exception ex)
 		{

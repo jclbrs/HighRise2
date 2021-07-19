@@ -27,14 +27,14 @@ public class GameController : MonoBehaviour
 		_playerObject = _config.PlayerObject;
 		_springboardObject = _config.SpringboardObject;
 
-		// The bins do change throughout the game, so the manager for it is another component on this gameController object
-		_binsManager = GetComponent<BinsManager>();
+		
+		_binsManager = _config.BinsObject.GetComponent<BinsManager>();
 		_binsManager.InitializeSettings(_config.NumBins, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing);
 
 		// Set up x positions that player can move to/from
 		List<float> binXPosns = _binsManager.GetBinXPosns();
 		List<float> springboardXPosns = _springboardObject.GetComponent<SpringboardController>().GetSpringboardXPosns();
-		_playerObject.GetComponent<PlayerController>().InitializeSettings(binXPosns, _config.PlayerXOffsetFromBin, springboardXPosns);
+		_playerObject.GetComponent<PlayerController>().InitializeSettings(binXPosns, _config.PlayerXOffsetFromBin, springboardXPosns, _config.PlayerSpeed);
 
 		_binsManager.CreateBinsForLevel(_currentLevel, _pieceFactory);
 	}

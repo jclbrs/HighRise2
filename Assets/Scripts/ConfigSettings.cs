@@ -11,10 +11,12 @@ public class ConfigSettings : MonoBehaviour
     public GameObject PiecePrefab;
     public GameObject PlayerObject;
     public GameObject SpringboardObject;
+    public GameObject BinsObject;
 
     public int NumBins;
     public Vector2 Bin0Posn;
     public float BinXSpacing;
     public float BinPieceYSpacing;
     public float PlayerXOffsetFromBin;
+    public float PlayerSpeed;
 }

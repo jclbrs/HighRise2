@@ -13,15 +13,14 @@ public class PieceFactory : MonoBehaviour
 		_piecePrefab = piecePrefab;
 	}
 
-	public void CreatePiece(int pieceId, float x, float y)
+	public void CreatePiece(Transform parentTransform, int pieceId, float x, float y)
 	{
-		GameObject selectedPiece = Instantiate(_piecePrefab);
+		GameObject selectedPiece = Instantiate(_piecePrefab, parentTransform);
 		selectedPiece.transform.position = new Vector3(x, y);
 		PieceManager newPieceManager = selectedPiece.GetComponent<PieceManager>();
 		newPieceManager.yMove = 0.0f;
 
 		Piece simPiece = PieceLibrary.Pieces[pieceId];
-		Debug.Log($"PieceId: {simPiece.Id}");
 		newPieceManager.ConstructPieceShape(selectedPiece, simPiece);
 	}
 

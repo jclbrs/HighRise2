@@ -20,7 +20,7 @@ public class PieceFactory : MonoBehaviour
 		PieceManager newPieceManager = selectedPiece.GetComponent<PieceManager>();
 		newPieceManager.yMove = 0.0f;
 
-		Piece simPiece = PieceLibrary.Pieces[pieceId];
+		SimPiece simPiece = PieceLibrary.Pieces[pieceId];
 		newPieceManager.ConstructPieceShape(selectedPiece, simPiece);
 	}
 

@@ -46,9 +46,9 @@ public class BinTests
     {
         BinsLogic binsLogic = new BinsLogic(2, 5, 4);
         binsLogic.PopulateBin(3);
-        Piece bottomPiece = binsLogic.Bins[3][0];
+        SimPiece bottomPiece = binsLogic.Bins[3][0];
 
-        Piece droppedPiece = binsLogic.DropPiece(3);
+        SimPiece droppedPiece = binsLogic.DropPieceFromBin(3);
         Assert.AreEqual(bottomPiece.Id, droppedPiece.Id);
     }
 
@@ -57,9 +57,9 @@ public class BinTests
     {
         BinsLogic binsLogic = new BinsLogic(2, 5, 4);
         binsLogic.PopulateBin(3);
-        Piece secondBottomPiece = binsLogic.Bins[3][1];
+        SimPiece secondBottomPiece = binsLogic.Bins[3][1];
 
-        binsLogic.DropPiece(3);
+        binsLogic.DropPieceFromBin(3);
         Assert.AreEqual(secondBottomPiece.Id, binsLogic.Bins[3][0].Id);
     }
 
@@ -68,9 +68,9 @@ public class BinTests
     {
         BinsLogic binsLogic = new BinsLogic(2, 5, 4);
         binsLogic.PopulateBin(3);
-        Piece topPiece = binsLogic.Bins[3][3];
+        SimPiece topPiece = binsLogic.Bins[3][3];
 
-        binsLogic.DropPiece(3);
+        binsLogic.DropPieceFromBin(3);
         Assert.AreEqual(topPiece.Id, binsLogic.Bins[3][2].Id);
     }
 
@@ -80,7 +80,7 @@ public class BinTests
         BinsLogic binsLogic = new BinsLogic(2, 5, 4);
         binsLogic.PopulateBin(3);
 
-        Piece droppedPiece = binsLogic.DropPiece(3);
+        SimPiece droppedPiece = binsLogic.DropPieceFromBin(3);
         Assert.AreEqual(PieceState.OnPlatform, droppedPiece.CurrentState);
     }
 }

@@ -10,27 +10,17 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 {
     public class LogicController
     {
-        public Dictionary<int, List<Piece>> Bins
-		{
-            get { return _binsLogic.Bins; }
-		}
-
-        private BinsLogic _binsLogic;
+        public BinsLogic BinsLogic { get; private set; }
         private SpringboardLogic _springboardLogic;
         private LandingZoneLogic _landingZoneLogic;
 
         public LogicController(int level, int numBins, int numCellsPerBin)
 		{
-            _binsLogic = new BinsLogic(level, numBins, numCellsPerBin);
-            _binsLogic.PopulateAllBins();
+            BinsLogic = new BinsLogic(level, numBins, numCellsPerBin);
+            BinsLogic.PopulateAllBins();
 
             _springboardLogic = new SpringboardLogic();
             _landingZoneLogic = new LandingZoneLogic();
-		}
-
-        public Piece DropPieceFromBin(int pieceId)
-		{
-            return _binsLogic.DropPiece(pieceId);
 		}
 
         /// <summary>

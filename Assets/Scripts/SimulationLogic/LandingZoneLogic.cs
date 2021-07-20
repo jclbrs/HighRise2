@@ -31,7 +31,7 @@ namespace Assets.Scripts.SimulationLogic
 			}
 		}
 
-		public void DropPiecesFromSpringboard(List<Piece> pieces)
+		public void DropPiecesFromSpringboard(List<SimPiece> pieces)
 		{
 			StartNewPiecesPositioning(pieces);
 			DropPiecesToRestingPosition(pieces);
@@ -44,9 +44,9 @@ namespace Assets.Scripts.SimulationLogic
 			// If not, start tumbling
 		}
 
-		private void DropPiecesToRestingPosition(List<Piece> pieces)
+		private void DropPiecesToRestingPosition(List<SimPiece> pieces)
 		{
-			foreach (Piece piece in pieces)
+			foreach (SimPiece piece in pieces)
 			{
 				for (int pieceCol = 0; pieceCol < piece.GetWidth(); pieceCol++)
 				{
@@ -57,10 +57,10 @@ namespace Assets.Scripts.SimulationLogic
 		}
 
 		// Place all pieces from springboard to top of landing zone
-		public void StartNewPiecesPositioning(List<Piece> pieces)
+		public void StartNewPiecesPositioning(List<SimPiece> pieces)
 		{
 			PlacePieceStatus placePieceStatus;
-			foreach (Piece piece in pieces)
+			foreach (SimPiece piece in pieces)
 			{
 				if (!TryPlacePiece(piece.Id, NumRowsInLandingZone-1 - 3, piece.SpringboardColumn, out placePieceStatus))
 					throw new Exception($"Exception dropping piece {piece.Id} onto landing area at col {piece.SpringboardColumn}");
@@ -82,7 +82,7 @@ namespace Assets.Scripts.SimulationLogic
 				placePieceStatus = PlacePieceStatus.BadColArg;
 				return false;
 			}
-			Piece piece = null;
+			SimPiece piece = null;
 			try
 			{
 				piece = PieceLibrary.Pieces[pieceId];

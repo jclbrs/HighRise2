@@ -31,7 +31,7 @@ public class BinsManager : MonoBehaviour
 	public List<float> GetBinXPosns()
 	{
 		List<float> xPosns = new List<float>();
-		for (int i = 0; i < _logicController.Bins.Count; i++)
+		for (int i = 0; i < _logicController.BinsLogic.Bins.Count; i++)
 		{
 			xPosns.Add(_bin0Posn.x + i * _binXSpacing);
 		}
@@ -42,11 +42,14 @@ public class BinsManager : MonoBehaviour
 	{
 		try
 		{
-			for (int binIdx = 0; binIdx < _logicController.Bins.Count; binIdx++)
+			for (int binIdx = 0; binIdx < _logicController.BinsLogic.Bins.Count; binIdx++)
 			{
-				for (int binCell = 0; binCell < _logicController.Bins[0].Count; binCell++ )
+				for (int binCell = 0; binCell < _logicController.BinsLogic.Bins[0].Count; binCell++ )
 				{
-					_pieceFactory.CreatePiece(transform, _logicController.Bins[binIdx][binCell].Id, _bin0Posn.x + binIdx * _binXSpacing, _bin0Posn.y + binCell * _binPieceYSpacing);
+					int pieceId = _logicController.BinsLogic.Bins[binIdx][binCell].Id;
+					float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
+					float yPosn = _bin0Posn.y + binCell * _binPieceYSpacing;
+					_pieceFactory.CreatePiece(transform, pieceId, xPosn, yPosn);
 				}
 			}
 
@@ -91,7 +94,15 @@ public class BinsManager : MonoBehaviour
 	// Kicked off from a UnityEvent on Player Controller
 	public void DropBinPiece(int binIdx)
 	{
-		Piece piece = _logicController.DropPieceFromBin(binIdx);
-		Debug.Log($"Received request to drop bin piece from bin:{binIdx}, pieceId:{piece.Id}");
+		// shorten some variables for ease of viewing here
+		BinsLogic binsLgc = _logicController.BinsLogic;
+
+		SimPiece simPiece = binsLgc.DropPieceFromBin(binIdx);
+		// get the newly created logical piece at the top of the selected bin, to add it to the screen
+		int newPieceId = binsLgc.Bins[binIdx][binsLgc.NumCellsPerBin - 1].Id;
+		float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
+		float yPosn = _bin0Posn.y + binsLgc.NumCellsPerBin * _binPieceYSpacing;
+		_pieceFactory.CreatePiece(transform, newPieceId, xPosn, yPosn);
+		Debug.Log($"Received request to drop bin piece from bin:{binIdx}, pieceId:{simPiece.Id}");
 	}
 }

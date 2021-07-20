@@ -19,7 +19,7 @@ public class PieceManager : MonoBehaviour
         yMove = 0f;
 	}
 
-	public void ConstructPieceShape(GameObject pieceContainer, Piece simPiece)
+	public void ConstructPieceShape(GameObject pieceContainer, SimPiece simPiece)
 	{
 		bool[,] simShape = simPiece.Shape;
 		GameObject currentBlock;

@@ -73,7 +73,7 @@
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\PieceManager.cs" />
     <Compile Include="Assets\Scripts\ConfigSettings.cs" />
-    <Compile Include="Assets\Scripts\SimulationLogic\Models\Piece.cs" />
+    <Compile Include="Assets\Scripts\SimulationLogic\Models\SimPiece.cs" />
     <Compile Include="Assets\Scripts\PieceFactory.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Enums\PlacePieceStatus.cs" />
     <Compile Include="Assets\Scripts\SpringboardController.cs" />

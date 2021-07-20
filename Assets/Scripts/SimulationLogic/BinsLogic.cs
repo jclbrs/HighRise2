@@ -11,8 +11,8 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 {
     public class BinsLogic
     {
-		public Dictionary<int, List<Piece>> Bins { get; private set; }
-		public List<Piece> ApplicablePieces { get; private set; }
+		public Dictionary<int, List<SimPiece>> Bins { get; private set; }
+		public List<SimPiece> ApplicablePieces { get; private set; }
 		public int NumBins { get; private set; }
 		public int NumCellsPerBin { get; private set; }
 		private readonly int _level;
@@ -31,7 +31,7 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 			_level = level;
 			_rnd = new Random();
 			ApplicablePieces = PieceLibrary.Pieces.Where(x => x.LevelFirstAppears <= level).ToList();
-			Bins = new Dictionary<int, List<Piece>>();
+			Bins = new Dictionary<int, List<SimPiece>>();
 		}
 
 		public void PopulateAllBins()
@@ -51,10 +51,10 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 			if (Bins.ContainsKey(binIdx))
 				Bins.Remove(binIdx); // clear the bin of any data.  Starting over with new data
 
-			List<Piece> binPieces = new List<Piece>();
+			List<SimPiece> binPieces = new List<SimPiece>();
 			for(int i = 0; i < NumCellsPerBin; i++)
 			{
-				Piece nextPiece = ApplicablePieces[_rnd.Next(ApplicablePieces.Count)];
+				SimPiece nextPiece = ApplicablePieces[_rnd.Next(ApplicablePieces.Count)];
 				nextPiece.CurrentState = PieceState.InBin;
 				binPieces.Add(nextPiece);
 			}
@@ -66,9 +66,9 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		/// </summary>
 		/// <param name="binIdx"></param>
 		/// <returns></returns>
-		public Piece DropPiece(int binIdx)
+		public SimPiece DropPieceFromBin(int binIdx)
 		{
-			Piece droppedPiece = Bins[binIdx][0];
+			SimPiece droppedPiece = Bins[binIdx][0];
 			droppedPiece.CurrentState = PieceState.OnPlatform;
 			Bins[binIdx].RemoveAt(0);
 			Bins[binIdx].Add(ApplicablePieces[_rnd.Next(ApplicablePieces.Count)]);

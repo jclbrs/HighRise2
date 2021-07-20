@@ -86,9 +86,9 @@ public class LandingZoneLogicTests
     [Test]
     public void StartNewPiecesPositioning_1SmallPiece_ExpectSuccess()
 	{
-        Piece testPiece = PieceLibrary.Pieces[1];
+        SimPiece testPiece = PieceLibrary.Pieces[1];
         testPiece.SpringboardColumn = 0;
-        List<Piece> pieces = new List<Piece>
+        List<SimPiece> pieces = new List<SimPiece>
         {
             testPiece
         };

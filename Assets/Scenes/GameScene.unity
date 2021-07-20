@@ -937,6 +937,7 @@ MonoBehaviour:
   SpringboardObject: {fileID: 1036991248}
   BinsObject: {fileID: 942412436}
   NumBins: 5
+  NumCellsPerBin: 4
   Bin0Posn: {x: 5, y: 6}
   BinXSpacing: 4
   BinPieceYSpacing: 4

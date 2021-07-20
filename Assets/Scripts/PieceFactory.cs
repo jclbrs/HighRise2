@@ -8,7 +8,7 @@ public class PieceFactory : MonoBehaviour
 {
 	private GameObject _piecePrefab;
 
-	public void InitializeSettings(GameObject piecePrefab)
+	public void InitializeGameSettings(GameObject piecePrefab)
 	{
 		_piecePrefab = piecePrefab;
 	}

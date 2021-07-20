@@ -8,6 +8,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public PlayerWantsBinPieceEvent BinPieceDropRequested;
+    public bool IsInitialized = false;
 
     private List<float> _playerXBelowBins;
     private List<float> _springboardXPosns;
@@ -49,16 +50,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-	public void InitializeSettings(List<float> binXPosns, float xOffSetFromBin, List<float> springboardXPosns, float playerSpeed)
-	{
+    public void InitializeGameSettings(List<float> springboardXPosns, float playerSpeed)
+    {
         _springboardXPosns = springboardXPosns;
+        _speed = playerSpeed;
+    }
+
+    public void InitializeLevelSettings(List<float> binXPosns, float xOffSetFromBin)
+	{
         _playerXBelowBins = new List<float>();
         foreach (float binXPosn in binXPosns)
             _playerXBelowBins.Add(binXPosn + xOffSetFromBin);
         _currentState = PlayerState.IdleUnderBin;
         _currentXIndex = 0;
         transform.position = new Vector3(_playerXBelowBins[0], transform.position.y);
-        _speed = playerSpeed;
 	}
 
     private void HandleInput()

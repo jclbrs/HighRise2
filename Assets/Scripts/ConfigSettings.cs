@@ -14,6 +14,7 @@ public class ConfigSettings : MonoBehaviour
     public GameObject BinsObject;
 
     public int NumBins;
+    public int NumCellsPerBin;
     public Vector2 Bin0Posn;
     public float BinXSpacing;
     public float BinPieceYSpacing;

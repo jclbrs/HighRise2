@@ -7,6 +7,8 @@ using Assets.Scripts.SimulationLogic.Models;
 
 namespace Assets.Scripts.SimulationLogic
 {
+	// The Logic sim side keeps these up to date
+	// The visual side accesses them here (read only)
 	public static class Data
 	{
 		public static Dictionary<int, List<Piece>> Bins { get; set; }

@@ -13,9 +13,9 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
         private SpringboardLogic _springboardLogic;
         private LandingZoneLogic _landingZoneLogic;
 
-        public LogicController()
+        public LogicController(int level, int numBins, int numCellsPerBin)
 		{
-            _binsLogic = new BinsLogic(1,5,4);
+            _binsLogic = new BinsLogic(level, numBins, numCellsPerBin);
             _binsLogic.PopulateAllBins();
 
             _springboardLogic = new SpringboardLogic();
@@ -30,5 +30,7 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		{
             //_binsLogic.Initialize(level);
 		}
+
+        //public 
 	}
 }

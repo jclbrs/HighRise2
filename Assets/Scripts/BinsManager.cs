@@ -5,19 +5,26 @@ using UnityEngine;
 
 public class BinsManager : MonoBehaviour
 {
+	private int _currentLevel;
     private int _numBins;
 	private Vector2 _bin0Posn;
 	private float _binXSpacing;
 	private float _binPieceYSpacing;
 	private PieceFactory _pieceFactory;
 
-	public void InitializeSettings(PieceFactory pieceFactory, int numBins, Vector2 bin0Posn, float binXSpacing, float binPieceYSpacing)
+	public void InitializeGameSettings(PieceFactory pieceFactory)
 	{
-        _numBins = numBins;
+		_pieceFactory = pieceFactory;
+	}
+
+	public void InitializeLevelSettings(int level, int numBins, Vector2 bin0Posn, float binXSpacing, float binPieceYSpacing)
+	{
+		_currentLevel = level;
+		_numBins = numBins;
 		_bin0Posn = bin0Posn;
 		_binXSpacing = binXSpacing;
 		_binPieceYSpacing = binPieceYSpacing;
-		_pieceFactory = pieceFactory;
+		CreateBinsForLevel(level);
 	}
 
 	public List<float> GetBinXPosns()

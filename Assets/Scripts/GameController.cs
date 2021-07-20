@@ -3,40 +3,48 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.SimulationLogic;
 using Assets.Scripts.SimulationLogic.Models;
+using ScriptDefinitions.Assets.Scripts.SimulationLogic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
 	private ConfigSettings _config;
-	private BinsManager _binsManager;
+	private SpringboardController _springboardController;
 	private PieceFactory _pieceFactory;
-	private GameObject _playerObject;
-	private GameObject _springboardObject;
+	private PlayerController _playerController;
+	private BinsManager _binsManager;
+	private LogicController _logicController;
 	private int _currentLevel;
 
 	void Start()
 	{
 		_currentLevel = 1;
+
+		// Inject the elements from ConfigSettings
 		_config = GetComponent<ConfigSettings>();
-
-		// The Piece Factory doesn't need to be it's own game object, so it is also another component
+		_springboardController = _config.SpringboardObject.GetComponent<SpringboardController>();
+		_playerController = _config.PlayerObject.GetComponent<PlayerController>();
 		_pieceFactory = GetComponent<PieceFactory>();
-		_pieceFactory.InitializeSettings(_config.PiecePrefab);
-
-		// Player and springboard do not change throughout the game, so the controller is accessing them directly as game objects
-		_playerObject = _config.PlayerObject;
-		_springboardObject = _config.SpringboardObject;
-
-		
 		_binsManager = _config.BinsObject.GetComponent<BinsManager>();
-		_binsManager.InitializeSettings(_pieceFactory,_config.NumBins, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing);
+		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin);
+		_pieceFactory.InitializeGameSettings(_config.PiecePrefab);
 
+		List<float> springboardXPosns = _springboardController.GetSpringboardXPosns();
+		_playerController.InitializeGameSettings(springboardXPosns,_config.PlayerSpeed);
+		_binsManager.InitializeGameSettings(_pieceFactory);
+
+		SetupLevel(_currentLevel);
+	}
+
+	// Some of these settings might be the same throughout the game, but to stay flexible, they are being populated for each level
+	public void SetupLevel(int level)
+	{
 		// Set up x positions that player can move to/from
+		_binsManager.InitializeLevelSettings(level, _config.NumBins, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing);
 		List<float> binXPosns = _binsManager.GetBinXPosns();
-		List<float> springboardXPosns = _springboardObject.GetComponent<SpringboardController>().GetSpringboardXPosns();
-		_playerObject.GetComponent<PlayerController>().InitializeSettings(binXPosns, _config.PlayerXOffsetFromBin, springboardXPosns, _config.PlayerSpeed);
+		_playerController.InitializeLevelSettings(binXPosns, _config.PlayerXOffsetFromBin);
 
-		_binsManager.CreateBinsForLevel(_currentLevel);
+
 	}
 }
 

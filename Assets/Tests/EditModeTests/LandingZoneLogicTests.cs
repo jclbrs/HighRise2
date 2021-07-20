@@ -13,11 +13,11 @@ public class LandingZoneLogicTests
     [Test]
     public void Initialize_FirstRowZoneCellsShouldBeEmpty()
     {
-        LandingZoneLogic landingZoneLogic = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic();
         bool isEmpty = true;
-        for (int i = 0; i < landingZoneLogic.NumColsInLandingZone; i++)
+        for (int i = 0; i < zone.NumColsInLandingZone; i++)
 		{
-            if (Data.LandingZone[0, i].PieceId != int.MinValue)
+            if (zone.LandingZone[0, i].PieceId != int.MinValue)
                 isEmpty = false;
 		}
         Assert.IsTrue(isEmpty);
@@ -26,10 +26,10 @@ public class LandingZoneLogicTests
 	[Test]
 	public void PlaceSimplePieceOn1stRow_ExpectProperPositioning()
 	{
-        LandingZoneLogic landingZone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic();
         PlacePieceStatus status;
-        landingZone.TryPlacePiece(1, 0, 0, out status);
-        Assert.AreEqual(Data.LandingZone[0, 0].PieceId, 1);
+        zone.TryPlacePiece(1, 0, 0, out status);
+        Assert.AreEqual(zone.LandingZone[0, 0].PieceId, 1);
 	}
 
     [Test]
@@ -40,15 +40,15 @@ public class LandingZoneLogicTests
         zone.TryPlacePiece(26, 2, 2, out status); // piece 26 is a tall U shape
 
         bool isValid = 
-            (Data.LandingZone[2, 2].PieceId == 26) &&
-            (Data.LandingZone[2, 3].PieceId == 26) &&
-            (Data.LandingZone[2, 4].PieceId == 26) &&
-            (Data.LandingZone[3, 2].PieceId == 26) &&
-            (Data.LandingZone[3, 3].PieceId == int.MinValue) &&
-            (Data.LandingZone[3, 4].PieceId == 26) &&
-            (Data.LandingZone[4, 2].PieceId == 26) &&
-            (Data.LandingZone[4, 3].PieceId == int.MinValue) &&
-            (Data.LandingZone[4, 4].PieceId == 26);
+            (zone.LandingZone[2, 2].PieceId == 26) &&
+            (zone.LandingZone[3, 2].PieceId == 26) &&
+            (zone.LandingZone[4, 2].PieceId == 26) &&
+            (zone.LandingZone[2, 3].PieceId == 26) &&
+            (zone.LandingZone[3, 3].PieceId == int.MinValue) &&
+            (zone.LandingZone[4, 3].PieceId == 26) &&
+            (zone.LandingZone[2, 4].PieceId == 26) &&
+            (zone.LandingZone[3, 4].PieceId == int.MinValue) &&
+            (zone.LandingZone[4, 4].PieceId == 26);
 
         Assert.IsTrue(isValid);
     }
@@ -94,6 +94,6 @@ public class LandingZoneLogicTests
         };
         LandingZoneLogic zone = new LandingZoneLogic();
         zone.StartNewPiecesPositioning(pieces);
-        Assert.AreEqual(Data.LandingZone[zone.NumRowsInLandingZone-1 - 3, 0].PieceId, 1);
+        Assert.AreEqual(zone.LandingZone[zone.NumRowsInLandingZone-1 - 3, 0].PieceId, 1);
     }
 }

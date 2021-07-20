@@ -40,9 +40,9 @@ namespace Assets.Scripts.SimulationLogic.Models
         public int GetWidth()
 		{
             int width = 1;
-            if (Shape[0, 2] || Shape[1, 2] || Shape[2, 2])
+            if (Shape[2, 0] || Shape[2, 1] || Shape[2, 2])
                 width = 3;
-            else if (Shape[0, 1] || Shape[1, 2] || Shape[2, 1])
+            else if (Shape[1, 0] || Shape[1, 1] || Shape[1,2])
                 width = 2;
 
             return width;

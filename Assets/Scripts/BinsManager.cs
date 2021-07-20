@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.SimulationLogic;
 using UnityEngine;
 
 public class BinsManager : MonoBehaviour
@@ -12,18 +13,18 @@ public class BinsManager : MonoBehaviour
 	private float _binPieceYSpacing;
 	private PieceFactory _pieceFactory;
 
-	public void InitializeGameSettings(PieceFactory pieceFactory)
+	public void InitializeGameSettings(PieceFactory pieceFactory, Vector2 bin0Posn, float binXSpacing, float binPieceYSpacing)
 	{
 		_pieceFactory = pieceFactory;
-	}
-
-	public void InitializeLevelSettings(int level, int numBins, Vector2 bin0Posn, float binXSpacing, float binPieceYSpacing)
-	{
-		_currentLevel = level;
-		_numBins = numBins;
 		_bin0Posn = bin0Posn;
 		_binXSpacing = binXSpacing;
 		_binPieceYSpacing = binPieceYSpacing;
+	}
+
+	public void InitializeLevelSettings(int level, int numBins)
+	{
+		_currentLevel = level;
+		_numBins = numBins;
 		CreateBinsForLevel(level);
 	}
 
@@ -42,6 +43,10 @@ public class BinsManager : MonoBehaviour
 	{
 		try
 		{
+			for (int binIdx = 0; binIdx < _numBins; binIdx++)
+			{
+				//for (int binCell = 0; binCell < )
+			}
 			float x = _bin0Posn.x;
 			_pieceFactory.CreatePiece(transform, 13, x, _bin0Posn.y);
 			_pieceFactory.CreatePiece(transform, 4, x, _bin0Posn.y + _binPieceYSpacing);

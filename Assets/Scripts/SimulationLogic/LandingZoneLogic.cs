@@ -10,7 +10,8 @@ namespace Assets.Scripts.SimulationLogic
 {
 	public class LandingZoneLogic
 	{
-        public int NumRowsInLandingZone { get; private set; } = 21;
+		public LandingZoneCell[,] LandingZone { get; set; }
+		public int NumRowsInLandingZone { get; private set; } = 21;
         public int NumColsInLandingZone { get; private set; } =  5;
 
         public LandingZoneLogic()
@@ -20,12 +21,12 @@ namespace Assets.Scripts.SimulationLogic
 
 		public void ClearLandingZone()
 		{
-			Data.LandingZone = new LandingZoneCell[NumRowsInLandingZone, NumColsInLandingZone];
+			LandingZone = new LandingZoneCell[NumRowsInLandingZone, NumColsInLandingZone];
 			for (int row = 0; row < NumRowsInLandingZone; row++)
 			{
 				for (int col = 0; col < NumColsInLandingZone; col++)
 				{
-					Data.LandingZone[row, col] = new LandingZoneCell();
+					LandingZone[row, col] = new LandingZoneCell();
 				}
 			}
 		}
@@ -104,7 +105,7 @@ namespace Assets.Scripts.SimulationLogic
 				for (int pieceCol = 0; pieceCol < 3; pieceCol++)
 				{
 					if (piece.Shape[pieceRow, pieceCol] && (col + pieceCol < NumColsInLandingZone))
-						Data.LandingZone[row + pieceRow, col + pieceCol].PieceId = pieceId;
+						LandingZone[row + pieceRow, col + pieceCol].PieceId = pieceId;
 				}
 			}
 			return true;
@@ -120,7 +121,7 @@ namespace Assets.Scripts.SimulationLogic
             {
                 for (int col = 0; col < NumColsInLandingZone; col++)
                 {
-                    if (Data.LandingZone[row, col] == null || Data.LandingZone[row, col].PieceId == 0)
+                    if (LandingZone[row, col] == null || LandingZone[row, col].PieceId == 0)
                         continue;
 
                     // continue here

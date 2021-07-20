@@ -11,6 +11,7 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 {
     public class BinsLogic
     {
+		public Dictionary<int, List<Piece>> Bins { get; private set; }
 		public List<Piece> ApplicablePieces { get; private set; }
 		public int NumBins { get; private set; }
 		public int NumCellsPerBin { get; private set; }
@@ -30,7 +31,7 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 			_level = level;
 			_rnd = new Random();
 			ApplicablePieces = PieceLibrary.Pieces.Where(x => x.LevelFirstAppears <= level).ToList();
-			Data.Bins = new Dictionary<int, List<Piece>>();
+			Bins = new Dictionary<int, List<Piece>>();
 		}
 
 		public void PopulateAllBins()
@@ -47,8 +48,8 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		/// <param name="binIdx">bin index is 0-index</param>
 		public void PopulateBin(int binIdx)
 		{
-			if (Data.Bins.ContainsKey(binIdx))
-				Data.Bins.Remove(binIdx); // clear the bin of any data.  Starting over with new data
+			if (Bins.ContainsKey(binIdx))
+				Bins.Remove(binIdx); // clear the bin of any data.  Starting over with new data
 
 			List<Piece> binPieces = new List<Piece>();
 			for(int i = 0; i < NumCellsPerBin; i++)
@@ -57,7 +58,7 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 				nextPiece.CurrentState = PieceState.InBin;
 				binPieces.Add(nextPiece);
 			}
-			Data.Bins.Add(binIdx, binPieces);
+			Bins.Add(binIdx, binPieces);
 		}
 
 		/// <summary>
@@ -67,10 +68,10 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		/// <returns></returns>
 		public Piece DropPiece(int binIdx)
 		{
-			Piece droppedPiece = Data.Bins[binIdx][0];
+			Piece droppedPiece = Bins[binIdx][0];
 			droppedPiece.CurrentState = PieceState.OnPlatform;
-			Data.Bins[binIdx].RemoveAt(0);
-			Data.Bins[binIdx].Add(ApplicablePieces[_rnd.Next(ApplicablePieces.Count)]);
+			Bins[binIdx].RemoveAt(0);
+			Bins[binIdx].Add(ApplicablePieces[_rnd.Next(ApplicablePieces.Count)]);
 			return droppedPiece;
 		}
 

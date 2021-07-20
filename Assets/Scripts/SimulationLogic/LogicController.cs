@@ -4,11 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Assets.Scripts.SimulationLogic;
+using Assets.Scripts.SimulationLogic.Models;
 
 namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 {
     public class LogicController
     {
+        public Dictionary<int, List<Piece>> Bins
+		{
+            get { return _binsLogic.Bins; }
+		}
+
         private BinsLogic _binsLogic;
         private SpringboardLogic _springboardLogic;
         private LandingZoneLogic _landingZoneLogic;
@@ -22,6 +28,11 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
             _landingZoneLogic = new LandingZoneLogic();
 		}
 
+        public Piece DropPieceFromBin(int pieceId)
+		{
+            return _binsLogic.DropPiece(pieceId);
+		}
+
         /// <summary>
         /// Populates the bins for the current level, and clears the Springboard & landing zone
         /// </summary>
@@ -30,7 +41,5 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		{
             //_binsLogic.Initialize(level);
 		}
-
-        //public 
 	}
 }

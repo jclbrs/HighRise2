@@ -18,10 +18,9 @@ public class GameController : MonoBehaviour
 
 	void Start()
 	{
-		_currentLevel = 1;
-
 		// Inject the elements from ConfigSettings
 		_config = GetComponent<ConfigSettings>();
+		_currentLevel = _config.InitialLevel;
 		_springboardController = _config.SpringboardObject.GetComponent<SpringboardController>();
 		_playerController = _config.PlayerObject.GetComponent<PlayerController>();
 		_pieceFactory = GetComponent<PieceFactory>();
@@ -40,10 +39,8 @@ public class GameController : MonoBehaviour
 	public void SetupLevel(int level)
 	{
 		// Set up x positions that player can move to/from
-
-		// JOE - fix this; Don't duplicate these args, since LogicController already knows numBins & numCellsPerBin.  Let it draw
-		// just need to pass in the visual aspects, like x & y spacing
-		_binsManager.InitializeLevelSettings(level, _config.NumBins);
+		_logicController.SetupLevel(level);
+		_binsManager.InitializeLevelSettings(_logicController);
 
 		List<float> binXPosns = _binsManager.GetBinXPosns();
 		_playerController.InitializeLevelSettings(binXPosns, _config.PlayerXOffsetFromBin);

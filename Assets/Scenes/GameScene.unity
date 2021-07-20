@@ -640,6 +640,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  IsInitialized: 0
 --- !u!212 &1225235329
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -943,6 +944,7 @@ MonoBehaviour:
   BinPieceYSpacing: 4
   PlayerXOffsetFromBin: 1
   PlayerSpeed: 0.05
+  InitialLevel: 3
 --- !u!114 &1604376034
 MonoBehaviour:
   m_ObjectHideFlags: 0

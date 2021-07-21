@@ -11,4 +11,9 @@ namespace Assets.Scripts
 	public class PlayerWantsBinPieceEvent : UnityEvent<int>
 	{
 	}
+
+	[Serializable]
+	public class PieceBinDropLandedEvent: UnityEvent
+	{
+	}
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Enums;
 using Assets.Scripts.SimulationLogic;
 using Assets.Scripts.SimulationLogic.Models;
 using ScriptDefinitions.Assets.Scripts.SimulationLogic;
@@ -42,7 +43,6 @@ public class BinsManager : MonoBehaviour
 
 	public void CreateBinsForLevel()
 	{
-
 		try
 		{
 			for (int binIdx = 0; binIdx < _logicController.BinsLogic.SimBins.Count; binIdx++)
@@ -54,6 +54,7 @@ public class BinsManager : MonoBehaviour
 					float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
 					float yPosn = _bin0Posn.y + binCell * _binPieceYSpacing;
 					GameObject piece = _pieceFactory.CreatePiece(transform, pieceId, xPosn, yPosn);
+					piece.GetComponent<PieceManager>().CurrentState = PieceState.InBin;
 					piecesInBin.Add(piece);
 				}
 				_bins[binIdx] = piecesInBin;
@@ -74,6 +75,7 @@ public class BinsManager : MonoBehaviour
 
 		// Drop the selected piece
 		PieceManager pieceManager = _bins[binIdx][0].GetComponent<PieceManager>();
+		pieceManager.CurrentState = PieceState.DroppingFromBin;
 		pieceManager.BeginDropUntilCollision();
 
 		// get the newly created logical piece at the top of the selected bin, to add it to the screen
@@ -82,14 +84,14 @@ public class BinsManager : MonoBehaviour
 		float yPosn = _bin0Posn.y + binsLgc.NumCellsPerBin * _binPieceYSpacing;
 		GameObject addedPiece = _pieceFactory.CreatePiece(transform, newPieceId, xPosn, yPosn);
 		pieceManager = addedPiece.GetComponent<PieceManager>();
-		pieceManager.BeginDropToYPosn(_bin0Posn.y + (binsLgc.NumCellsPerBin - 1) * _binPieceYSpacing);
+		pieceManager.BeginDropToYPosnInBin(_bin0Posn.y + (binsLgc.NumCellsPerBin - 1) * _binPieceYSpacing);
 
-		// Move the remaining bins down to the next position
+		// Move the remaining bin pieces down to the next position
 		for (int i = 1; i < binsLgc.NumCellsPerBin; i++)
 		{
 			pieceManager = _bins[binIdx][i].GetComponent<PieceManager>();
 			yPosn = _bin0Posn.y + (i - 1) * _binPieceYSpacing;
-			pieceManager.BeginDropToYPosn(yPosn);
+			pieceManager.BeginDropToYPosnInBin(yPosn);
 		}
 	}
 }

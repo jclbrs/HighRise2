@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
+using Assets.Scripts.Enums;
 using Assets.Scripts.SimulationLogic.Models;
 using UnityEngine;
 
@@ -8,22 +10,27 @@ public class PieceManager : MonoBehaviour
 {
 	public float yMove = 0;
 	public float PieceDropSpeed;
-	private bool _droppingToYPosn;
+	public PieceBinDropLandedEvent LandedFromBinEvent;
+
+	public PieceState CurrentState;
 	private float _destinationYPosn;
+
 
 	void Update()
 	{
 		transform.position = new Vector3(transform.position.x, transform.position.y + yMove);
-		if (_droppingToYPosn)
+		if (CurrentState == PieceState.DroppingToNextBinCell)
 		{
 			if ( transform.position.y <= _destinationYPosn)
 			{
-				_droppingToYPosn = false;
+				CurrentState = PieceState.InBin;
 				yMove = 0f;
+				LandedFromBinEvent.Invoke();
 			}
 		}
 	}
 
+	// This is called when a child border object collision is triggered, and it sends a message upward to here
 	public void CollisionDetected()
 	{
 		Debug.Log("Piece notified of collision");
@@ -36,9 +43,9 @@ public class PieceManager : MonoBehaviour
 		yMove = PieceDropSpeed;
 	}
 
-	public void BeginDropToYPosn(float yPosn)
+	public void BeginDropToYPosnInBin(float yPosn)
 	{
-		_droppingToYPosn = true;
+		CurrentState = PieceState.DroppingToNextBinCell;
 		_destinationYPosn = yPosn;
 		yMove = PieceDropSpeed;
 	}

@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
 		_pieceFactory = GetComponent<PieceFactory>();
 		_binsManager = _config.BinsObject.GetComponent<BinsManager>();
 		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin);
-		_pieceFactory.InitializeGameSettings(_config.PiecePrefab);
+		_pieceFactory.InitializeGameSettings(_config.PiecePrefab, _config.PieceDropSpeed);
 
 		List<float> springboardXPosns = _springboardController.GetSpringboardXPosns();
 		_playerController.InitializeGameSettings(springboardXPosns,_config.PlayerSpeed);

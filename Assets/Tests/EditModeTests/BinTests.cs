@@ -14,7 +14,7 @@ public class BinTests
     public void InitializeLevel2_ExpectOnlyLevel1And2ApplicablePieces()
     {
         BinsLogic binsLogic = new BinsLogic(2,5, 4);
-        Assert.IsFalse(binsLogic.ApplicablePieces.Exists(x => x.LevelFirstAppears > 2));
+        Assert.IsFalse(binsLogic.ApplicableSimPieces.Exists(x => x.LevelFirstAppears > 2));
     }
 
     [Test]
@@ -22,7 +22,7 @@ public class BinTests
     {
         BinsLogic binsLogic = new BinsLogic(2, 5, 4);
         binsLogic.PopulateBin(2);
-        Assert.AreEqual(4, binsLogic.Bins[2].Count);
+        Assert.AreEqual(4, binsLogic.SimBins[2].Count);
     }
 
     [Test]
@@ -30,7 +30,7 @@ public class BinTests
     {
         BinsLogic binsLogic = new BinsLogic(2, 5, 4);
         binsLogic.PopulateBin(2);
-        Assert.AreEqual(binsLogic.Bins[2][0].CurrentState, PieceState.InBin);
+        Assert.AreEqual(binsLogic.SimBins[2][0].CurrentState, PieceState.InBin);
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class BinTests
     {
         BinsLogic binsLogic = new BinsLogic(2, 5, 4);
         binsLogic.PopulateAllBins();
-        Assert.AreEqual(5, binsLogic.Bins.Count);
+        Assert.AreEqual(5, binsLogic.SimBins.Count);
     }
 
     [Test]
@@ -46,7 +46,7 @@ public class BinTests
     {
         BinsLogic binsLogic = new BinsLogic(2, 5, 4);
         binsLogic.PopulateBin(3);
-        SimPiece bottomPiece = binsLogic.Bins[3][0];
+        SimPiece bottomPiece = binsLogic.SimBins[3][0];
 
         SimPiece droppedPiece = binsLogic.DropPieceFromBin(3);
         Assert.AreEqual(bottomPiece.Id, droppedPiece.Id);
@@ -57,10 +57,10 @@ public class BinTests
     {
         BinsLogic binsLogic = new BinsLogic(2, 5, 4);
         binsLogic.PopulateBin(3);
-        SimPiece secondBottomPiece = binsLogic.Bins[3][1];
+        SimPiece secondBottomPiece = binsLogic.SimBins[3][1];
 
         binsLogic.DropPieceFromBin(3);
-        Assert.AreEqual(secondBottomPiece.Id, binsLogic.Bins[3][0].Id);
+        Assert.AreEqual(secondBottomPiece.Id, binsLogic.SimBins[3][0].Id);
     }
 
     [Test]
@@ -68,10 +68,10 @@ public class BinTests
     {
         BinsLogic binsLogic = new BinsLogic(2, 5, 4);
         binsLogic.PopulateBin(3);
-        SimPiece topPiece = binsLogic.Bins[3][3];
+        SimPiece topPiece = binsLogic.SimBins[3][3];
 
         binsLogic.DropPieceFromBin(3);
-        Assert.AreEqual(topPiece.Id, binsLogic.Bins[3][2].Id);
+        Assert.AreEqual(topPiece.Id, binsLogic.SimBins[3][2].Id);
     }
 
     [Test]

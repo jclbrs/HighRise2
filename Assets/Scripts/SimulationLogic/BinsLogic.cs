@@ -11,8 +11,8 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 {
     public class BinsLogic
     {
-		public Dictionary<int, List<SimPiece>> Bins { get; private set; }
-		public List<SimPiece> ApplicablePieces { get; private set; }
+		public Dictionary<int, List<SimPiece>> SimBins { get; private set; }
+		public List<SimPiece> ApplicableSimPieces { get; private set; }
 		public int NumBins { get; private set; }
 		public int NumCellsPerBin { get; private set; }
 		private readonly int _level;
@@ -30,8 +30,8 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 			NumCellsPerBin = numCellsPerBin;
 			_level = level;
 			_rnd = new Random();
-			ApplicablePieces = PieceLibrary.Pieces.Where(x => x.LevelFirstAppears <= level).ToList();
-			Bins = new Dictionary<int, List<SimPiece>>();
+			ApplicableSimPieces = SimPieceLibrary.SimPieces.Where(x => x.LevelFirstAppears <= level).ToList();
+			SimBins = new Dictionary<int, List<SimPiece>>();
 		}
 
 		public void PopulateAllBins()
@@ -48,17 +48,17 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		/// <param name="binIdx">bin index is 0-index</param>
 		public void PopulateBin(int binIdx)
 		{
-			if (Bins.ContainsKey(binIdx))
-				Bins.Remove(binIdx); // clear the bin of any data.  Starting over with new data
+			if (SimBins.ContainsKey(binIdx))
+				SimBins.Remove(binIdx); // clear the bin of any data.  Starting over with new data
 
 			List<SimPiece> binPieces = new List<SimPiece>();
 			for(int i = 0; i < NumCellsPerBin; i++)
 			{
-				SimPiece nextPiece = ApplicablePieces[_rnd.Next(ApplicablePieces.Count)];
+				SimPiece nextPiece = ApplicableSimPieces[_rnd.Next(ApplicableSimPieces.Count)];
 				nextPiece.CurrentState = PieceState.InBin;
 				binPieces.Add(nextPiece);
 			}
-			Bins.Add(binIdx, binPieces);
+			SimBins.Add(binIdx, binPieces);
 		}
 
 		/// <summary>
@@ -68,10 +68,10 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		/// <returns></returns>
 		public SimPiece DropPieceFromBin(int binIdx)
 		{
-			SimPiece droppedPiece = Bins[binIdx][0];
+			SimPiece droppedPiece = SimBins[binIdx][0];
 			droppedPiece.CurrentState = PieceState.OnPlatform;
-			Bins[binIdx].RemoveAt(0);
-			Bins[binIdx].Add(ApplicablePieces[_rnd.Next(ApplicablePieces.Count)]);
+			SimBins[binIdx].RemoveAt(0);
+			SimBins[binIdx].Add(ApplicableSimPieces[_rnd.Next(ApplicableSimPieces.Count)]);
 			return droppedPiece;
 		}
 

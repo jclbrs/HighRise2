@@ -61,7 +61,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\SimulationLogic\SpringboardLogic.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\LandingZoneLogic.cs" />
-    <Compile Include="Assets\Scripts\SimulationLogic\PieceLibrary.cs" />
+    <Compile Include="Assets\Scripts\SimulationLogic\SimPieceLibrary.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\LogicController.cs" />
     <Compile Include="Assets\Scripts\PieceMover.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />

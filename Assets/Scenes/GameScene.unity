@@ -588,7 +588,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5, y: 20.5, z: 0}
   m_LocalScale: {x: 39.9, y: 1.4, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1469164584}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1118,13 +1119,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1469164581}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.06265664, y: -14.642857, z: 0}
+  m_LocalScale: {x: 0.025062658, y: 0.7142857, z: 1}
   m_Children:
   - {fileID: 977803694}
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 891907338}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1604376029
 GameObject:
@@ -1195,6 +1196,7 @@ MonoBehaviour:
   BinPieceYSpacing: 4
   PlayerXOffsetFromBin: 1
   PlayerSpeed: 0.05
+  PieceDropSpeed: -0.05
   InitialLevel: 3
 --- !u!114 &1604376034
 MonoBehaviour:

@@ -13,6 +13,7 @@ public class BinsManager : MonoBehaviour
 	private float _binXSpacing;
 	private float _binPieceYSpacing;
 	private PieceFactory _pieceFactory;
+	private Dictionary<int, List<GameObject>> _bins;  // maintain a reference to the actual game objects in the bin
 
 	public void InitializeGameSettings(PieceFactory pieceFactory, Vector2 bin0Posn, float binXSpacing, float binPieceYSpacing)
 	{
@@ -20,6 +21,7 @@ public class BinsManager : MonoBehaviour
 		_bin0Posn = bin0Posn;
 		_binXSpacing = binXSpacing;
 		_binPieceYSpacing = binPieceYSpacing;
+		_bins = new Dictionary<int, List<GameObject>>();
 	}
 
 	public void InitializeLevelSettings(LogicController logicController)
@@ -31,7 +33,7 @@ public class BinsManager : MonoBehaviour
 	public List<float> GetBinXPosns()
 	{
 		List<float> xPosns = new List<float>();
-		for (int i = 0; i < _logicController.BinsLogic.Bins.Count; i++)
+		for (int i = 0; i < _logicController.BinsLogic.SimBins.Count; i++)
 		{
 			xPosns.Add(_bin0Posn.x + i * _binXSpacing);
 		}
@@ -40,17 +42,21 @@ public class BinsManager : MonoBehaviour
 
 	public void CreateBinsForLevel()
 	{
+
 		try
 		{
-			for (int binIdx = 0; binIdx < _logicController.BinsLogic.Bins.Count; binIdx++)
+			for (int binIdx = 0; binIdx < _logicController.BinsLogic.SimBins.Count; binIdx++)
 			{
-				for (int binCell = 0; binCell < _logicController.BinsLogic.Bins[0].Count; binCell++ )
+				List<GameObject> piecesInBin = new List<GameObject>();
+				for (int binCell = 0; binCell < _logicController.BinsLogic.SimBins[0].Count; binCell++ )
 				{
-					int pieceId = _logicController.BinsLogic.Bins[binIdx][binCell].Id;
+					int pieceId = _logicController.BinsLogic.SimBins[binIdx][binCell].Id;
 					float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
 					float yPosn = _bin0Posn.y + binCell * _binPieceYSpacing;
-					_pieceFactory.CreatePiece(transform, pieceId, xPosn, yPosn);
+					GameObject piece = _pieceFactory.CreatePiece(transform, pieceId, xPosn, yPosn);
+					piecesInBin.Add(piece);
 				}
+				_bins[binIdx] = piecesInBin;
 			}
 
 
@@ -94,15 +100,19 @@ public class BinsManager : MonoBehaviour
 	// Kicked off from a UnityEvent on Player Controller
 	public void DropBinPiece(int binIdx)
 	{
-		// shorten some variables for ease of viewing here
 		BinsLogic binsLgc = _logicController.BinsLogic;
-
 		SimPiece simPiece = binsLgc.DropPieceFromBin(binIdx);
+		Debug.Log($"Received request to drop bin piece from bin:{binIdx}, pieceId:{simPiece.Id}");
+
 		// get the newly created logical piece at the top of the selected bin, to add it to the screen
-		int newPieceId = binsLgc.Bins[binIdx][binsLgc.NumCellsPerBin - 1].Id;
+		int newPieceId = binsLgc.SimBins[binIdx][binsLgc.NumCellsPerBin - 1].Id;
 		float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
 		float yPosn = _bin0Posn.y + binsLgc.NumCellsPerBin * _binPieceYSpacing;
 		_pieceFactory.CreatePiece(transform, newPieceId, xPosn, yPosn);
-		Debug.Log($"Received request to drop bin piece from bin:{binIdx}, pieceId:{simPiece.Id}");
+
+		// testing
+		PieceManager pieceManager = _bins[binIdx][0].GetComponent<PieceManager>();
+		pieceManager.DropFromBin();
+		// Joe, next is to get the gameObject pieces in the bin, and turn on kinematic physics to have them drop
 	}
 }

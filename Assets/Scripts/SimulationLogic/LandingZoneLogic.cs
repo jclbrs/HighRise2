@@ -85,7 +85,7 @@ namespace Assets.Scripts.SimulationLogic
 			SimPiece piece = null;
 			try
 			{
-				piece = PieceLibrary.Pieces[pieceId];
+				piece = SimPieceLibrary.SimPieces[pieceId];
 			}
 			catch (Exception)
 			{

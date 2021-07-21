@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
-    public float yMove = -0.2f;
+    public float yMove =0;
+	public float PieceDropSpeed;
 
     void Update()
     {
@@ -17,6 +18,12 @@ public class PieceManager : MonoBehaviour
 	{
         Debug.Log("Piece notified of collision");
         yMove = 0f;
+	}
+
+	public void DropFromBin()
+	{
+		Debug.Log($"PieceDropSpeed:{PieceDropSpeed}");
+		yMove = PieceDropSpeed;
 	}
 
 	public void ConstructPieceShape(GameObject pieceContainer, SimPiece simPiece)

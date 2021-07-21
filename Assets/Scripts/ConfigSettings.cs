@@ -20,5 +20,6 @@ public class ConfigSettings : MonoBehaviour
     public float BinPieceYSpacing;
     public float PlayerXOffsetFromBin;
     public float PlayerSpeed;
+    public float PieceDropSpeed;
     public int InitialLevel; // used to test later levels
 }

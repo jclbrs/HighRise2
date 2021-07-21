@@ -58,38 +58,6 @@ public class BinsManager : MonoBehaviour
 				}
 				_bins[binIdx] = piecesInBin;
 			}
-
-
-			//float x = _bin0Posn.x;
-			//_pieceFactory.CreatePiece(transform, 13, x, _bin0Posn.y);
-			//_pieceFactory.CreatePiece(transform, 4, x, _bin0Posn.y + _binPieceYSpacing);
-			//_pieceFactory.CreatePiece(transform, 0, x, _bin0Posn.y + 2 * _binPieceYSpacing);
-			//_pieceFactory.CreatePiece(transform, 43, x, _bin0Posn.y + 3 * _binPieceYSpacing);
-
-			//x = _bin0Posn.x + _binXSpacing;
-			//_pieceFactory.CreatePiece(transform, 55, x, _bin0Posn.y);
-
-			//_pieceFactory.CreatePiece(transform, 18, x, _bin0Posn.y + _binPieceYSpacing);
-			//_pieceFactory.CreatePiece(transform, 2, x, _bin0Posn.y + 2 * _binPieceYSpacing);
-			//_pieceFactory.CreatePiece(transform, 21, x, _bin0Posn.y + 3 * _binPieceYSpacing);
-
-			//x = _bin0Posn.x + 2 * _binXSpacing;
-			//_pieceFactory.CreatePiece(transform, 60, x, _bin0Posn.y);
-			//_pieceFactory.CreatePiece(transform, 44, x, _bin0Posn.y + _binPieceYSpacing);
-			//_pieceFactory.CreatePiece(transform, 30, x, _bin0Posn.y + 2 * _binPieceYSpacing);
-			//_pieceFactory.CreatePiece(transform, 3, x, _bin0Posn.y + 3 * _binPieceYSpacing);
-
-			//x = _bin0Posn.x + 3 * _binXSpacing;
-			//_pieceFactory.CreatePiece(transform, 31, x, _bin0Posn.y);
-			//_pieceFactory.CreatePiece(transform, 42, x, _bin0Posn.y + _binPieceYSpacing);
-			//_pieceFactory.CreatePiece(transform, 60, x, _bin0Posn.y + 2 * _binPieceYSpacing);
-			//_pieceFactory.CreatePiece(transform, 15, x, _bin0Posn.y + 3 * _binPieceYSpacing);
-
-			//x = _bin0Posn.x + 4 * _binXSpacing;
-			//_pieceFactory.CreatePiece(transform, 3, x, _bin0Posn.y);
-			//_pieceFactory.CreatePiece(transform, 12, x, _bin0Posn.y + _binPieceYSpacing);
-			//_pieceFactory.CreatePiece(transform, 49, x, _bin0Posn.y + 2 * _binPieceYSpacing);
-			//_pieceFactory.CreatePiece(transform, 36, x, _bin0Posn.y + 3 * _binPieceYSpacing);
 		}
 		catch (Exception ex)
 		{
@@ -104,15 +72,24 @@ public class BinsManager : MonoBehaviour
 		SimPiece simPiece = binsLgc.DropPieceFromBin(binIdx);
 		Debug.Log($"Received request to drop bin piece from bin:{binIdx}, pieceId:{simPiece.Id}");
 
+		// Drop the selected piece
+		PieceManager pieceManager = _bins[binIdx][0].GetComponent<PieceManager>();
+		pieceManager.BeginDropUntilCollision();
+
 		// get the newly created logical piece at the top of the selected bin, to add it to the screen
 		int newPieceId = binsLgc.SimBins[binIdx][binsLgc.NumCellsPerBin - 1].Id;
 		float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
 		float yPosn = _bin0Posn.y + binsLgc.NumCellsPerBin * _binPieceYSpacing;
-		_pieceFactory.CreatePiece(transform, newPieceId, xPosn, yPosn);
+		GameObject addedPiece = _pieceFactory.CreatePiece(transform, newPieceId, xPosn, yPosn);
+		pieceManager = addedPiece.GetComponent<PieceManager>();
+		pieceManager.BeginDropToYPosn(_bin0Posn.y + (binsLgc.NumCellsPerBin - 1) * _binPieceYSpacing);
 
-		// testing
-		PieceManager pieceManager = _bins[binIdx][0].GetComponent<PieceManager>();
-		pieceManager.DropFromBin();
-		// Joe, next is to get the gameObject pieces in the bin, and turn on kinematic physics to have them drop
+		// Move the remaining bins down to the next position
+		for (int i = 1; i < binsLgc.NumCellsPerBin; i++)
+		{
+			pieceManager = _bins[binIdx][i].GetComponent<PieceManager>();
+			yPosn = _bin0Posn.y + (i - 1) * _binPieceYSpacing;
+			pieceManager.BeginDropToYPosn(yPosn);
+		}
 	}
 }

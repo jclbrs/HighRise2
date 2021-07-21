@@ -6,23 +6,40 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
-    public float yMove =0;
+	public float yMove = 0;
 	public float PieceDropSpeed;
+	private bool _droppingToYPosn;
+	private float _destinationYPosn;
 
-    void Update()
-    {
-        transform.position = new Vector3(transform.position.x, transform.position.y + yMove);
-    }
-
-    public void CollisionDetected()
+	void Update()
 	{
-        Debug.Log("Piece notified of collision");
-        yMove = 0f;
+		transform.position = new Vector3(transform.position.x, transform.position.y + yMove);
+		if (_droppingToYPosn)
+		{
+			if ( transform.position.y <= _destinationYPosn)
+			{
+				_droppingToYPosn = false;
+				yMove = 0f;
+			}
+		}
 	}
 
-	public void DropFromBin()
+	public void CollisionDetected()
+	{
+		Debug.Log("Piece notified of collision");
+		yMove = 0f;
+	}
+
+	public void BeginDropUntilCollision()
 	{
 		Debug.Log($"PieceDropSpeed:{PieceDropSpeed}");
+		yMove = PieceDropSpeed;
+	}
+
+	public void BeginDropToYPosn(float yPosn)
+	{
+		_droppingToYPosn = true;
+		_destinationYPosn = yPosn;
 		yMove = PieceDropSpeed;
 	}
 

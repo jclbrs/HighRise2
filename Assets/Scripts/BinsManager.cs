@@ -13,15 +13,17 @@ public class BinsManager : MonoBehaviour
 	private Vector2 _bin0Posn;
 	private float _binXSpacing;
 	private float _binPieceYSpacing;
+	private float _yDropPointToPlayer;
 	private PieceFactory _pieceFactory;
 	private Dictionary<int, List<GameObject>> _bins;  // maintain a reference to the actual game objects in the bin
 
-	public void InitializeGameSettings(PieceFactory pieceFactory, Vector2 bin0Posn, float binXSpacing, float binPieceYSpacing)
+	public void InitializeGameSettings(PieceFactory pieceFactory, Vector2 bin0Posn, float binXSpacing, float binPieceYSpacing, float yDropPointToPlayer)
 	{
 		_pieceFactory = pieceFactory;
 		_bin0Posn = bin0Posn;
 		_binXSpacing = binXSpacing;
 		_binPieceYSpacing = binPieceYSpacing;
+		_yDropPointToPlayer = yDropPointToPlayer;
 		_bins = new Dictionary<int, List<GameObject>>();
 	}
 
@@ -67,7 +69,7 @@ public class BinsManager : MonoBehaviour
 	}
 
 	// Kicked off from a UnityEvent on Player Controller
-	public void DropBinPiece(int binIdx)
+	public void DropBinPieceToPlayer(int binIdx)
 	{
 		BinsLogic binsLgc = _logicController.BinsLogic;
 		SimPiece simPiece = binsLgc.DropPieceFromBin(binIdx);
@@ -75,8 +77,8 @@ public class BinsManager : MonoBehaviour
 
 		// Drop the selected piece
 		PieceManager pieceManager = _bins[binIdx][0].GetComponent<PieceManager>();
-		pieceManager.CurrentState = PieceState.DroppingFromBin;
-		pieceManager.BeginDropUntilCollision();
+		pieceManager.CurrentState = PieceState.DroppingFromBinToPlayer;
+		pieceManager.BeginDropFromBinToPlayer(_yDropPointToPlayer);
 
 		// get the newly created logical piece at the top of the selected bin, to add it to the screen
 		int newPieceId = binsLgc.SimBins[binIdx][binsLgc.NumCellsPerBin - 1].Id;

@@ -2318,6 +2318,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   yMove: 0
   PieceDropSpeed: 0
+  LandedFromBinEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: bf305f7e0e1543141a79f6b006fa4e7f, type: 3}
+        m_TargetAssemblyTypeName: PlayerController, ScriptDefinitions
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  CurrentState: 0
 --- !u!1 &3053974505141213122
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ namespace Assets.Scripts
 	}
 
 	[Serializable]
-	public class PieceBinDropLandedEvent: UnityEvent
+	public class PieceBinDropLandedEvent: UnityEvent<PieceManager>
 	{
 	}
 }

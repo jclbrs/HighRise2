@@ -10,7 +10,7 @@ namespace Assets.Scripts.Enums
 	{
 		InBin,
 		DroppingToNextBinCell,
-		DroppingFromBin,
+		DroppingFromBinToPlayer,
 		MovingToSpringboard,
 		OnSpringboard,
 		MovingUpFromSpringboard,

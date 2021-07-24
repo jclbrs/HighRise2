@@ -26,11 +26,11 @@ public class GameController : MonoBehaviour
 		_pieceFactory = GetComponent<PieceFactory>();
 		_binsManager = _config.BinsObject.GetComponent<BinsManager>();
 		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin);
-		_pieceFactory.InitializeGameSettings(_config.PiecePrefab, _config.PieceDropSpeed);
+		_pieceFactory.InitializeGameSettings(_config.PiecePrefab, _config.PieceDropSpeed, _config.PieceXSpeed);
 
 		List<float> springboardXPosns = _springboardController.GetSpringboardXPosns();
-		_playerController.InitializeGameSettings(springboardXPosns,_config.PlayerSpeed);
-		_binsManager.InitializeGameSettings(_pieceFactory, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing);
+		_playerController.InitializeGameSettings(springboardXPosns,_config.PieceXSpeed);
+		_binsManager.InitializeGameSettings(_pieceFactory, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing, _config.PieceYFromBinDrop);
 
 		SetupLevel(_currentLevel);
 	}
@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
 		_binsManager.InitializeLevelSettings(_logicController);
 
 		List<float> binXPosns = _binsManager.GetBinXPosns();
-		_playerController.InitializeLevelSettings(binXPosns, _config.PlayerXOffsetFromBin);
+		_playerController.InitializeLevelSettings(_logicController, binXPosns, _config.PlayerXOffsetFromBin);
 
 
 	}

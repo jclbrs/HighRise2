@@ -19,7 +19,8 @@ public class ConfigSettings : MonoBehaviour
     public float BinXSpacing;
     public float BinPieceYSpacing;
     public float PlayerXOffsetFromBin;
-    public float PlayerSpeed;
+    public float PieceXSpeed;  // player speed will be the same, so the move to springboard together
     public float PieceDropSpeed;
+    public float PieceYFromBinDrop; // The y-coord that the player stops at when being dropped from the bin down to the player (not at ground, until dropping onto spring
     public int InitialLevel; // used to test later levels
 }

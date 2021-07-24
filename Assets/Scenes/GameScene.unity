@@ -815,7 +815,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 942412438}
         m_TargetAssemblyTypeName: BinsManager, ScriptDefinitions
-        m_MethodName: DropBinPiece
+        m_MethodName: DropBinPieceToPlayer
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1195,9 +1195,10 @@ MonoBehaviour:
   BinXSpacing: 4
   BinPieceYSpacing: 4
   PlayerXOffsetFromBin: 1
-  PlayerSpeed: 0.05
+  PieceXSpeed: 0.1
   PieceDropSpeed: -0.05
-  InitialLevel: 3
+  PieceYFromBinDrop: 2
+  InitialLevel: 1
 --- !u!114 &1604376034
 MonoBehaviour:
   m_ObjectHideFlags: 0

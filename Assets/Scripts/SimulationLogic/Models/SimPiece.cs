@@ -37,7 +37,7 @@ namespace Assets.Scripts.SimulationLogic.Models
             Shape[2, 2] = c2r2; // upper right
         }
 
-        public int GetWidth()
+        public int GetSimWidth()
 		{
             int width = 1;
             if (Shape[2, 0] || Shape[2, 1] || Shape[2, 2])

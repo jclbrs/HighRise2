@@ -340,6 +340,36 @@ Transform:
   m_Father: {fileID: 1777230729}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &519533618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 519533619}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &519533619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519533618}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &658588698
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,6 +666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f0b722c808975648b3059f39a0c014b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerController: {fileID: 0}
 --- !u!1 &977803693
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,21 +841,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf305f7e0e1543141a79f6b006fa4e7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BinPieceDropRequested:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 942412438}
-        m_TargetAssemblyTypeName: BinsManager, ScriptDefinitions
-        m_MethodName: DropBinPieceToPlayer
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   IsInitialized: 0
 --- !u!212 &1225235329
 SpriteRenderer:
@@ -1139,6 +1155,7 @@ GameObject:
   - component: {fileID: 1604376030}
   - component: {fileID: 1604376032}
   - component: {fileID: 1604376034}
+  - component: {fileID: 1604376033}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -1191,14 +1208,27 @@ MonoBehaviour:
   BinsObject: {fileID: 942412436}
   NumBins: 5
   NumCellsPerBin: 4
-  Bin0Posn: {x: 5, y: 6}
-  BinXSpacing: 4
-  BinPieceYSpacing: 4
-  PlayerXOffsetFromBin: 1
+  Bin0Posn: {x: 5, y: 5}
+  BinXSpacing: 3.5
+  BinPieceYSpacing: 3.5
+  PlayerXOffsetFromBin: 3
   PieceXSpeed: 0.1
   PieceDropSpeed: -0.05
+  BlockWidth: 0.83
   PieceYFromBinDrop: 2
   InitialLevel: 1
+--- !u!114 &1604376033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604376029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04807a464af4ff4438e818adc72116e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1604376034
 MonoBehaviour:
   m_ObjectHideFlags: 0

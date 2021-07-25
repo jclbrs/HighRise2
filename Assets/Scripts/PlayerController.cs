@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 	private PlayerState _currentState;
 	private int _currentXIndex;
 	private float _destinationXCoord;
+	private float _simPieceWidth;
 	private float _xSpeed;
 	private bool _isMoveRight; // -1 for left, +1 for right
 	private LogicController _logicController;
@@ -58,9 +59,9 @@ public class PlayerController : MonoBehaviour
 				// no action for the moment
 				break;
 			case PlayerState.PushingPieceToSpringboard:
-				Debug.Log($"Moving piece: x:{transform.position.x}, speed:{_xSpeed}, Dest:{_destinationXCoord}");
+				//Debug.Log($"Moving piece: x:{transform.position.x}, speed:{_xSpeed}, Dest:{_destinationXCoord}");
 				transform.position = new Vector3(transform.position.x - _xSpeed, transform.position.y);
-				if (transform.position.x <= _destinationXCoord)
+				if (transform.position.x <= _destinationXCoord + _simPieceWidth)
 				{
 					_currentState = PlayerState.IdleBySpringboard; // joe maybe change to reflect that player is still holding the piece above spring
 
@@ -103,16 +104,21 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	// Invoked by a PieceManager via UnityEvent, when piece just fell to ground from bin
+	// Invoked by a PieceManager via Event, when piece just fell to ground from bin
 	public void OnBeginMovePieceToSpringboard(PieceManager pieceManager)
 	{
 		Debug.Log("Player: BeginMovingPieceToSpringboard triggered");
 		_currentState = PlayerState.PushingPieceToSpringboard;
+		PositionPieceNextToPlayer(pieceManager);
+
+		_currentState = PlayerState.PushingPieceToSpringboard;
 		int springIdx;
-		if (_logicController.SpringboardLogic.TryMovePieceToAvailableSpring(pieceManager.SimPiece.Id, pieceManager.SimPiece.GetWidth(), out springIdx))
+		if (_logicController.SpringboardLogic.TryMovePieceToAvailableSpring(pieceManager.SimPiece.Id, pieceManager.SimPiece.GetSimWidth(), out springIdx))
 		{
 			_destinationXCoord = _springboardXPosns[springIdx];
 			_isMoveRight = false;
+			pieceManager.XSpeed = _xSpeed; // have piece's speed match the player's
+			pieceManager.DestinationXPosn = _destinationXCoord;
 		}
 		else
 		{
@@ -120,6 +126,22 @@ public class PlayerController : MonoBehaviour
 			throw new NotImplementedException("Need move to garbage area");
 		}
 		//Debug.Log($"1st avail spring:{firstAvailableSpringIdx}");
+	}
+
+	private void PositionPieceNextToPlayer(PieceManager pieceManager)
+	{
+		// 1st: since the piece is now under the player's control, move the game object from a Bins child object to a Player child object
+		// so they will move together
+
+		// Position the exact position of the player first (since it will be the parent)
+		_simPieceWidth = pieceManager.SimPiece.GetSimWidth();
+		float playerX = pieceManager.transform.position.x + _simPieceWidth * pieceManager.BlockWidth;
+		transform.position = new Vector3(playerX, transform.position.y);
+		pieceManager.gameObject.transform.SetParent(gameObject.transform);
+		//pieceManager.gameObject.transform.position = new Vector3(pieceManager.gameObject.transform.position.x + (3-_simPieceWidth) * pieceManager.BlockWidth, pieceManager.gameObject.transform.position.y );
+		Debug.Log($"simWidth:{_simPieceWidth}, blockWidth:{pieceManager.BlockWidth})");
+		
+		Debug.Log($"player x:{gameObject.transform.position.x}");
 	}
 
 	private void HandleInput()
@@ -164,7 +186,6 @@ public class PlayerController : MonoBehaviour
 		{
 			_currentState = PlayerState.WaitingForBinPiece;
 			_eventsManager.OnBinPieceSelected(_currentXIndex);
-			//BinPieceDropRequested.Invoke(_currentXIndex);
 		}
 	}
 

@@ -15,11 +15,14 @@ public class PieceManager : MonoBehaviour
 	public  SimPiece SimPiece { get; private set; }
 	private float _destinationYPosn;
 	public float XSpeed;
+	public float DestinationXPosn;
+	public float BlockWidth;
 	private EventsManager _eventsManager;
 
-	public void Initialize(EventsManager eventsManager)
+	public void Initialize(EventsManager eventsManager, float blockWidth)
 	{
 		_eventsManager = eventsManager;
+		BlockWidth = blockWidth;
 	}
 
 	void Update()
@@ -46,8 +49,16 @@ public class PieceManager : MonoBehaviour
 				}
 				break;
 			case PieceState.MovingToSpringboard:
-				// joe need to get the first available spring x-coord
-				transform.position = new Vector3(transform.position.x - XSpeed, transform.position.y);
+				if (transform.position.x > DestinationXPosn)
+				{ }// joe, since piece is now a child of the player, it moves along with it, so no calc needed here
+				   // transform.position = new Vector3(transform.position.x - XSpeed, transform.position.y);
+				else
+				{
+					CurrentState = PieceState.OnSpringboard;
+				}
+				break;
+			case PieceState.OnSpringboard:
+				// not addressed yet
 				break;
 			default:
 				Debug.LogError($"Piece state '{CurrentState}' action not defined");

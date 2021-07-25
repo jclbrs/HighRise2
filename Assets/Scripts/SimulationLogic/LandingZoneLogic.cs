@@ -48,7 +48,7 @@ namespace Assets.Scripts.SimulationLogic
 		{
 			foreach (SimPiece piece in pieces)
 			{
-				for (int pieceCol = 0; pieceCol < piece.GetWidth(); pieceCol++)
+				for (int pieceCol = 0; pieceCol < piece.GetSimWidth(); pieceCol++)
 				{
 					// joe continue here
 				}
@@ -92,7 +92,7 @@ namespace Assets.Scripts.SimulationLogic
 				placePieceStatus = PlacePieceStatus.InvalidPieceId;
 				return false;
 			}
-			int width = piece.GetWidth();
+			int width = piece.GetSimWidth();
 			if ((col - 1 + width) >= NumColsInLandingZone)
 			{
 				placePieceStatus = PlacePieceStatus.TooFarToTheRight;

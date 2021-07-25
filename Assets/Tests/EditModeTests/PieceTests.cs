@@ -30,21 +30,21 @@ public class PieceTests
 	public void Width_Return1()
 	{
 		SimPiece p = new SimPiece(123, 100, true, false, false, true, false, false, true, false, false);
-		Assert.AreEqual(1, p.GetWidth());
+		Assert.AreEqual(1, p.GetSimWidth());
 	}
 
 	[Test]
 	public void Width_Return2()
 	{
 		SimPiece p = new SimPiece(123, 100, true, true, false, true, false, false, true, false, false);
-		Assert.AreEqual(2, p.GetWidth());
+		Assert.AreEqual(2, p.GetSimWidth());
 	}
 
 	[Test]
 	public void Width_Return3()
 	{
 		SimPiece p = new SimPiece(123, 100, true, false, false, true, false, false, true, true, true);
-		Assert.AreEqual(3, p.GetWidth());
+		Assert.AreEqual(3, p.GetSimWidth());
 	}
 
 	[Test]

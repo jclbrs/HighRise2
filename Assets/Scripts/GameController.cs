@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
 	private PlayerController _playerController;
 	private BinsManager _binsManager;
 	private LogicController _logicController;
+	private EventsManager _eventsManager;
 	private int _currentLevel;
 
 	void Start()
@@ -21,18 +22,29 @@ public class GameController : MonoBehaviour
 		// Inject the elements from ConfigSettings
 		_config = GetComponent<ConfigSettings>();
 		_currentLevel = _config.InitialLevel;
+		_eventsManager = GetComponent<EventsManager>();
 		_springboardController = _config.SpringboardObject.GetComponent<SpringboardController>();
 		_playerController = _config.PlayerObject.GetComponent<PlayerController>();
 		_pieceFactory = GetComponent<PieceFactory>();
 		_binsManager = _config.BinsObject.GetComponent<BinsManager>();
-		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin);
-		_pieceFactory.InitializeGameSettings(_config.PiecePrefab, _config.PieceDropSpeed, _config.PieceXSpeed);
 
+		// Initialize the various components
+		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin);
+		_pieceFactory.InitializeGameSettings(_config.PiecePrefab, _config.PieceDropSpeed, _config.PieceXSpeed, _eventsManager);
 		List<float> springboardXPosns = _springboardController.GetSpringboardXPosns();
-		_playerController.InitializeGameSettings(springboardXPosns,_config.PieceXSpeed);
+		_playerController.InitializeGameSettings(springboardXPosns,_config.PieceXSpeed, _eventsManager);
 		_binsManager.InitializeGameSettings(_pieceFactory, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing, _config.PieceYFromBinDrop);
 
+		// set up subscriptions to events
+		_eventsManager.BinPieceSelected += _binsManager.OnDroppingBinPieceToPlayer;
+		_eventsManager.PieceDroppedFromBin += _playerController.OnBeginMovePieceToSpringboard;
+
 		SetupLevel(_currentLevel);
+	}
+
+	private void OnDestroy()
+	{
+		_eventsManager.BinPieceSelected -= _binsManager.OnDroppingBinPieceToPlayer;
 	}
 
 	// Some of these settings might be the same throughout the game, but to stay flexible, they are being populated for each level

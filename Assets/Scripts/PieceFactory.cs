@@ -9,12 +9,14 @@ public class PieceFactory : MonoBehaviour
 	private GameObject _piecePrefab;
 	private float _pieceDropSpeed;
 	private float _pieceXSpeed;
+	private EventsManager _eventsManager;
 
-	public void InitializeGameSettings(GameObject piecePrefab, float pieceDropSpeed, float pieceXSpeed)
+	public void InitializeGameSettings(GameObject piecePrefab, float pieceDropSpeed, float pieceXSpeed, EventsManager eventsManager)
 	{
 		_piecePrefab = piecePrefab;
 		_pieceDropSpeed = pieceDropSpeed;
 		_pieceXSpeed = pieceXSpeed;
+		_eventsManager = eventsManager;
 	}
 
 	public GameObject CreatePiece(Transform parentTransform, int pieceId, float x, float y)
@@ -25,11 +27,11 @@ public class PieceFactory : MonoBehaviour
 		newPieceManager.yMove = 0.0f;
 		newPieceManager.PieceDropSpeed = _pieceDropSpeed;
 		newPieceManager.XSpeed = _pieceXSpeed;
+		newPieceManager.Initialize(_eventsManager);
 
 		SimPiece simPiece = SimPieceLibrary.SimPieces[pieceId];
 		newPieceManager.ConstructPieceShape(selectedPiece, simPiece);
 		PlayerController playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-		newPieceManager.LandedFromBinEvent.AddListener(playerController.BeginMovingPieceToSpringboard);
 		return selectedPiece;
 	}
 

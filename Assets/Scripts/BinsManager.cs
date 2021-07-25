@@ -6,9 +6,11 @@ using Assets.Scripts.SimulationLogic;
 using Assets.Scripts.SimulationLogic.Models;
 using ScriptDefinitions.Assets.Scripts.SimulationLogic;
 using UnityEngine;
+using static PlayerController;
 
 public class BinsManager : MonoBehaviour
 {
+	[SerializeField] private PlayerController _playerController;
 	private LogicController _logicController;
 	private Vector2 _bin0Posn;
 	private float _binXSpacing;
@@ -25,6 +27,7 @@ public class BinsManager : MonoBehaviour
 		_binPieceYSpacing = binPieceYSpacing;
 		_yDropPointToPlayer = yDropPointToPlayer;
 		_bins = new Dictionary<int, List<GameObject>>();
+		//_playerController.BinPieceDropRequested += DropBinPieceToPlayer(int binIdx);
 	}
 
 	public void InitializeLevelSettings(LogicController logicController)
@@ -69,7 +72,7 @@ public class BinsManager : MonoBehaviour
 	}
 
 	// Kicked off from a UnityEvent on Player Controller
-	public void DropBinPieceToPlayer(int binIdx)
+	public void OnDroppingBinPieceToPlayer(int binIdx)
 	{
 		BinsLogic binsLgc = _logicController.BinsLogic;
 		SimPiece simPiece = binsLgc.DropPieceFromBin(binIdx);

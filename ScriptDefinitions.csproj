@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\SimulationLogic\LandingZoneLogic.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\SimPieceLibrary.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\LogicController.cs" />
+    <Compile Include="Assets\Scripts\Enums\PieceState.cs" />
     <Compile Include="Assets\Scripts\PieceMover.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\BinsManager.cs" />
@@ -71,15 +72,14 @@
     <Compile Include="Assets\Scripts\SimulationLogic\Models\LandingZoneCell.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\BinsLogic.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\SpringboardController.cs" />
     <Compile Include="Assets\Scripts\PieceManager.cs" />
+    <Compile Include="Assets\Scripts\Enums\PlayerState.cs" />
     <Compile Include="Assets\Scripts\ConfigSettings.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Models\SimPiece.cs" />
     <Compile Include="Assets\Scripts\PieceFactory.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Enums\PlacePieceStatus.cs" />
-    <Compile Include="Assets\Scripts\SpringboardController.cs" />
-    <Compile Include="Assets\Scripts\Enums\PlayerState.cs" />
-    <Compile Include="Assets\Scripts\UnityEvents.cs" />
-    <Compile Include="Assets\Scripts\Enums\PieceState.cs" />
+    <Compile Include="Assets\Scripts\EventsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\ScriptDefinitions.asmdef" />

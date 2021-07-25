@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	public PlayerWantsBinPieceEvent BinPieceDropRequested;
 	public bool IsInitialized = false;
 
 	private List<float> _playerXBelowBins;
@@ -19,11 +18,13 @@ public class PlayerController : MonoBehaviour
 	private float _xSpeed;
 	private bool _isMoveRight; // -1 for left, +1 for right
 	private LogicController _logicController;
+	private EventsManager _eventsManager;
 
-	public void InitializeGameSettings(List<float> springboardXPosns, float playerXSpeed)
+	public void InitializeGameSettings(List<float> springboardXPosns, float playerXSpeed, EventsManager eventsManager)
 	{
 		_springboardXPosns = springboardXPosns;
 		_xSpeed = playerXSpeed;
+		_eventsManager = eventsManager;
 	}
 
 	public void InitializeLevelSettings(LogicController logicController, List<float> binXPosns, float xOffSetFromBin)
@@ -103,7 +104,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 	// Invoked by a PieceManager via UnityEvent, when piece just fell to ground from bin
-	public void BeginMovingPieceToSpringboard(PieceManager pieceManager)
+	public void OnBeginMovePieceToSpringboard(PieceManager pieceManager)
 	{
 		Debug.Log("Player: BeginMovingPieceToSpringboard triggered");
 		_currentState = PlayerState.PushingPieceToSpringboard;
@@ -162,7 +163,9 @@ public class PlayerController : MonoBehaviour
 		if (Input.GetKeyDown("space") && _currentState == PlayerState.IdleUnderBin)
 		{
 			_currentState = PlayerState.WaitingForBinPiece;
-			BinPieceDropRequested.Invoke(_currentXIndex);
+			_eventsManager.OnBinPieceSelected(_currentXIndex);
+			//BinPieceDropRequested.Invoke(_currentXIndex);
 		}
 	}
+
 }

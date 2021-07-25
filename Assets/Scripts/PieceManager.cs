@@ -10,13 +10,17 @@ public class PieceManager : MonoBehaviour
 {
 	public float yMove = 0;
 	public float PieceDropSpeed;
-	public PieceBinDropLandedEvent LandedFromBinEvent;
 
 	public PieceState CurrentState;
 	public  SimPiece SimPiece { get; private set; }
 	private float _destinationYPosn;
 	public float XSpeed;
+	private EventsManager _eventsManager;
 
+	public void Initialize(EventsManager eventsManager)
+	{
+		_eventsManager = eventsManager;
+	}
 
 	void Update()
 	{
@@ -38,7 +42,7 @@ public class PieceManager : MonoBehaviour
 				{
 					CurrentState = PieceState.MovingToSpringboard;
 					yMove = 0f;
-					LandedFromBinEvent.Invoke(this);
+					_eventsManager.OnPieceDroppedFromBin(this);
 				}
 				break;
 			case PieceState.MovingToSpringboard:
@@ -59,7 +63,7 @@ public class PieceManager : MonoBehaviour
 		if (CurrentState == PieceState.DroppingFromBinToPlayer)
 		{
 			CurrentState = PieceState.MovingToSpringboard;
-			LandedFromBinEvent.Invoke(this);
+			//LandedFromBinEvent.Invoke(this);
 		}
 
 		

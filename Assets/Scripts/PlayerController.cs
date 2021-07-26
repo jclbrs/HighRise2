@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 	private List<float> _springboardXPosns;
 	private PlayerState _currentState;
 	private int _currentXIndex; // x-index is based on the current state. If on springboard, based on which spring.  If under bins, based on which bin
+	private int _destinationXIndex;
 	private float _destinationXCoord;
 	private float _simPieceWidth;
 	private float _xSpeed;
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
 				if (transform.position.x <= _destinationXCoord + _simPieceWidth)
 				{
 					_currentState = PlayerState.IdleBySpringboard; // joe maybe change to reflect that player is still holding the piece above spring
+					_currentXIndex = _destinationXIndex;
 
 				}
 				break;
@@ -72,13 +74,27 @@ public class PlayerController : MonoBehaviour
 				// for now, no action
 				break;
 			case PlayerState.MovingToNextSpring:
-				transform.position = new Vector3(transform.position.x + _xSpeed, transform.position.y);
-				// JOE NEXT -> calculate proper distance for moving right
-				if (transform.position.x <= _destinationXCoord + _simPieceWidth * _attachedPieceManager.BlockWidth)  
+				int direction = (_isMoveRight?1:-1);
+				transform.position = new Vector3(transform.position.x + direction*_xSpeed, transform.position.y);
+				float destXIncludingPlayerOffset = _destinationXCoord + _simPieceWidth * _attachedPieceManager.BlockWidth;
+				if (_isMoveRight)
 				{
-					_currentState = PlayerState.IdleBySpringboard; // joe maybe change to reflect that player is still holding the piece above spring
+					if (transform.position.x >= destXIncludingPlayerOffset)
+					{
+						_currentState = PlayerState.IdleBySpringboard; // joe maybe change to reflect that player is still holding the piece above spring
+						_currentXIndex = _destinationXIndex;
+					}
+				}
+				else
+				{
+					if (transform.position.x <= destXIncludingPlayerOffset)
+					{
+						_currentState = PlayerState.IdleBySpringboard; // joe maybe change to reflect that player is still holding the piece above spring
+						_currentXIndex = _destinationXIndex;
+					}
 
 				}
+
 				break;
 			default:
 				throw new NotImplementedException($"Player State ({_currentState}) not handled yet");
@@ -126,6 +142,7 @@ public class PlayerController : MonoBehaviour
 		int springIdx;
 		if (_logicController.SpringboardLogic.TryMovePieceToAvailableSpring(pieceManager.SimPiece.Id, pieceManager.SimPiece.GetSimWidth(), out springIdx))
 		{
+			_destinationXIndex = springIdx;
 			_destinationXCoord = _springboardXPosns[springIdx];
 			_isMoveRight = false;
 			pieceManager.XSpeed = _xSpeed; // have piece's speed match the player's
@@ -133,7 +150,7 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
-			// joe move to area where piece will be sent to garbage
+			// joe - piece doesn't fit on springboard, so move to area where it will be sent to garbage
 			throw new NotImplementedException("Need move to garbage area");
 		}
 		//Debug.Log($"1st avail spring:{firstAvailableSpringIdx}");
@@ -172,10 +189,13 @@ public class PlayerController : MonoBehaviour
 				case PlayerState.MovingToBin: // player is already moving.  Ignore the extra key entry
 					break;
 				case PlayerState.IdleBySpringboard:
-					if (_currentXIndex < 5) // 5 is the hard coded index for the right-most
+					Debug.Log($"xIdx:{_currentXIndex}");
+					if (_currentXIndex <= 5 - _simPieceWidth) // 5 is the hard coded index for the right-most
 					{
 						_currentState = PlayerState.MovingToNextSpring;
-						_destinationXCoord = _springboardXPosns[_currentXIndex];
+						_destinationXIndex = _currentXIndex + 1;
+						_destinationXCoord = _springboardXPosns[_destinationXIndex];
+						_isMoveRight = true;
 					}
 					break;
 				default:
@@ -195,6 +215,15 @@ public class PlayerController : MonoBehaviour
 					}
 					break;
 				case PlayerState.MovingToBin: // player is already moving.  Ignore the extra key entry
+					break;
+				case PlayerState.IdleBySpringboard:
+					if (_currentXIndex > 0) 
+					{
+						_currentState = PlayerState.MovingToNextSpring;
+						_destinationXIndex = _currentXIndex-1;
+						_destinationXCoord = _springboardXPosns[_destinationXIndex];
+						_isMoveRight = false;
+					}
 					break;
 				default:
 					throw new Exception($"actions for {_currentState} not written yet");

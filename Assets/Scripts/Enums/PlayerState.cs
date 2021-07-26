@@ -13,6 +13,7 @@ namespace Assets.Scripts.Enums
 		PushingPieceToSpringboard,
 		IdleBySpringboard,
 		Climbing,
-		WaitingForBinPiece
+		WaitingForBinPiece,
+		MovingToNextSpring
 	}
 }

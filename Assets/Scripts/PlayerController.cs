@@ -13,13 +13,14 @@ public class PlayerController : MonoBehaviour
 	private List<float> _playerXBelowBins;
 	private List<float> _springboardXPosns;
 	private PlayerState _currentState;
-	private int _currentXIndex;
+	private int _currentXIndex; // x-index is based on the current state. If on springboard, based on which spring.  If under bins, based on which bin
 	private float _destinationXCoord;
 	private float _simPieceWidth;
 	private float _xSpeed;
 	private bool _isMoveRight; // -1 for left, +1 for right
 	private LogicController _logicController;
 	private EventsManager _eventsManager;
+	private PieceManager _attachedPieceManager;
 
 	public void InitializeGameSettings(List<float> springboardXPosns, float playerXSpeed, EventsManager eventsManager)
 	{
@@ -70,6 +71,15 @@ public class PlayerController : MonoBehaviour
 			case PlayerState.IdleBySpringboard:
 				// for now, no action
 				break;
+			case PlayerState.MovingToNextSpring:
+				transform.position = new Vector3(transform.position.x + _xSpeed, transform.position.y);
+				// JOE NEXT -> calculate proper distance for moving right
+				if (transform.position.x <= _destinationXCoord + _simPieceWidth * _attachedPieceManager.BlockWidth)  
+				{
+					_currentState = PlayerState.IdleBySpringboard; // joe maybe change to reflect that player is still holding the piece above spring
+
+				}
+				break;
 			default:
 				throw new NotImplementedException($"Player State ({_currentState}) not handled yet");
 		}
@@ -108,6 +118,7 @@ public class PlayerController : MonoBehaviour
 	public void OnBeginMovePieceToSpringboard(PieceManager pieceManager)
 	{
 		Debug.Log("Player: BeginMovingPieceToSpringboard triggered");
+		_attachedPieceManager = pieceManager;
 		_currentState = PlayerState.PushingPieceToSpringboard;
 		PositionPieceNextToPlayer(pieceManager);
 
@@ -140,7 +151,7 @@ public class PlayerController : MonoBehaviour
 		pieceManager.gameObject.transform.SetParent(gameObject.transform);
 		//pieceManager.gameObject.transform.position = new Vector3(pieceManager.gameObject.transform.position.x + (3-_simPieceWidth) * pieceManager.BlockWidth, pieceManager.gameObject.transform.position.y );
 		Debug.Log($"simWidth:{_simPieceWidth}, blockWidth:{pieceManager.BlockWidth})");
-		
+
 		Debug.Log($"player x:{gameObject.transform.position.x}");
 	}
 
@@ -159,6 +170,13 @@ public class PlayerController : MonoBehaviour
 					}
 					break;
 				case PlayerState.MovingToBin: // player is already moving.  Ignore the extra key entry
+					break;
+				case PlayerState.IdleBySpringboard:
+					if (_currentXIndex < 5) // 5 is the hard coded index for the right-most
+					{
+						_currentState = PlayerState.MovingToNextSpring;
+						_destinationXCoord = _springboardXPosns[_currentXIndex];
+					}
 					break;
 				default:
 					throw new Exception($"actions for {_currentState} not written yet");

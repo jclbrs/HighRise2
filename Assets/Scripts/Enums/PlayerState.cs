@@ -11,7 +11,7 @@ namespace Assets.Scripts.Enums
 		IdleUnderBin,
 		MovingToBin,
 		PushingPieceToSpringboard,
-		IdleBySpringboard,
+		HoldingPieceOnSpringboard,
 		Climbing,
 		WaitingForBinPiece,
 		MovingToNextSpring

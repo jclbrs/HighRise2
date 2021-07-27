@@ -12,16 +12,19 @@ public class PlayerController : MonoBehaviour
 
 	private List<float> _playerXBelowBins;
 	private List<float> _springboardXPosns;
+	private LogicController _logicController;
+	private EventsManager _eventsManager;
+	private PieceManager _attachedPieceManager;
+
+	private float _xSpeed;
+
 	private PlayerState _currentState;
 	private int _currentXIndex; // x-index is based on the current state. If on springboard, based on which spring.  If under bins, based on which bin
 	private int _destinationXIndex;
 	private float _destinationXCoord;
-	private float _simPieceWidth;
-	private float _xSpeed;
 	private bool _isMoveRight; // -1 for left, +1 for right
-	private LogicController _logicController;
-	private EventsManager _eventsManager;
-	private PieceManager _attachedPieceManager;
+
+	private float _simPieceWidth;
 
 	public void InitializeGameSettings(List<float> springboardXPosns, float playerXSpeed, EventsManager eventsManager)
 	{
@@ -48,14 +51,18 @@ public class PlayerController : MonoBehaviour
 	void Update()
 	{
 		HandleInput();
+		HandlePlayerAction();
+	}
 
+	private void HandlePlayerAction()
+	{
 		switch (_currentState)
 		{
 			case PlayerState.IdleUnderBin:
 				// no actions
 				break;
 			case PlayerState.MovingToBin:
-				BeginMoveToNextBin();
+				MoveToNextBin();
 				break;
 			case PlayerState.WaitingForBinPiece:
 				// no action for the moment
@@ -65,23 +72,23 @@ public class PlayerController : MonoBehaviour
 				transform.position = new Vector3(transform.position.x - _xSpeed, transform.position.y);
 				if (transform.position.x <= _destinationXCoord + _simPieceWidth)
 				{
-					_currentState = PlayerState.IdleBySpringboard; // joe maybe change to reflect that player is still holding the piece above spring
+					transform.position = new Vector3(_destinationXCoord + _simPieceWidth, transform.position.y); // if overshot, set to the exact desired position
+					_currentState = PlayerState.HoldingPieceOnSpringboard; 
 					_currentXIndex = _destinationXIndex;
-
 				}
 				break;
-			case PlayerState.IdleBySpringboard:
+			case PlayerState.HoldingPieceOnSpringboard:
 				// for now, no action
 				break;
 			case PlayerState.MovingToNextSpring:
-				int direction = (_isMoveRight?1:-1);
-				transform.position = new Vector3(transform.position.x + direction*_xSpeed, transform.position.y);
+				int direction = (_isMoveRight ? 1 : -1);
+				transform.position = new Vector3(transform.position.x + direction * _xSpeed, transform.position.y);
 				float destXIncludingPlayerOffset = _destinationXCoord + _simPieceWidth * _attachedPieceManager.BlockWidth;
 				if (_isMoveRight)
 				{
 					if (transform.position.x >= destXIncludingPlayerOffset)
 					{
-						_currentState = PlayerState.IdleBySpringboard; // joe maybe change to reflect that player is still holding the piece above spring
+						_currentState = PlayerState.HoldingPieceOnSpringboard; // joe maybe change to reflect that player is still holding the piece above spring
 						_currentXIndex = _destinationXIndex;
 					}
 				}
@@ -89,7 +96,7 @@ public class PlayerController : MonoBehaviour
 				{
 					if (transform.position.x <= destXIncludingPlayerOffset)
 					{
-						_currentState = PlayerState.IdleBySpringboard; // joe maybe change to reflect that player is still holding the piece above spring
+						_currentState = PlayerState.HoldingPieceOnSpringboard; // joe maybe change to reflect that player is still holding the piece above spring
 						_currentXIndex = _destinationXIndex;
 					}
 
@@ -101,19 +108,15 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void CheckIfArrivedAtSpring()
-	{
-		throw new NotImplementedException();
-	}
-
-	private void BeginMoveToNextBin()
+	private void MoveToNextBin()
 	{
 		if (_isMoveRight)
 		{
 			if (transform.position.x >= _destinationXCoord)
 			{
+				transform.position = new Vector3(_destinationXCoord, transform.position.y); // set to exact destination
 				_currentState = PlayerState.IdleUnderBin;
-				_currentXIndex++;
+				_currentXIndex = _destinationXIndex;
 			}
 			else
 				transform.position = new Vector3(transform.position.x + _xSpeed, transform.position.y);
@@ -122,8 +125,9 @@ public class PlayerController : MonoBehaviour
 		{
 			if (transform.position.x <= _destinationXCoord)
 			{
+				transform.position = new Vector3(_destinationXCoord, transform.position.y); // set to exact destination
 				_currentState = PlayerState.IdleUnderBin;
-				_currentXIndex--;
+				_currentXIndex = _destinationXIndex;
 			}
 			else
 				transform.position = new Vector3(transform.position.x - _xSpeed, transform.position.y);
@@ -172,19 +176,21 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetKeyDown("right"))
 		{
+			Debug.Log($"Right: xIdx={_currentXIndex}");
 			switch (_currentState)
 			{
 				case PlayerState.IdleUnderBin:
 					if (_currentXIndex < _playerXBelowBins.Count - 1)
 					{
 						_currentState = PlayerState.MovingToBin;
-						_destinationXCoord = _playerXBelowBins[_currentXIndex + 1];
+						_destinationXIndex = _currentXIndex + 1;
+						_destinationXCoord = _playerXBelowBins[_destinationXIndex];
 						_isMoveRight = true;
 					}
 					break;
 				case PlayerState.MovingToBin: // player is already moving.  Ignore the extra key entry
 					break;
-				case PlayerState.IdleBySpringboard:
+				case PlayerState.HoldingPieceOnSpringboard:
 					//Debug.Log($"xIdx:{_currentXIndex}");
 					if (_currentXIndex <= 5 - _simPieceWidth) // 5 is the hard coded index for the right-most
 					{
@@ -206,13 +212,14 @@ public class PlayerController : MonoBehaviour
 					if (_currentXIndex > 0)
 					{
 						_currentState = PlayerState.MovingToBin;
-						_destinationXCoord = _playerXBelowBins[_currentXIndex - 1];
+						_destinationXIndex = _currentXIndex - 1;
+						_destinationXCoord = _playerXBelowBins[_destinationXIndex];
 						_isMoveRight = false;
 					}
 					break;
 				case PlayerState.MovingToBin: // player is already moving.  Ignore the extra key entry
 					break;
-				case PlayerState.IdleBySpringboard:
+				case PlayerState.HoldingPieceOnSpringboard:
 					if (_currentXIndex > 0) 
 					{
 						_currentState = PlayerState.MovingToNextSpring;
@@ -233,18 +240,20 @@ public class PlayerController : MonoBehaviour
 					_currentState = PlayerState.WaitingForBinPiece;
 					_eventsManager.OnBinPieceSelected(_currentXIndex);
 					break;
-				case PlayerState.IdleBySpringboard:
+				case PlayerState.HoldingPieceOnSpringboard:
 					_currentState = PlayerState.MovingToBin;
 					_destinationXIndex = 0;
 					_destinationXCoord = _playerXBelowBins[_destinationXIndex];
 					_isMoveRight = true;
-					_attachedPieceManager.BeginDropUntilCollision();
 					_eventsManager.OnPieceDroppedToSpringboard(_attachedPieceManager);
-
-					// joe continue here
+					_attachedPieceManager.BeginDropUntilCollision();
+					_attachedPieceManager = null;
 					break;
 			}
 			
+		}
+		if (Input.GetKeyDown(KeyCode.Return)){
+			Debug.Log("Return pressed");
 		}
 	}
 

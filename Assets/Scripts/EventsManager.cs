@@ -5,6 +5,7 @@ public class EventsManager : MonoBehaviour
 {
 	public event Action<int> BinPieceSelected;
 	public event Action<PieceManager> PieceDroppedFromBin;
+	public event Action<PieceManager> PieceDroppedToSpringboard;
 
 	public void OnBinPieceSelected(int binIdx)
 	{
@@ -15,6 +16,11 @@ public class EventsManager : MonoBehaviour
 	public void OnPieceDroppedFromBin(PieceManager pieceManager)
 	{
 		PieceDroppedFromBin?.Invoke(pieceManager);
+	}
+
+	public void OnPieceDroppedToSpringboard(PieceManager pieceManager)
+	{
+		PieceDroppedToSpringboard?.Invoke(pieceManager);
 	}
 
 

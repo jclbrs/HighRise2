@@ -166,10 +166,6 @@ public class PlayerController : MonoBehaviour
 		float playerX = pieceManager.transform.position.x + _simPieceWidth * pieceManager.BlockWidth;
 		transform.position = new Vector3(playerX, transform.position.y);
 		pieceManager.gameObject.transform.SetParent(gameObject.transform);
-		//pieceManager.gameObject.transform.position = new Vector3(pieceManager.gameObject.transform.position.x + (3-_simPieceWidth) * pieceManager.BlockWidth, pieceManager.gameObject.transform.position.y );
-		Debug.Log($"simWidth:{_simPieceWidth}, blockWidth:{pieceManager.BlockWidth})");
-
-		Debug.Log($"player x:{gameObject.transform.position.x}");
 	}
 
 	private void HandleInput()
@@ -189,7 +185,7 @@ public class PlayerController : MonoBehaviour
 				case PlayerState.MovingToBin: // player is already moving.  Ignore the extra key entry
 					break;
 				case PlayerState.IdleBySpringboard:
-					Debug.Log($"xIdx:{_currentXIndex}");
+					//Debug.Log($"xIdx:{_currentXIndex}");
 					if (_currentXIndex <= 5 - _simPieceWidth) // 5 is the hard coded index for the right-most
 					{
 						_currentState = PlayerState.MovingToNextSpring;
@@ -229,10 +225,26 @@ public class PlayerController : MonoBehaviour
 					throw new Exception($"actions for {_currentState} not written yet");
 			}
 		}
-		if (Input.GetKeyDown("space") && _currentState == PlayerState.IdleUnderBin)
+		if (Input.GetKeyDown("space"))
 		{
-			_currentState = PlayerState.WaitingForBinPiece;
-			_eventsManager.OnBinPieceSelected(_currentXIndex);
+			switch (_currentState)
+			{
+				case PlayerState.IdleUnderBin:
+					_currentState = PlayerState.WaitingForBinPiece;
+					_eventsManager.OnBinPieceSelected(_currentXIndex);
+					break;
+				case PlayerState.IdleBySpringboard:
+					_currentState = PlayerState.MovingToBin;
+					_destinationXIndex = 0;
+					_destinationXCoord = _playerXBelowBins[_destinationXIndex];
+					_isMoveRight = true;
+					_attachedPieceManager.BeginDropUntilCollision();
+					_eventsManager.OnPieceDroppedToSpringboard(_attachedPieceManager);
+
+					// joe continue here
+					break;
+			}
+			
 		}
 	}
 

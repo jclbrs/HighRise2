@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour
 		// set up subscriptions to events
 		_eventsManager.BinPieceSelected += _binsManager.OnDroppingBinPieceToPlayer;
 		_eventsManager.PieceDroppedFromBin += _playerController.OnBeginMovePieceToSpringboard;
+		_eventsManager.PieceDroppedToSpringboard += _springboardController.OnPieceDroppedToSpringboard;
 
 		SetupLevel(_currentLevel);
 	}
@@ -46,6 +47,7 @@ public class GameController : MonoBehaviour
 	{
 		_eventsManager.BinPieceSelected -= _binsManager.OnDroppingBinPieceToPlayer;
 		_eventsManager.PieceDroppedFromBin -= _playerController.OnBeginMovePieceToSpringboard;
+		_eventsManager.PieceDroppedToSpringboard -= _springboardController.OnPieceDroppedToSpringboard;
 	}
 
 	// Some of these settings might be the same throughout the game, but to stay flexible, they are being populated for each level

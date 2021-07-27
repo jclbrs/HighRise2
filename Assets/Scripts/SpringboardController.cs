@@ -15,4 +15,10 @@ public class SpringboardController : MonoBehaviour
 		xPosns.Add(transform.Find("Springs/Spring5").position.x);
 		return xPosns;
 	}
+
+	public void OnPieceDroppedToSpringboard(PieceManager pieceManager)
+	{
+		Debug.Log($"Piece dropped to springboard");
+		pieceManager.gameObject.transform.SetParent(gameObject.transform);
+	}
 }

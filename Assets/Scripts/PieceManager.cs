@@ -68,8 +68,8 @@ public class PieceManager : MonoBehaviour
 
 	// This is called when a child border object collision is triggered, and it sends a message upward to here
 	public void CollisionDetected()
-	{ // joe this may all be obsolete, as we're dropping piece from bin to a specific y-coord, not collision
-		Debug.Log("Piece notified of collision");
+	{ 
+		//Debug.Log("Piece notified of collision");
 		yMove = 0f;
 		if (CurrentState == PieceState.DroppingFromBinToPlayer)
 		{
@@ -82,7 +82,7 @@ public class PieceManager : MonoBehaviour
 
 	public void BeginDropUntilCollision()
 	{
-		Debug.Log($"PieceDropSpeed:{PieceDropSpeed}");
+		//Debug.Log($"PieceDropSpeed:{PieceDropSpeed}");
 		yMove = PieceDropSpeed;
 	}
 

@@ -245,7 +245,7 @@ public class PlayerController : MonoBehaviour
 					_destinationXIndex = 0;
 					_destinationXCoord = _playerXBelowBins[_destinationXIndex];
 					_isMoveRight = true;
-					_eventsManager.OnPieceDroppedToSpringboard(_attachedPieceManager);
+					_eventsManager.OnPieceDroppedToSpringboard(_currentXIndex,_attachedPieceManager);
 					_attachedPieceManager.BeginDropUntilCollision();
 					_attachedPieceManager = null;
 					break;
@@ -254,6 +254,7 @@ public class PlayerController : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.Return)){
 			Debug.Log("Return pressed");
+			_eventsManager.OnSpringboardTriggered();
 		}
 	}
 

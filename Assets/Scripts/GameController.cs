@@ -34,11 +34,13 @@ public class GameController : MonoBehaviour
 		List<float> springboardXPosns = _springboardController.GetSpringboardXPosns();
 		_playerController.InitializeGameSettings(springboardXPosns,_config.PieceXSpeed, _eventsManager);
 		_binsManager.InitializeGameSettings(_pieceFactory, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing, _config.PieceYFromBinDrop);
+		_springboardController.InitializeGameSettings(_config.SpringboardYSpeed, _config.SpringboardMoveHeight);
 
 		// set up subscriptions to events
 		_eventsManager.BinPieceSelected += _binsManager.OnDroppingBinPieceToPlayer;
 		_eventsManager.PieceDroppedFromBin += _playerController.OnBeginMovePieceToSpringboard;
 		_eventsManager.PieceDroppedToSpringboard += _springboardController.OnPieceDroppedToSpringboard;
+		_eventsManager.SpringboardTriggered += _springboardController.OnSpringboardTriggered;
 
 		SetupLevel(_currentLevel);
 	}
@@ -48,6 +50,7 @@ public class GameController : MonoBehaviour
 		_eventsManager.BinPieceSelected -= _binsManager.OnDroppingBinPieceToPlayer;
 		_eventsManager.PieceDroppedFromBin -= _playerController.OnBeginMovePieceToSpringboard;
 		_eventsManager.PieceDroppedToSpringboard -= _springboardController.OnPieceDroppedToSpringboard;
+		_eventsManager.SpringboardTriggered -= _springboardController.OnSpringboardTriggered;
 	}
 
 	// Some of these settings might be the same throughout the game, but to stay flexible, they are being populated for each level

@@ -23,5 +23,9 @@ public class ConfigSettings : MonoBehaviour
     public float PieceDropSpeed;
     public float BlockWidth; // A block is one of the 3x3 sections that belong to a piece
     public float PieceYFromBinDrop; // The y-coord that the player stops at when being dropped from the bin down to the player (not at ground, until dropping onto spring
+    
+    public float SpringboardYSpeed;
+    public float SpringboardMoveHeight;
+
     public int InitialLevel; // used to test later levels
 }

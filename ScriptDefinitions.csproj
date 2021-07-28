@@ -80,6 +80,9 @@
     <Compile Include="Assets\Scripts\PieceFactory.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Enums\PlacePieceStatus.cs" />
     <Compile Include="Assets\Scripts\EventsManager.cs" />
+    <Compile Include="Assets\Scripts\Enums\SpringboardState.cs" />
+    <Compile Include="Assets\Scripts\SprungPiecesController.cs" />
+    <Compile Include="Assets\Scripts\Enums\SprungPiecesState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\ScriptDefinitions.asmdef" />

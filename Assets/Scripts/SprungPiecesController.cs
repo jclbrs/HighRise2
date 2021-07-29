@@ -35,9 +35,9 @@ public class SprungPiecesController : MonoBehaviour
 			if (_destSpingOverIndex < _springOverPoints.Count)
 			{
 				Vector2 destination = new Vector2(_initialPosition.x + _springOverPoints[_destSpingOverIndex].x, _initialPosition.y + _springOverPoints[_destSpingOverIndex].y);
-				transform.position = Vector2.MoveTowards(transform.position, destination, 0.05f);
-				if (Vector2.Distance(transform.position, destination) < 0.001) {
-					Debug.Log($"curr idx:{_destSpingOverIndex}. delta:{Vector2.Distance(transform.position, destination)}, yPnt:{_springOverPoints[_destSpingOverIndex].y}");
+				transform.position = Vector2.MoveTowards(transform.position, destination, 10f * Time.deltaTime); // joe fix the hard coded speed setting (should be from config)
+				if (Vector2.Distance(transform.position, destination) < 0.005) {
+					Debug.Log($"curr idx:{_destSpingOverIndex}. destX/Y:{destination.x}/{destination.y}, yPnt:{_springOverPoints[_destSpingOverIndex].y}");
 					_destSpingOverIndex = _destSpingOverIndex + 1;
 				}
 				//new Vector3(transform.position.x, transform.position.y + 0.05f); // joe hard coded for testing

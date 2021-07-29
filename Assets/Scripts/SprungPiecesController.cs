@@ -6,19 +6,45 @@ using UnityEngine;
 public class SprungPiecesController : MonoBehaviour
 {
 	SprungPiecesState _currentState;
+	private int _destSpingOverIndex;
+	private List<Vector2> _springOverPoints;
+	private Vector2 _initialPosition;
 
 	private void Start()
 	{
-		_currentState = SprungPiecesState.Idle;	
+		_currentState = SprungPiecesState.Idle;
 	}
+
+	internal void InitializeGameSettings(List<Vector2> springOverPoints)
+	{
+		_springOverPoints = springOverPoints;
+		_initialPosition = transform.position;
+	}
+
 	public void OnPiecesReleasedFromSpringboard()
 	{
 		Debug.Log("Sprung pieces released");
 		_currentState = SprungPiecesState.SpringingUp;
+		_destSpingOverIndex = 0;
 	}
 
 	private void Update()
 	{
-		transform.position = new Vector3(transform.position.x, transform.position.y + 0.05f); // joe hard coded for testing
+		if (_currentState == SprungPiecesState.SpringingUp)
+		{
+			if (_destSpingOverIndex < _springOverPoints.Count)
+			{
+				Vector2 destination = new Vector2(_initialPosition.x + _springOverPoints[_destSpingOverIndex].x, _initialPosition.y + _springOverPoints[_destSpingOverIndex].y);
+				transform.position = Vector2.MoveTowards(transform.position, destination, 0.05f);
+				if (Vector2.Distance(transform.position, destination) < 0.001) {
+					Debug.Log($"curr idx:{_destSpingOverIndex}. delta:{Vector2.Distance(transform.position, destination)}, yPnt:{_springOverPoints[_destSpingOverIndex].y}");
+					_destSpingOverIndex = _destSpingOverIndex + 1;
+				}
+				//new Vector3(transform.position.x, transform.position.y + 0.05f); // joe hard coded for testing
+			} else
+			{
+				_currentState = SprungPiecesState.Idle;
+			}
+		}
 	}
 }

@@ -12,6 +12,7 @@ public class ConfigSettings : MonoBehaviour
     public GameObject PlayerObject;
     public GameObject SpringboardObject;
     public GameObject BinsObject;
+    public GameObject SprungPiecesContainer;
 
     public int NumBins;
     public int NumCellsPerBin;
@@ -28,4 +29,5 @@ public class ConfigSettings : MonoBehaviour
     public float SpringboardMoveHeight;
 
     public int InitialLevel; // used to test later levels
+    public List<Vector2> SpringOverPoints;
 }

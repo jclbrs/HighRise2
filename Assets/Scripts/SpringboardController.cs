@@ -23,6 +23,7 @@ public class SpringboardController : MonoBehaviour
 	{
 		_springboardYSpeed = springboardYSpeed;
 		_springboardMoveHeight = springboardMoveHeight;
+		
 	}
 
 	void Update()

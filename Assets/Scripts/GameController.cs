@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
 	private PlayerController _playerController;
 	private BinsManager _binsManager;
 	private LogicController _logicController;
+	private SprungPiecesController _sprungPiecesController;
 	private EventsManager _eventsManager;
 	private int _currentLevel;
 
@@ -27,6 +28,7 @@ public class GameController : MonoBehaviour
 		_playerController = _config.PlayerObject.GetComponent<PlayerController>();
 		_pieceFactory = GetComponent<PieceFactory>();
 		_binsManager = _config.BinsObject.GetComponent<BinsManager>();
+		_sprungPiecesController = _config.SprungPiecesContainer.GetComponent<SprungPiecesController>();
 
 		// Initialize the various components
 		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin);
@@ -35,6 +37,7 @@ public class GameController : MonoBehaviour
 		_playerController.InitializeGameSettings(springboardXPosns,_config.PieceXSpeed, _eventsManager);
 		_binsManager.InitializeGameSettings(_pieceFactory, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing, _config.PieceYFromBinDrop);
 		_springboardController.InitializeGameSettings(_config.SpringboardYSpeed, _config.SpringboardMoveHeight);
+		_sprungPiecesController.InitializeGameSettings(_config.SpringOverPoints);
 
 		// set up subscriptions to events
 		_eventsManager.BinPieceSelected += _binsManager.OnDroppingBinPieceToPlayer;

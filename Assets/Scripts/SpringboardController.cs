@@ -40,7 +40,8 @@ public class SpringboardController : MonoBehaviour
 
 					SprungPiecesController sprungPiecesController = gameObject.transform.Find("SprungPiecesContainer").GetComponent<SprungPiecesController>();
 					sprungPiecesController.transform.SetParent(null);
-					sprungPiecesController.OnPiecesReleasedFromSpringboard();
+					sprungPiecesController.OnPiecesReleasedFromSpringboard(this, _springboardPieces);
+					_springboardPieces = new Dictionary<int, PieceManager>();
 				}
 					
 				break;

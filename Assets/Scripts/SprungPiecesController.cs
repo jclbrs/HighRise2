@@ -9,6 +9,8 @@ public class SprungPiecesController : MonoBehaviour
 	private int _destSpingOverIndex;
 	private List<Vector2> _springOverPoints;
 	private Vector2 _initialPosition;
+	private Dictionary<int, PieceManager> _sprungPieces;
+	private SpringboardController _springboardController;
 
 	private void Start()
 	{
@@ -21,10 +23,12 @@ public class SprungPiecesController : MonoBehaviour
 		_initialPosition = transform.position;
 	}
 
-	public void OnPiecesReleasedFromSpringboard()
+	public void OnPiecesReleasedFromSpringboard(SpringboardController springboardController, Dictionary<int, PieceManager> sprungPieces)
 	{
 		Debug.Log("Sprung pieces released");
 		_currentState = SprungPiecesState.SpringingUp;
+		_sprungPieces = sprungPieces;
+		_springboardController = springboardController;
 		_destSpingOverIndex = 0;
 	}
 
@@ -44,6 +48,13 @@ public class SprungPiecesController : MonoBehaviour
 			} else
 			{
 				_currentState = SprungPiecesState.Idle;
+				foreach(PieceManager pieceMgr in _sprungPieces.Values)
+				{
+					pieceMgr.transform.SetParent(null);
+					pieceMgr.BeginDropUntilCollision();
+				}
+				transform.SetParent(_springboardController.transform);
+				transform.localPosition = Vector3.zero;
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Assets.Scripts.Enums;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ public class SpringboardController : MonoBehaviour
 	private float _springboardYSpeed;
 	private float _springboardMoveHeight;
 	private float _initialYCoord;
+	private float _firstPieceSpringX;
+	private float _pieceSpringXSpacing;
+	private List<float> _springXCoords;
 
 	void Start()
 	{
@@ -19,11 +23,19 @@ public class SpringboardController : MonoBehaviour
 		_springboardPieces = new Dictionary<int, PieceManager>();
 	}
 
-	internal void InitializeGameSettings(float springboardYSpeed, float springboardMoveHeight)
+	internal void InitializeGameSettings(float springboardYSpeed, float springboardMoveHeight, float firstPieceSpringX, float pieceSpringXSpacing)
 	{
 		_springboardYSpeed = springboardYSpeed;
 		_springboardMoveHeight = springboardMoveHeight;
-		
+		_firstPieceSpringX = firstPieceSpringX;
+		_pieceSpringXSpacing = pieceSpringXSpacing;
+
+		_springXCoords = new List<float>();
+		for (int i = 0; i < 6; i++) // hard coded, 6 springs
+		{
+			_springXCoords.Add(_firstPieceSpringX + i * _pieceSpringXSpacing);
+		}
+
 	}
 
 	void Update()
@@ -58,21 +70,20 @@ public class SpringboardController : MonoBehaviour
 
 	public List<float> GetSpringboardXPosns()
 	{
-		List<float> xPosns = new List<float>();
-		xPosns.Add(transform.Find("Springs/Spring0").position.x);
-		xPosns.Add(transform.Find("Springs/Spring1").position.x);
-		xPosns.Add(transform.Find("Springs/Spring2").position.x);
-		xPosns.Add(transform.Find("Springs/Spring3").position.x);
-		xPosns.Add(transform.Find("Springs/Spring4").position.x);
-		xPosns.Add(transform.Find("Springs/Spring5").position.x);
-		return xPosns;
+		return _springXCoords;
 	}
 
 	public void OnPieceDroppedToSpringboard(int xIdx, PieceManager pieceManager)
 	{
-		Debug.Log($"Piece dropped to springboard");
 		pieceManager.gameObject.transform.SetParent(gameObject.transform.Find("SprungPiecesContainer"));
 		_springboardPieces.Add(xIdx, pieceManager);
+		List<int> keys = new List<int>(_springboardPieces.Keys);
+		StringBuilder sb = new StringBuilder();
+		foreach (int key in keys)
+		{
+			sb.Append($"{key.ToString()},");
+		}
+		Debug.Log($"Piece dropped to springboard at {xIdx}. Springs:{sb.ToString()}");
 	}
 
 	public void OnSpringboardTriggered()

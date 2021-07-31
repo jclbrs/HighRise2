@@ -33,10 +33,10 @@ public class GameController : MonoBehaviour
 		// Initialize the various components
 		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin);
 		_pieceFactory.InitializeGameSettings(_config.PiecePrefab, _config.PieceDropSpeed, _config.PieceXSpeed, _config.BlockWidth, _eventsManager);
+		_springboardController.InitializeGameSettings(_config.SpringboardYSpeed, _config.SpringboardMoveHeight, _config.FirstPieceSpringX, _config.BlockWidth);
 		List<float> springboardXPosns = _springboardController.GetSpringboardXPosns();
 		_playerController.InitializeGameSettings(springboardXPosns,_config.PieceXSpeed, _eventsManager);
 		_binsManager.InitializeGameSettings(_pieceFactory, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing, _config.PieceYFromBinDrop);
-		_springboardController.InitializeGameSettings(_config.SpringboardYSpeed, _config.SpringboardMoveHeight);
 		_sprungPiecesController.InitializeGameSettings(_config.SpringOverPoints);
 
 		// set up subscriptions to events

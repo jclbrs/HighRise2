@@ -14,10 +14,15 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 
         public SpringboardLogic()
 		{
-            Springs = new List<int> { int.MinValue, int.MinValue , int.MinValue , int.MinValue , int.MinValue , int.MinValue };
-        }
+			InitializeSprings();
+		}
 
-        public int FirstAvailableSpring()
+		private void InitializeSprings()
+		{
+			Springs = new List<int> { int.MinValue, int.MinValue, int.MinValue, int.MinValue, int.MinValue, int.MinValue };
+		}
+
+		public int FirstAvailableSpring()
 		{
             return Springs.FindIndex(i => i == int.MinValue);
 		}
@@ -25,15 +30,24 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
         public bool TryMovePieceToAvailableSpring(int pieceId, int width, out int springIdx)
 		{
             springIdx = FirstAvailableSpring();
-            if (springIdx + width >= 6) // piece won't fit.  
+            if (springIdx + width > 6) // piece won't fit.  
                 return false;
 
-            for (int i = 0; i < width; i++)
-			{
-                Springs[springIdx + i] = pieceId;
-			}
             return true;
 		}
-        
-    }
+
+        public void DropPieceOntoSpringboard(int pieceId, int width, int springIdx)
+		{
+            for (int i = 0; i < width; i++)
+            {
+                Springs[springIdx + i] = pieceId;
+            }
+
+        }
+
+		public void ClearSpringboard()
+		{
+            InitializeSprings();
+		}
+	}
 }

@@ -27,6 +27,7 @@ public class ConfigSettings : MonoBehaviour
     
     public float SpringboardYSpeed;
     public float SpringboardMoveHeight;
+    public float FirstPieceSpringX;  // the x-coordinate to drop the first piece (on the far left of the springboard)
 
     public int InitialLevel; // used to test later levels
     public List<Vector2> SpringOverPoints;

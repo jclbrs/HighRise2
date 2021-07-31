@@ -10,7 +10,6 @@ public class EventsManager : MonoBehaviour
 
 	public void OnBinPieceSelected(int binIdx)
 	{
-		Debug.Log($"EventsManager: Bin piece selected, binIdx={binIdx}");
 		BinPieceSelected?.Invoke(binIdx);
 	}
 

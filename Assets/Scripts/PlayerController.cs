@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 	private float _destinationXCoord;
 	private bool _isMoveRight; // -1 for left, +1 for right
 
-	private float _simPieceWidth;
+	private float _pieceXWidth;
 
 	public void InitializeGameSettings(List<float> springboardXPosns, float playerXSpeed, EventsManager eventsManager)
 	{
@@ -70,9 +70,9 @@ public class PlayerController : MonoBehaviour
 			case PlayerState.PushingPieceToSpringboard:
 				//Debug.Log($"Moving piece: x:{transform.position.x}, speed:{_xSpeed}, Dest:{_destinationXCoord}");
 				transform.position = new Vector3(transform.position.x - _xSpeed, transform.position.y);
-				if (transform.position.x <= _destinationXCoord + _simPieceWidth)
+				if (transform.position.x <= _destinationXCoord + _pieceXWidth)
 				{
-					transform.position = new Vector3(_destinationXCoord + _simPieceWidth, transform.position.y); // if overshot, set to the exact desired position
+					transform.position = new Vector3(_destinationXCoord + _pieceXWidth, transform.position.y); // if overshot, set to the exact desired position
 					_currentState = PlayerState.HoldingPieceOnSpringboard; 
 					_currentXIndex = _destinationXIndex;
 				}
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
 			case PlayerState.MovingToNextSpring:
 				int direction = (_isMoveRight ? 1 : -1);
 				transform.position = new Vector3(transform.position.x + direction * _xSpeed, transform.position.y);
-				float destXIncludingPlayerOffset = _destinationXCoord + _simPieceWidth * _attachedPieceManager.BlockWidth;
+				float destXIncludingPlayerOffset = _destinationXCoord + _pieceXWidth * _attachedPieceManager.BlockWidth;
 				if (_isMoveRight)
 				{
 					if (transform.position.x >= destXIncludingPlayerOffset)
@@ -137,7 +137,6 @@ public class PlayerController : MonoBehaviour
 	// Invoked by a PieceManager via Event, when piece just fell to ground from bin
 	public void OnBeginMovePieceToSpringboard(PieceManager pieceManager)
 	{
-		Debug.Log("Player: BeginMovingPieceToSpringboard triggered");
 		_attachedPieceManager = pieceManager;
 		_currentState = PlayerState.PushingPieceToSpringboard;
 		PositionPieceNextToPlayer(pieceManager);
@@ -166,8 +165,8 @@ public class PlayerController : MonoBehaviour
 		// so they will move together
 
 		// Position the exact position of the player first (since it will be the parent)
-		_simPieceWidth = pieceManager.SimPiece.GetSimWidth();
-		float playerX = pieceManager.transform.position.x + _simPieceWidth * pieceManager.BlockWidth;
+		_pieceXWidth = pieceManager.GetXWidth();
+		float playerX = pieceManager.transform.position.x + _pieceXWidth;
 		transform.position = new Vector3(playerX, transform.position.y);
 		pieceManager.gameObject.transform.SetParent(gameObject.transform);
 	}
@@ -176,7 +175,6 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetKeyDown("right"))
 		{
-			Debug.Log($"Right: xIdx={_currentXIndex}");
 			switch (_currentState)
 			{
 				case PlayerState.IdleUnderBin:
@@ -192,7 +190,7 @@ public class PlayerController : MonoBehaviour
 					break;
 				case PlayerState.HoldingPieceOnSpringboard:
 					//Debug.Log($"xIdx:{_currentXIndex}");
-					if (_currentXIndex <= 5 - _simPieceWidth) // 5 is the hard coded index for the right-most
+					if (_currentXIndex <= 5 - _pieceXWidth) // 5 is the hard coded index for the right-most
 					{
 						_currentState = PlayerState.MovingToNextSpring;
 						_destinationXIndex = _currentXIndex + 1;
@@ -241,6 +239,7 @@ public class PlayerController : MonoBehaviour
 					_eventsManager.OnBinPieceSelected(_currentXIndex);
 					break;
 				case PlayerState.HoldingPieceOnSpringboard:
+					_logicController.SpringboardLogic.DropPieceOntoSpringboard(_attachedPieceManager.SimPiece.Id, _attachedPieceManager.SimPiece.GetSimWidth(), _currentXIndex);
 					_currentState = PlayerState.MovingToBin;
 					_destinationXIndex = 0;
 					_destinationXCoord = _playerXBelowBins[_destinationXIndex];
@@ -254,6 +253,7 @@ public class PlayerController : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.Return)){
 			Debug.Log("Return pressed");
+			_logicController.SpringboardLogic.ClearSpringboard();
 			_eventsManager.OnSpringboardTriggered();
 		}
 	}

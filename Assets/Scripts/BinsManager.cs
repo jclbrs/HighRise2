@@ -53,7 +53,7 @@ public class BinsManager : MonoBehaviour
 			for (int binIdx = 0; binIdx < _logicController.BinsLogic.SimBins.Count; binIdx++)
 			{
 				List<GameObject> piecesInBin = new List<GameObject>();
-				for (int binCell = 0; binCell < _logicController.BinsLogic.SimBins[0].Count; binCell++ )
+				for (int binCell = 0; binCell < _logicController.BinsLogic.SimBins[0].Count; binCell++)
 				{
 					int pieceId = _logicController.BinsLogic.SimBins[binIdx][binCell].Id;
 					float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
@@ -97,6 +97,11 @@ public class BinsManager : MonoBehaviour
 			pieceManager = _bins[binIdx][i].GetComponent<PieceManager>();
 			yPosn = _bin0Posn.y + (i - 1) * _binPieceYSpacing;
 			pieceManager.BeginDropToYPosnInBin(yPosn);
+
+		}
+		for (int i = 1; i < binsLgc.NumCellsPerBin; i++)
+		{
+			_bins[binIdx][i - 1] = _bins[binIdx][i];
 		}
 	}
 }

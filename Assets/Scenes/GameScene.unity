@@ -1106,6 +1106,7 @@ MonoBehaviour:
   PieceYFromBinDrop: 2
   SpringboardYSpeed: 0.1
   SpringboardMoveHeight: 1
+  FirstPieceSpringX: -5.72
   InitialLevel: 1
   SpringOverPoints:
   - {x: 0, y: 12.99}
@@ -1368,7 +1369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1777230728}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1670075248}

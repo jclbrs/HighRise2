@@ -18,6 +18,7 @@ public class PieceManager : MonoBehaviour
 	public float DestinationXPosn;
 	public float BlockWidth;
 	private EventsManager _eventsManager;
+	public int TestPieceId;
 
 	public void Initialize(EventsManager eventsManager, float blockWidth)
 	{
@@ -27,6 +28,7 @@ public class PieceManager : MonoBehaviour
 
 	void Update()
 	{
+		TestPieceId = SimPiece.Id; // joe for testing only.  Delete when done
 		transform.position = new Vector3(transform.position.x, transform.position.y + yMove);
 		switch (CurrentState)
 		{
@@ -139,4 +141,8 @@ public class PieceManager : MonoBehaviour
 		}
 	}
 
+	public float GetXWidth()
+	{
+		return SimPiece.GetSimWidth() * BlockWidth;
+	}
 }

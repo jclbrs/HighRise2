@@ -64,6 +64,24 @@ public class BinsManager : MonoBehaviour
 				}
 				_bins[binIdx] = piecesInBin;
 			}
+			// Testing
+			//PieceManager pc0 = _bins[0][0].GetComponent<PieceManager>();
+			//float x0 = pc0.transform.position.x;
+			//float y0 = pc0.transform.position.y;
+			//PieceManager pc1 = _bins[0][1].GetComponent<PieceManager>();
+			//float x1 = pc1.transform.position.x;
+			//float y1 = pc1.transform.position.y;
+			//PieceManager pc2 = _bins[0][2].GetComponent<PieceManager>();
+			//float x2 = pc2.transform.position.x;
+			//float y2 = pc2.transform.position.y;
+			//PieceManager pc3 = _bins[0][3].GetComponent<PieceManager>();
+			//float x3 = pc3.transform.position.x;
+			//float y3 = pc3.transform.position.y;
+			//int id0 = pc0.SimPiece.Id;
+			//int id1 = pc1.SimPiece.Id;
+			//int id2 = pc2.SimPiece.Id;
+			//int id3 = pc3.SimPiece.Id;
+			//Debug.Log($"Created: {id0}-({x0}/{y0}) .. {id1}-({x1}/{y1}) .. {id2}-({x2}/{y2}) .. {id3}-({x3}/{y3})");
 		}
 		catch (Exception ex)
 		{
@@ -83,15 +101,28 @@ public class BinsManager : MonoBehaviour
 		pieceManager.CurrentState = PieceState.DroppingFromBinToPlayer;
 		pieceManager.BeginDropFromBinToPlayer(_yDropPointToPlayer);
 
-		// get the newly created logical piece at the top of the selected bin, to add it to the screen
-		int newPieceId = binsLgc.SimBins[binIdx][binsLgc.NumCellsPerBin - 1].Id;
-		float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
-		float yPosn = _bin0Posn.y + binsLgc.NumCellsPerBin * _binPieceYSpacing;
-		GameObject addedPiece = _pieceFactory.CreatePiece(transform, newPieceId, xPosn, yPosn);
-		pieceManager = addedPiece.GetComponent<PieceManager>();
-		pieceManager.BeginDropToYPosnInBin(_bin0Posn.y + (binsLgc.NumCellsPerBin - 1) * _binPieceYSpacing);
+
+		// testing before
+		//PieceManager pc0 = _bins[0][0].GetComponent<PieceManager>();
+		//float x0 = pc0.transform.position.x;
+		//float y0 = pc0.transform.position.y;
+		//PieceManager pc1 = _bins[0][1].GetComponent<PieceManager>();
+		//float x1 = pc1.transform.position.x;
+		//float y1 = pc1.transform.position.y;
+		//PieceManager pc2 = _bins[0][2].GetComponent<PieceManager>();
+		//float x2 = pc2.transform.position.x;
+		//float y2 = pc2.transform.position.y;
+		//PieceManager pc3 = _bins[0][3].GetComponent<PieceManager>();
+		//float x3 = pc3.transform.position.x;
+		//float y3 = pc3.transform.position.y;
+		//int id0 = pc0.SimPiece.Id;
+		//int id1 = pc1.SimPiece.Id;
+		//int id2 = pc2.SimPiece.Id;
+		//int id3 = pc3.SimPiece.Id;
+		//Debug.Log($"b4: {id0}-({x0}/{y0}) .. {id1}-({x1}/{y1}) .. {id2}-({x2}/{y2}) .. {id3}-({x3}/{y3})");
 
 		// Move the remaining bin pieces down to the next position
+		float yPosn;
 		for (int i = 1; i < binsLgc.NumCellsPerBin; i++)
 		{
 			pieceManager = _bins[binIdx][i].GetComponent<PieceManager>();
@@ -103,5 +134,33 @@ public class BinsManager : MonoBehaviour
 		{
 			_bins[binIdx][i - 1] = _bins[binIdx][i];
 		}
+
+		// get the newly created logical piece at the top of the selected bin, to add it to the screen
+		int newPieceId = binsLgc.SimBins[binIdx][binsLgc.NumCellsPerBin - 1].Id;
+		float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
+		yPosn = _bin0Posn.y + binsLgc.NumCellsPerBin * _binPieceYSpacing;
+		GameObject addedPiece = _pieceFactory.CreatePiece(transform, newPieceId, xPosn, yPosn);
+		pieceManager = addedPiece.GetComponent<PieceManager>();
+		pieceManager.BeginDropToYPosnInBin(_bin0Posn.y + (binsLgc.NumCellsPerBin - 1) * _binPieceYSpacing);
+		_bins[binIdx][binsLgc.NumCellsPerBin - 1] = pieceManager.gameObject;
+
+		// testing after
+		//pc0 = _bins[0][0].GetComponent<PieceManager>();
+		//x0 = pc0.transform.position.x;
+		//y0 = pc0.transform.position.y;
+		//pc1 = _bins[0][1].GetComponent<PieceManager>();
+		//x1 = pc1.transform.position.x;
+		//y1 = pc1.transform.position.y;
+		//pc2 = _bins[0][2].GetComponent<PieceManager>();
+		//x2 = pc2.transform.position.x;
+		//y2 = pc2.transform.position.y;
+		//pc3 = _bins[0][3].GetComponent<PieceManager>();
+		//x3 = pc3.transform.position.x;
+		//y3 = pc3.transform.position.y;
+		//id0 = pc0.SimPiece.Id;
+		//id1 = pc1.SimPiece.Id;
+		//id2 = pc2.SimPiece.Id;
+		//id3 = pc3.SimPiece.Id;
+		//Debug.Log($"after: {id0}-({x0}/{y0}) .. {id1}-({x1}/{y1}) .. {id2}-({x2}/{y2}) .. {id3}-({x3}/{y3})");
 	}
 }

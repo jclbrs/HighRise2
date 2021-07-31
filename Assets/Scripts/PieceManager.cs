@@ -13,7 +13,7 @@ public class PieceManager : MonoBehaviour
 
 	public PieceState CurrentState;
 	public  SimPiece SimPiece { get; private set; }
-	private float _destinationYPosn;
+	public float DestinationYPosn;
 	public float XSpeed;
 	public float DestinationXPosn;
 	public float BlockWidth;
@@ -36,14 +36,14 @@ public class PieceManager : MonoBehaviour
 				// no action
 				break;
 			case PieceState.DroppingToNextBinCell:
-				if (transform.position.y <= _destinationYPosn)
+				if (transform.position.y <= DestinationYPosn)
 				{
 					CurrentState = PieceState.InBin;
 					yMove = 0f;
 				}
 				break;
 			case PieceState.DroppingFromBinToPlayer:
-				if (transform.position.y <= _destinationYPosn)
+				if (transform.position.y <= DestinationYPosn)
 				{
 					CurrentState = PieceState.MovingToSpringboard;
 					yMove = 0f;
@@ -91,14 +91,15 @@ public class PieceManager : MonoBehaviour
 	public void BeginDropToYPosnInBin(float yPosn)
 	{
 		CurrentState = PieceState.DroppingToNextBinCell;
-		_destinationYPosn = yPosn;
+		DestinationYPosn = yPosn;
 		yMove = PieceDropSpeed;
+		Debug.Log($"pc{SimPiece.Id} from {transform.position.y} to {yPosn}");
 	}
 
 	public void BeginDropFromBinToPlayer(float destinationYPosn)
 	{
 		CurrentState = PieceState.DroppingFromBinToPlayer;
-		_destinationYPosn = destinationYPosn;
+		DestinationYPosn = destinationYPosn;
 		yMove = PieceDropSpeed;
 	}
 

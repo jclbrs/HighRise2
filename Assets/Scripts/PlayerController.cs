@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
 
 		// Position the exact position of the player first (since it will be the parent)
 		_pieceXWidth = pieceManager.GetXWidth();
-		float playerX = pieceManager.transform.position.x + _pieceXWidth;
+		float playerX = pieceManager.transform.position.x + _pieceXWidth * pieceManager.BlockWidth;
 		transform.position = new Vector3(playerX, transform.position.y);
 		pieceManager.gameObject.transform.SetParent(gameObject.transform);
 	}

@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviour
 				case PlayerState.MovingToBin: // player is already moving.  Ignore the extra key entry
 					break;
 				case PlayerState.HoldingPieceOnSpringboard:
-					if (_currentXIndex > 0) 
+					if (_currentXIndex > 0 && _currentXIndex != _logicController.SpringboardLogic.FirstAvailableSpring()) 
 					{
 						_currentState = PlayerState.MovingToNextSpring;
 						_destinationXIndex = _currentXIndex-1;

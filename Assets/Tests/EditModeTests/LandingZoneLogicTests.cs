@@ -96,4 +96,69 @@ public class LandingZoneLogicTests
         zone.StartNewPiecesPositioning(pieces);
         Assert.AreEqual(zone.LandingZone[zone.NumRowsInLandingZone-1 - 3, 0].PieceId, 1);
     }
+
+    [Test]
+    public void FindLandingPosition_NoOtherPiecesOnCol0_ReturnRow0()
+	{
+        SimPiece testPiece = SimPieceLibrary.SimPieces[0];
+        LandingZoneLogic zone = new LandingZoneLogic();
+
+        int row = zone.FindLandingPosition(0, 0);
+        Assert.AreEqual(0, row);
+    }
+
+    [Test]
+    public void FindLandingPosition_NoOtherPiecesOnCol3_ReturnRow0()
+    {
+        SimPiece testPiece = SimPieceLibrary.SimPieces[0];
+        LandingZoneLogic zone = new LandingZoneLogic();
+
+        int row = zone.FindLandingPosition(3, 0);
+        Assert.AreEqual(0, row);
+    }
+
+    [Test]
+    public void FindLandingPosition_smallPiecesOnCol0_ReturnRow1()
+    {
+        SimPiece testPiece = SimPieceLibrary.SimPieces[0];
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus placePieceStatus;
+        if (zone.TryPlacePiece(0, 0, 0, out placePieceStatus))
+        {
+			int row = zone.FindLandingPosition(0, 0);
+            Assert.AreEqual(1, row);
+        }
+        else
+            throw new Exception($"TryPlacePiece failed: {placePieceStatus}");
+    }
+
+    [Test]
+    public void FindLandingPosition_TallPiecesOnCol0_ReturnRow3()
+    {
+        SimPiece testPiece = SimPieceLibrary.SimPieces[0];
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus placePieceStatus;
+        if (zone.TryPlacePiece(5, 0, 0, out placePieceStatus))
+        {
+            int row = zone.FindLandingPosition(0, 0);
+            Assert.AreEqual(3, row);
+        }
+        else
+            throw new Exception($"TryPlacePiece failed: {placePieceStatus}");
+    }
+
+    [Test]
+    public void FindLandingPosition_UShapePiecesOnCol0_ReturnRow1()
+    {
+        SimPiece testPiece = SimPieceLibrary.SimPieces[0];
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus placePieceStatus;
+        if (zone.TryPlacePiece(14, 0, 0, out placePieceStatus))
+        {
+            int row = zone.FindLandingPosition(1, 0);
+            Assert.AreEqual(1, row);
+        }
+        else
+            throw new Exception($"TryPlacePiece failed: {placePieceStatus}");
+    }
 }

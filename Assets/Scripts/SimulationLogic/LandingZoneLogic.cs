@@ -11,8 +11,8 @@ namespace Assets.Scripts.SimulationLogic
 	public class LandingZoneLogic
 	{
 		public LandingZoneCell[,] LandingZone { get; set; }
-		public int NumRowsInLandingZone { get; private set; } = 21;
-        public int NumColsInLandingZone { get; private set; } =  5;
+		public int NumRowsInLandingZone { get; private set; } = 24; // Actually only 21 used. the 3 remaining are to place the test piece in a starting position for calculations
+        public int NumColsInLandingZone { get; private set; } =  6; 
 
         public LandingZoneLogic()
 		{
@@ -21,12 +21,12 @@ namespace Assets.Scripts.SimulationLogic
 
 		public void ClearLandingZone()
 		{
-			LandingZone = new LandingZoneCell[NumRowsInLandingZone, NumColsInLandingZone];
-			for (int row = 0; row < NumRowsInLandingZone; row++)
+			LandingZone = new LandingZoneCell[NumColsInLandingZone, NumRowsInLandingZone];
+			for (int col = 0; col < NumColsInLandingZone; col++)
 			{
-				for (int col = 0; col < NumColsInLandingZone; col++)
+				for (int row = 0; row < NumRowsInLandingZone; row++)
 				{
-					LandingZone[row, col] = new LandingZoneCell();
+					LandingZone[col, row] = new LandingZoneCell();
 				}
 			}
 		}
@@ -57,14 +57,72 @@ namespace Assets.Scripts.SimulationLogic
 		}
 
 		// Place all pieces from springboard to top of landing zone
-		public void StartNewPiecesPositioning(List<SimPiece> pieces)
+		public void StartNewPiecesPositioning(List<SimPiece> sprungPieces)
 		{
 			PlacePieceStatus placePieceStatus;
-			foreach (SimPiece piece in pieces)
+			foreach (SimPiece piece in sprungPieces)
 			{
 				if (!TryPlacePiece(piece.Id, NumRowsInLandingZone-1 - 3, piece.SpringboardColumn, out placePieceStatus))
 					throw new Exception($"Exception dropping piece {piece.Id} onto landing area at col {piece.SpringboardColumn}");
 			}
+		}
+
+		public int FindLandingPosition(int zoneIdx, int pieceId)
+		{
+			SimPiece piece = SimPieceLibrary.SimPieces[pieceId];
+			// start just above the top of landing zone, and work down
+			for (int zoneRow = NumRowsInLandingZone-3; zoneRow > 0; zoneRow--)
+			{ // joe spelling this out in detail for now, to understand what is needed, then we can improve the algorithm
+				// piece col 0
+				if (piece.Shape[0, 0])
+				{
+					//if (LandingZone[zoneIdx, 10].PieceId > int.MinValue)
+						if (LandingZone[zoneIdx,zoneRow-1].PieceId > int.MinValue) // found another piece just below
+						return zoneRow;
+				}
+				if (piece.Shape[0, 1])
+				{
+					if (LandingZone[zoneIdx, zoneRow].PieceId > int.MinValue) 
+						return zoneRow;
+				}
+				if (piece.Shape[0, 2])
+				{
+					if (LandingZone[zoneIdx, zoneRow + 1].PieceId > int.MinValue)
+						return zoneRow;
+				}
+
+				if (piece.Shape[1, 0])
+				{
+					if (LandingZone[zoneIdx+1, zoneRow - 1].PieceId > int.MinValue)
+						return zoneRow;
+				}
+				if (piece.Shape[1, 1])
+				{
+					if (LandingZone[zoneIdx + 1, zoneRow].PieceId > int.MinValue)
+						return zoneRow;
+				}
+				if (piece.Shape[1, 2])
+				{
+					if (LandingZone[zoneIdx + 1, zoneRow + 1].PieceId > int.MinValue)
+						return zoneRow;
+				}
+				if (piece.Shape[2, 0])
+				{
+					if (LandingZone[zoneIdx + 2, zoneRow - 1].PieceId > int.MinValue)
+						return zoneRow;
+				}
+				if (piece.Shape[2, 1])
+				{
+					if (LandingZone[zoneIdx + 2, zoneRow].PieceId > int.MinValue)
+						return zoneRow;
+				}
+				if (piece.Shape[2, 2])
+				{
+					if (LandingZone[zoneIdx + 2, zoneRow + 1].PieceId > int.MinValue)
+						return zoneRow;
+				}
+			}
+			return 0;
 		}
 
 		public bool TryPlacePiece(int pieceId, int row, int col, out PlacePieceStatus placePieceStatus) 

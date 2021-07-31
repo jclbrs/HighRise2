@@ -20,24 +20,28 @@ public class GameController : MonoBehaviour
 
 	void Start()
 	{
-		// Inject the elements from ConfigSettings
-		_config = GetComponent<ConfigSettings>();
-		_currentLevel = _config.InitialLevel;
+		// Get the components that are part of this game object
 		_eventsManager = GetComponent<EventsManager>();
+		_config = GetComponent<ConfigSettings>();
+		_pieceFactory = GetComponent<PieceFactory>();
+
+		// Get the components that are defined in ConfigSettings
 		_springboardController = _config.SpringboardObject.GetComponent<SpringboardController>();
 		_playerController = _config.PlayerObject.GetComponent<PlayerController>();
-		_pieceFactory = GetComponent<PieceFactory>();
 		_binsManager = _config.BinsObject.GetComponent<BinsManager>();
 		_sprungPiecesController = _config.SprungPiecesContainer.GetComponent<SprungPiecesController>();
+
+		// Get the starting level from ConfigSettings (Normally this will be 1, but can change for testing purposes)
+		_currentLevel = _config.InitialLevel;
 
 		// Initialize the various components
 		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin);
 		_pieceFactory.InitializeGameSettings(_config.PiecePrefab, _config.PieceDropSpeed, _config.PieceXSpeed, _config.BlockWidth, _eventsManager);
-		_springboardController.InitializeGameSettings(_config.SpringboardYSpeed, _config.SpringboardMoveHeight, _config.FirstPieceSpringX, _config.BlockWidth);
-		List<float> springboardXPosns = _springboardController.GetSpringboardXPosns();
-		_playerController.InitializeGameSettings(springboardXPosns,_config.PieceXSpeed, _eventsManager);
+		_springboardController.InitializeGameSettings(_config.SpringboardYSpeed, _config.SpringboardMoveHeight);
 		_binsManager.InitializeGameSettings(_pieceFactory, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing, _config.PieceYFromBinDrop);
-		_sprungPiecesController.InitializeGameSettings(_config.SpringOverPoints);
+		_sprungPiecesController.InitializeGameSettings(_config.SpringOverPoints, _config.FirstPieceSpringX, _config.BlockWidth);
+		List<float> springboardXPosns = _sprungPiecesController.GetInitialSpringXPosns();
+		_playerController.InitializeGameSettings(springboardXPosns, _config.PieceXSpeed, _eventsManager);
 
 		// set up subscriptions to events
 		_eventsManager.BinPieceSelected += _binsManager.OnDroppingBinPieceToPlayer;

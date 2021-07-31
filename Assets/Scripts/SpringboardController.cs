@@ -5,6 +5,9 @@ using System.Text;
 using Assets.Scripts.Enums;
 using UnityEngine;
 
+// The Springboard and springboardController do not actually hold the drop pieces.
+// That is the job of the SprungPiecesContainer/SprunPiecesController.
+// This class' responsibility is to make the springs go up and down, and the attached SprungPiecesContainer with it
 public class SpringboardController : MonoBehaviour
 {
 	private Dictionary<int, PieceManager> _springboardPieces;
@@ -12,9 +15,6 @@ public class SpringboardController : MonoBehaviour
 	private float _springboardYSpeed;
 	private float _springboardMoveHeight;
 	private float _initialYCoord;
-	private float _firstPieceSpringX;
-	private float _pieceSpringXSpacing;
-	private List<float> _springXCoords;
 
 	void Start()
 	{
@@ -23,19 +23,10 @@ public class SpringboardController : MonoBehaviour
 		_springboardPieces = new Dictionary<int, PieceManager>();
 	}
 
-	internal void InitializeGameSettings(float springboardYSpeed, float springboardMoveHeight, float firstPieceSpringX, float pieceSpringXSpacing)
+	internal void InitializeGameSettings(float springboardYSpeed, float springboardMoveHeight)
 	{
 		_springboardYSpeed = springboardYSpeed;
 		_springboardMoveHeight = springboardMoveHeight;
-		_firstPieceSpringX = firstPieceSpringX;
-		_pieceSpringXSpacing = pieceSpringXSpacing;
-
-		_springXCoords = new List<float>();
-		for (int i = 0; i < 6; i++) // hard coded, 6 springs
-		{
-			_springXCoords.Add(_firstPieceSpringX + i * _pieceSpringXSpacing);
-		}
-
 	}
 
 	void Update()
@@ -66,11 +57,6 @@ public class SpringboardController : MonoBehaviour
 				}
 				break;
 		}
-	}
-
-	public List<float> GetSpringboardXPosns()
-	{
-		return _springXCoords;
 	}
 
 	public void OnPieceDroppedToSpringboard(int xIdx, PieceManager pieceManager)

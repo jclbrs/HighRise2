@@ -21,7 +21,8 @@ public class PlayerController : MonoBehaviour
 	private PlayerState _currentState;
 	private int _currentXIndex; // x-index is based on the current state. If on springboard, based on which spring.  If under bins, based on which bin
 	private int _destinationXIndex;
-	private float _destinationXCoord;
+	private float _pieceXDestination;
+	private float _playerXDestination;
 	private bool _isMoveRight; // -1 for left, +1 for right
 
 	private float _pieceXWidth;
@@ -70,9 +71,9 @@ public class PlayerController : MonoBehaviour
 			case PlayerState.PushingPieceToSpringboard:
 				//Debug.Log($"Moving piece: x:{transform.position.x}, speed:{_xSpeed}, Dest:{_destinationXCoord}");
 				transform.position = new Vector3(transform.position.x - _xSpeed, transform.position.y);
-				if (transform.position.x <= _destinationXCoord + _pieceXWidth)
+				if (transform.position.x <= _pieceXDestination + _pieceXWidth)
 				{
-					transform.position = new Vector3(_destinationXCoord + _pieceXWidth, transform.position.y); // if overshot, set to the exact desired position
+					transform.position = new Vector3(_pieceXDestination + _pieceXWidth, transform.position.y); // if overshot, set to the exact desired position
 					_currentState = PlayerState.HoldingPieceOnSpringboard; 
 					_currentXIndex = _destinationXIndex;
 				}
@@ -83,7 +84,7 @@ public class PlayerController : MonoBehaviour
 			case PlayerState.MovingToNextSpring:
 				int direction = (_isMoveRight ? 1 : -1);
 				transform.position = new Vector3(transform.position.x + direction * _xSpeed, transform.position.y);
-				float destXIncludingPlayerOffset = _destinationXCoord + _pieceXWidth * _attachedPieceManager.BlockWidth;
+				float destXIncludingPlayerOffset = _pieceXDestination + _pieceXWidth;
 				if (_isMoveRight)
 				{
 					if (transform.position.x >= destXIncludingPlayerOffset)
@@ -112,9 +113,9 @@ public class PlayerController : MonoBehaviour
 	{
 		if (_isMoveRight)
 		{
-			if (transform.position.x >= _destinationXCoord)
+			if (transform.position.x >= _pieceXDestination)
 			{
-				transform.position = new Vector3(_destinationXCoord, transform.position.y); // set to exact destination
+				transform.position = new Vector3(_pieceXDestination, transform.position.y); // set to exact destination
 				_currentState = PlayerState.IdleUnderBin;
 				_currentXIndex = _destinationXIndex;
 			}
@@ -123,9 +124,9 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
-			if (transform.position.x <= _destinationXCoord)
+			if (transform.position.x <= _pieceXDestination)
 			{
-				transform.position = new Vector3(_destinationXCoord, transform.position.y); // set to exact destination
+				transform.position = new Vector3(_pieceXDestination, transform.position.y); // set to exact destination
 				_currentState = PlayerState.IdleUnderBin;
 				_currentXIndex = _destinationXIndex;
 			}
@@ -146,10 +147,8 @@ public class PlayerController : MonoBehaviour
 		if (_logicController.SpringboardLogic.TryMovePieceToAvailableSpring(pieceManager.SimPiece.Id, pieceManager.SimPiece.GetSimWidth(), out springIdx))
 		{
 			_destinationXIndex = springIdx;
-			_destinationXCoord = _springboardXPosns[springIdx];
+			_pieceXDestination = _springboardXPosns[springIdx];
 			_isMoveRight = false;
-			pieceManager.XSpeed = _xSpeed; // have piece's speed match the player's
-			pieceManager.DestinationXPosn = _destinationXCoord;
 		}
 		else
 		{
@@ -159,15 +158,14 @@ public class PlayerController : MonoBehaviour
 		//Debug.Log($"1st avail spring:{firstAvailableSpringIdx}");
 	}
 
+	// This is analogous to a dog on a leash:  The parent is the player, and the child is the attached dog on the leash, but the dog is leading the way
+	// We want to move to a specific x-position on the springboard, but that is the position of the child, not the parent.
+	// That means we need to do some calculations to figure where the player needs to be standing to the right of the child piece
 	private void PositionPieceNextToPlayer(PieceManager pieceManager)
 	{
-		// 1st: since the piece is now under the player's control, move the game object from a Bins child object to a Player child object
-		// so they will move together
-
-		// Position the exact position of the player first (since it will be the parent)
 		_pieceXWidth = pieceManager.GetXWidth();
-		float playerX = pieceManager.transform.position.x + _pieceXWidth * pieceManager.BlockWidth;
-		transform.position = new Vector3(playerX, transform.position.y);
+		float playerXPosn = pieceManager.transform.position.x + _pieceXWidth;
+		transform.position = new Vector3(playerXPosn, transform.position.y);
 		pieceManager.gameObject.transform.SetParent(gameObject.transform);
 	}
 
@@ -182,7 +180,7 @@ public class PlayerController : MonoBehaviour
 					{
 						_currentState = PlayerState.MovingToBin;
 						_destinationXIndex = _currentXIndex + 1;
-						_destinationXCoord = _playerXBelowBins[_destinationXIndex];
+						_pieceXDestination = _playerXBelowBins[_destinationXIndex];
 						_isMoveRight = true;
 					}
 					break;
@@ -194,7 +192,7 @@ public class PlayerController : MonoBehaviour
 					{
 						_currentState = PlayerState.MovingToNextSpring;
 						_destinationXIndex = _currentXIndex + 1;
-						_destinationXCoord = _springboardXPosns[_destinationXIndex];
+						_pieceXDestination = _springboardXPosns[_destinationXIndex];
 						_isMoveRight = true;
 					}
 					break;
@@ -211,7 +209,7 @@ public class PlayerController : MonoBehaviour
 					{
 						_currentState = PlayerState.MovingToBin;
 						_destinationXIndex = _currentXIndex - 1;
-						_destinationXCoord = _playerXBelowBins[_destinationXIndex];
+						_pieceXDestination = _playerXBelowBins[_destinationXIndex];
 						_isMoveRight = false;
 					}
 					break;
@@ -222,7 +220,7 @@ public class PlayerController : MonoBehaviour
 					{
 						_currentState = PlayerState.MovingToNextSpring;
 						_destinationXIndex = _currentXIndex-1;
-						_destinationXCoord = _springboardXPosns[_destinationXIndex];
+						_pieceXDestination = _springboardXPosns[_destinationXIndex];
 						_isMoveRight = false;
 					}
 					break;
@@ -242,7 +240,7 @@ public class PlayerController : MonoBehaviour
 					_logicController.SpringboardLogic.DropPieceOntoSpringboard(_attachedPieceManager.SimPiece.Id, _attachedPieceManager.SimPiece.GetSimWidth(), _currentXIndex);
 					_currentState = PlayerState.MovingToBin;
 					_destinationXIndex = 0;
-					_destinationXCoord = _playerXBelowBins[_destinationXIndex];
+					_pieceXDestination = _playerXBelowBins[_destinationXIndex];
 					_isMoveRight = true;
 					_eventsManager.OnPieceDroppedToSpringboard(_currentXIndex,_attachedPieceManager);
 					_attachedPieceManager.BeginDropUntilCollision();

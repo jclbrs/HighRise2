@@ -73,13 +73,6 @@ public class PieceManager : MonoBehaviour
 	{ 
 		//Debug.Log("Piece notified of collision");
 		yMove = 0f;
-		if (CurrentState == PieceState.DroppingFromBinToPlayer)
-		{
-			CurrentState = PieceState.MovingToSpringboard;
-			//LandedFromBinEvent.Invoke(this);
-		}
-
-		
 	}
 
 	public void BeginDropUntilCollision()

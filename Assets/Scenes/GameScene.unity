@@ -2053,10 +2053,12 @@ MonoBehaviour:
   BinXSpacing: 3.5
   BinPieceYSpacing: 3.5
   PlayerXOffsetFromBin: 3
-  PieceXSpeed: 0.1
-  PieceDropSpeed: -0.05
+  PlayerXSpeed: 10
+  PieceXSpeed: 10
+  PieceDropFromBinYSpeed: -0.1
   BlockWidth: 0.845
   PieceYFromBinDrop: 2
+  SprungYSpeed: 10
   SpringboardYSpeed: 0.1
   SpringboardMoveHeight: 1
   FirstPieceSpringX: -5.72

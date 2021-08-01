@@ -21,19 +21,21 @@ public class SprungPiecesController : MonoBehaviour
 	private float _pieceSpringXSpacing;
 	private List<float> _springXCoords;
 	private LogicController _logicController;
+	private float _ySpeed;
 
 	private void Start()
 	{
 		_currentState = SprungPiecesState.Idle;
 	}
 
-	internal void InitializeGameSettings(List<Vector2> springOverPathPoints, float firstPieceSpringX, float pieceSpringXSpacing, LogicController logicController)
+	internal void InitializeGameSettings(List<Vector2> springOverPathPoints, float firstPieceSpringX, float pieceSpringXSpacing, LogicController logicController, float ySpeed)
 	{
 		_springOverPathPoints = springOverPathPoints;
 		_initialPosition = transform.position;
 		_firstPieceSpringX = firstPieceSpringX;
 		_pieceSpringXSpacing = pieceSpringXSpacing;
 		_logicController = logicController;
+		_ySpeed = ySpeed;
 
 		_springXCoords = new List<float>();
 		for (int i = 0; i < 6; i++) // hard coded, 6 springs
@@ -63,7 +65,7 @@ public class SprungPiecesController : MonoBehaviour
 			if (_destSpingOverIndex < _springOverPathPoints.Count)
 			{
 				Vector2 destination = new Vector2(_initialPosition.x + _springOverPathPoints[_destSpingOverIndex].x, _initialPosition.y + _springOverPathPoints[_destSpingOverIndex].y);
-				transform.position = Vector2.MoveTowards(transform.position, destination, 10f * Time.deltaTime); // joe fix the hard coded speed setting (should be from config)
+				transform.position = Vector2.MoveTowards(transform.position, destination, _ySpeed * Time.deltaTime); // joe fix the hard coded speed setting (should be from config)
 				if (Vector2.Distance(transform.position, destination) < 0.005) {
 					Debug.Log($"curr idx:{_destSpingOverIndex}. destX/Y:{destination.x}/{destination.y}, yPnt:{_springOverPathPoints[_destSpingOverIndex].y}");
 					_destSpingOverIndex = _destSpingOverIndex + 1;

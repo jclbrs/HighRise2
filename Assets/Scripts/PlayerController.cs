@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
 				break;
 			case PlayerState.PushingPieceToSpringboard:
 				//Debug.Log($"Moving piece: x:{transform.position.x}, speed:{_xSpeed}, Dest:{_destinationXCoord}");
-				transform.position = new Vector3(transform.position.x - _xSpeed, transform.position.y);
+				transform.position = new Vector3(transform.position.x - _xSpeed* Time.deltaTime, transform.position.y);
 				if (transform.position.x <= _pieceXDestination + _pieceXWidth)
 				{
 					transform.position = new Vector3(_pieceXDestination + _pieceXWidth, transform.position.y); // if overshot, set to the exact desired position
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
 				break;
 			case PlayerState.MovingToNextSpring:
 				int direction = (_isMoveRight ? 1 : -1);
-				transform.position = new Vector3(transform.position.x + direction * _xSpeed, transform.position.y);
+				transform.position = new Vector3(transform.position.x + direction * _xSpeed * Time.deltaTime, transform.position.y);
 				float destXIncludingPlayerOffset = _pieceXDestination + _pieceXWidth;
 				if (_isMoveRight)
 				{
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
 				_currentXIndex = _destinationXIndex;
 			}
 			else
-				transform.position = new Vector3(transform.position.x + _xSpeed, transform.position.y);
+				transform.position = new Vector3(transform.position.x + _xSpeed * Time.deltaTime, transform.position.y);
 		}
 		else
 		{
@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
 				_currentXIndex = _destinationXIndex;
 			}
 			else
-				transform.position = new Vector3(transform.position.x - _xSpeed, transform.position.y);
+				transform.position = new Vector3(transform.position.x - _xSpeed * Time.deltaTime, transform.position.y);
 		}
 	}
 

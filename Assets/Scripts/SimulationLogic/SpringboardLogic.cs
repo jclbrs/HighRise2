@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.SimulationLogic.Models;
 
 namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 {
@@ -36,11 +37,11 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
             return true;
 		}
 
-        public void DropPieceOntoSpringboard(int pieceId, int width, int springIdx)
+        public void DropPieceOntoSpringboard(SimPiece simPiece) // pieceId, int width, int springIdx)
 		{
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < simPiece.GetSimWidth(); i++)
             {
-                Springs[springIdx + i] = pieceId;
+                Springs[simPiece.SpringboardColumn + i] = simPiece.Id;
             }
 
         }

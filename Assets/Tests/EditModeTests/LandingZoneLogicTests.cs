@@ -58,7 +58,7 @@ public class LandingZoneLogicTests
     {
         LandingZoneLogic zone = new LandingZoneLogic();
         PlacePieceStatus status;
-        bool result = zone.TryPlacePiece(26, 2, 3,out status); // piece 26 is a tall U shape, width of 3
+        bool result = zone.TryPlacePiece(26, 2, 5,out status); // piece 26 is a tall U shape, width of 3
         Assert.IsFalse(result);
         Assert.AreEqual(PlacePieceStatus.TooFarToTheRight, status);
     }
@@ -68,7 +68,7 @@ public class LandingZoneLogicTests
     {
         LandingZoneLogic zone = new LandingZoneLogic();
         PlacePieceStatus status;
-        bool result = zone.TryPlacePiece(26, 2, 5, out status); // piece 26 is a tall U shape, width of 3
+        bool result = zone.TryPlacePiece(26, 2, 6, out status); // piece 26 is a tall U shape, width of 3
         Assert.IsFalse(result);
         Assert.AreEqual(PlacePieceStatus.BadColArg, status);
     }
@@ -94,7 +94,7 @@ public class LandingZoneLogicTests
         };
         LandingZoneLogic zone = new LandingZoneLogic();
         zone.StartNewPiecesPositioning(pieces);
-        Assert.AreEqual(zone.LandingZone[zone.NumRowsInLandingZone-1 - 3, 0].PieceId, 1);
+        Assert.AreEqual(zone.LandingZone[0, zone.NumRowsInLandingZone-1 - 3].PieceId, 1);
     }
 
     [Test]

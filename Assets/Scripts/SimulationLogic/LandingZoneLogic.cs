@@ -31,29 +31,40 @@ namespace Assets.Scripts.SimulationLogic
 			}
 		}
 
-		public void DropPiecesFromSpringboard(List<SimPiece> pieces)
-		{
-			StartNewPiecesPositioning(pieces);
-			DropPiecesToRestingPosition(pieces);
-			CalculateStability();
 
-			// next sequences
-			// Drop pieces (loop until each gets to a collision of floor or existing piece)
-			// Calculate stability
-			// if stable, return success
-			// If not, start tumbling
+		public void MoveSpringboardPiecesToLandingZone(List<SimPiece> simPieces)
+		{
+			DropPiecesToRestingPosition(simPieces);
+			CalculateStability();
 		}
+		//public void MovePiecesFromSpringboardToLandingZone()
+		//{
+		//	SpringboardController.
+		//	StartNewPiecesPositioning(pieces);
+		//	DropPiecesToRestingPosition(pieces);
+		//	CalculateStability();
+
+		//	// next sequences
+		//	// Drop pieces (loop until each gets to a collision of floor or existing piece)
+		//	// Calculate stability
+		//	// if stable, return success
+		//	// If not, start tumbling
+		//}
 
 		private void DropPiecesToRestingPosition(List<SimPiece> pieces)
 		{
 			foreach (SimPiece piece in pieces)
 			{
-				for (int pieceCol = 0; pieceCol < piece.GetSimWidth(); pieceCol++)
+				int landingRow = FindLandingPosition(piece.SpringboardColumn, piece.Id);
+				PlacePieceStatus placePieceStatus;
+				if (!TryPlacePiece(piece.Id,landingRow,piece.SpringboardColumn,out placePieceStatus))
 				{
-					// joe continue here
+					throw new Exception($"Could not place piece in landing zone: {placePieceStatus}");
 				}
 			}
 			// joe continue here
+			int temp = 0;
+			// do the stability calc here
 		}
 
 		// Place all pieces from springboard to top of landing zone
@@ -162,8 +173,8 @@ namespace Assets.Scripts.SimulationLogic
 			{
 				for (int pieceCol = 0; pieceCol < 3; pieceCol++)
 				{
-					if (piece.Shape[pieceRow, pieceCol] && (col + pieceCol < NumColsInLandingZone))
-						LandingZone[row + pieceRow, col + pieceCol].PieceId = pieceId;
+					if (piece.Shape[pieceCol, pieceRow] && (col + pieceCol < NumColsInLandingZone))
+						LandingZone[col + pieceCol, row + pieceRow].PieceId = pieceId;
 				}
 			}
 			return true;

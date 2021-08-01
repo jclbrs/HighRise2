@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Enums;
+using Assets.Scripts.SimulationLogic.Models;
+using ScriptDefinitions.Assets.Scripts.SimulationLogic;
 using UnityEngine;
 
 
@@ -18,18 +20,20 @@ public class SprungPiecesController : MonoBehaviour
 	private float _firstPieceSpringX;
 	private float _pieceSpringXSpacing;
 	private List<float> _springXCoords;
+	private LogicController _logicController;
 
 	private void Start()
 	{
 		_currentState = SprungPiecesState.Idle;
 	}
 
-	internal void InitializeGameSettings(List<Vector2> springOverPathPoints, float firstPieceSpringX, float pieceSpringXSpacing)
+	internal void InitializeGameSettings(List<Vector2> springOverPathPoints, float firstPieceSpringX, float pieceSpringXSpacing, LogicController logicController)
 	{
 		_springOverPathPoints = springOverPathPoints;
 		_initialPosition = transform.position;
 		_firstPieceSpringX = firstPieceSpringX;
 		_pieceSpringXSpacing = pieceSpringXSpacing;
+		_logicController = logicController;
 
 		_springXCoords = new List<float>();
 		for (int i = 0; i < 6; i++) // hard coded, 6 springs
@@ -68,11 +72,14 @@ public class SprungPiecesController : MonoBehaviour
 			} else
 			{
 				_currentState = SprungPiecesState.Idle;
+				List<SimPiece> simPieces = new List<SimPiece>();
 				foreach(PieceManager pieceMgr in _sprungPieces.Values)
 				{
+					simPieces.Add(pieceMgr.SimPiece);
 					pieceMgr.transform.SetParent(null);
 					pieceMgr.BeginDropUntilCollision();
 				}
+				_logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
 				transform.SetParent(_springboardController.transform);
 				transform.localPosition = Vector3.zero;
 			}

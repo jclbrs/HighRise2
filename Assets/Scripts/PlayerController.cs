@@ -236,14 +236,22 @@ public class PlayerController : MonoBehaviour
 					_currentState = PlayerState.WaitingForBinPiece;
 					_eventsManager.OnBinPieceSelected(_currentXIndex);
 					break;
+
 				case PlayerState.HoldingPieceOnSpringboard:
-					_logicController.SpringboardLogic.DropPieceOntoSpringboard(_attachedPieceManager.SimPiece.Id, _attachedPieceManager.SimPiece.GetSimWidth(), _currentXIndex);
+					_attachedPieceManager.SimPiece.SpringboardColumn = _currentXIndex;
+					_logicController.SpringboardLogic.DropPieceOntoSpringboard(_attachedPieceManager.SimPiece);
+					// move player to 1st bin
 					_currentState = PlayerState.MovingToBin;
 					_destinationXIndex = 0;
 					_pieceXDestination = _playerXBelowBins[_destinationXIndex];
 					_isMoveRight = true;
+
+					// tell the world that the piece was dropped (the springboard should be listening)
 					_eventsManager.OnPieceDroppedToSpringboard(_currentXIndex,_attachedPieceManager);
+
+					// Have the piece drop to the springs
 					_attachedPieceManager.BeginDropUntilCollision();
+					_attachedPieceManager.SimPiece.SpringboardColumn = _currentXIndex;
 					_attachedPieceManager = null;
 					break;
 			}

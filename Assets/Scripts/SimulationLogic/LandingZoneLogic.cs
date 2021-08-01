@@ -37,19 +37,6 @@ namespace Assets.Scripts.SimulationLogic
 			DropPiecesToRestingPosition(simPieces);
 			CalculateStability();
 		}
-		//public void MovePiecesFromSpringboardToLandingZone()
-		//{
-		//	SpringboardController.
-		//	StartNewPiecesPositioning(pieces);
-		//	DropPiecesToRestingPosition(pieces);
-		//	CalculateStability();
-
-		//	// next sequences
-		//	// Drop pieces (loop until each gets to a collision of floor or existing piece)
-		//	// Calculate stability
-		//	// if stable, return success
-		//	// If not, start tumbling
-		//}
 
 		private void DropPiecesToRestingPosition(List<SimPiece> pieces)
 		{
@@ -62,9 +49,6 @@ namespace Assets.Scripts.SimulationLogic
 					throw new Exception($"Could not place piece in landing zone: {placePieceStatus}");
 				}
 			}
-			// joe continue here
-			int temp = 0;
-			// do the stability calc here
 		}
 
 		// Place all pieces from springboard to top of landing zone
@@ -182,7 +166,7 @@ namespace Assets.Scripts.SimulationLogic
 
 		// Once a dropping piece gets a collision, it was added to the BuildArea (done elsewhere)
 		// Then this is run to determine if the new structure is stable
-		public void CalculateStability() // joe, maybe return bool. or perhaps object detailing stability details
+		public bool CalculateStability() // joe, maybe return bool. or perhaps object detailing stability details
         {
             // Start at the upper row, go through each block in the row
             // Then work down to lower rows, accumulating the various center of mass values
@@ -190,12 +174,16 @@ namespace Assets.Scripts.SimulationLogic
             {
                 for (int col = 0; col < NumColsInLandingZone; col++)
                 {
-                    if (LandingZone[row, col] == null || LandingZone[row, col].PieceId == 0)
+                    if (LandingZone[col, row].PieceId == int.MinValue) // no piece block in this landing zone cell
                         continue;
+
+					// block is present
+
 
                     // continue here
                 }
             }
+			return false;
         }
 
     }

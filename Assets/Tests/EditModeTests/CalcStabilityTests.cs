@@ -20,7 +20,19 @@ public class CalcStabilityTests
     }
 
     [Test]
-    public void Place2PiecesAdjacent_expectStable()
+    public void Place2SamePiecesAdjacent_expectStable()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus status;
+        zone.TryPlacePiece(0, 0, 0, out status);
+        zone.TryPlacePiece(0, 0, 1, out status);
+
+        bool isStable = zone.CalculateStability();
+        Assert.IsTrue(isStable);
+    }
+
+    [Test]
+    public void Place2DifferentPiecesAdjacent_expectStable()
     {
         LandingZoneLogic zone = new LandingZoneLogic();
         PlacePieceStatus status;
@@ -32,7 +44,19 @@ public class CalcStabilityTests
     }
 
     [Test]
-    public void Place2PiecesSeparateButSameRow_expectStable()
+    public void Place2SamePiecesSeparateButSameRow_expectStable()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus status;
+        zone.TryPlacePiece(0, 0, 0, out status);
+        zone.TryPlacePiece(0, 0, 2, out status);
+
+        bool isStable = zone.CalculateStability();
+        Assert.IsTrue(isStable);
+    }
+
+    [Test]
+    public void Place2DifferentPiecesSeparateButSameRow_expectStable()
     {
         LandingZoneLogic zone = new LandingZoneLogic();
         PlacePieceStatus status;

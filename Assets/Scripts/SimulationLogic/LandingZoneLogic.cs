@@ -35,10 +35,11 @@ namespace Assets.Scripts.SimulationLogic
 		}
 
 
-		public void MoveSpringboardPiecesToLandingZone(List<SimPiece> simPieces)
+		public bool MoveSpringboardPiecesToLandingZone(List<SimPiece> simPieces)
 		{
 			DropPiecesToRestingPosition(simPieces);
-			CalculateStability();
+			bool isStable = CalculateStability();
+			return isStable;
 		}
 
 		private void DropPiecesToRestingPosition(List<SimPiece> pieces)
@@ -338,16 +339,17 @@ namespace Assets.Scripts.SimulationLogic
 
 		private int CalcRowForceStartAndEndIndex(int row, int col, ref RowPieceForce rowPieceForce)
 		{
-			rowPieceForce.EndColIdx = col;
-			for (int i = 0; i + col < 5; i++)
+			rowPieceForce.StartColIdx = col;
+			int nextCol = col;
+			for (int i = 0; i + col < 6; i++)
 			{
 				if (LandingZone[i + col, row].PieceId == LandingZone[col, row].PieceId)
 					rowPieceForce.EndColIdx = i + col;
 				else
 					break;
 			}
-			col = rowPieceForce.EndColIdx + 1;
-			return col;
+			nextCol = rowPieceForce.EndColIdx + 1;
+			return nextCol;
 		}
 
 		private static RowPieceForce SplitRowForceIntoTwo(ref RowPieceForce rowPieceForce)

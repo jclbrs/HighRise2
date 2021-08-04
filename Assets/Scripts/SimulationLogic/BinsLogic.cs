@@ -42,6 +42,7 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 			}
 		}
 
+
 		/// <summary>
 		/// Randomly fills a designated bin with pieces from the Applicable Pieces list
 		/// </summary>
@@ -52,9 +53,17 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 				SimBins.Remove(binIdx); // clear the bin of any data.  Starting over with new data
 
 			List<SimPiece> binPieces = new List<SimPiece>();
-			for(int i = 0; i < NumCellsPerBin; i++)
+
+			bool joeTempPieceToggle = true;
+
+			for (int i = 0; i < NumCellsPerBin; i++)
 			{
-				SimPiece nextPiece = ApplicableSimPieces[_rnd.Next(ApplicableSimPieces.Count)];
+				// joe temp comment out: SimPiece nextPiece = ApplicableSimPieces[_rnd.Next(ApplicableSimPieces.Count)];
+				// start joe testing
+				int joeTestId = (joeTempPieceToggle ? 5 : 1);
+				joeTempPieceToggle = !joeTempPieceToggle;
+				SimPiece nextPiece = SimPieceLibrary.SimPieces.Find(x => x.Id == joeTestId);
+				// end Joe testing
 				nextPiece.CurrentState = PieceState.InBin;
 				binPieces.Add(nextPiece);
 			}

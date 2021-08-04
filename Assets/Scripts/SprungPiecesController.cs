@@ -67,7 +67,7 @@ public class SprungPiecesController : MonoBehaviour
 				Vector2 destination = new Vector2(_initialPosition.x + _springOverPathPoints[_destSpingOverIndex].x, _initialPosition.y + _springOverPathPoints[_destSpingOverIndex].y);
 				transform.position = Vector2.MoveTowards(transform.position, destination, _ySpeed * Time.deltaTime); // joe fix the hard coded speed setting (should be from config)
 				if (Vector2.Distance(transform.position, destination) < 0.005) {
-					Debug.Log($"curr idx:{_destSpingOverIndex}. destX/Y:{destination.x}/{destination.y}, yPnt:{_springOverPathPoints[_destSpingOverIndex].y}");
+					//Debug.Log($"curr idx:{_destSpingOverIndex}. destX/Y:{destination.x}/{destination.y}, yPnt:{_springOverPathPoints[_destSpingOverIndex].y}");
 					_destSpingOverIndex = _destSpingOverIndex + 1;
 				}
 				//new Vector3(transform.position.x, transform.position.y + 0.05f); // joe hard coded for testing
@@ -79,9 +79,10 @@ public class SprungPiecesController : MonoBehaviour
 				{
 					simPieces.Add(pieceMgr.SimPiece);
 					pieceMgr.transform.SetParent(null);
-					pieceMgr.BeginDropUntilCollision();
+					pieceMgr.BeginDropInLandingZoneUntilCollision();
 				}
-				_logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
+				bool isStable = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
+				Debug.Log($"Stable:{isStable}");
 				transform.SetParent(_springboardController.transform);
 				transform.localPosition = Vector3.zero;
 			}

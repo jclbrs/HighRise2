@@ -18,7 +18,6 @@ public class PieceManager : MonoBehaviour
 	public float DestinationXPosn;
 	public float BlockWidth;
 	private EventsManager _eventsManager;
-	public int TestPieceId;
 
 	public void Initialize(EventsManager eventsManager, float blockWidth)
 	{
@@ -28,7 +27,6 @@ public class PieceManager : MonoBehaviour
 
 	void Update()
 	{
-		TestPieceId = SimPiece.Id; // joe for testing only.  Delete when done
 		transform.position = new Vector3(transform.position.x, transform.position.y + yMove);
 		switch (CurrentState)
 		{
@@ -51,16 +49,14 @@ public class PieceManager : MonoBehaviour
 				}
 				break;
 			case PieceState.MovingToSpringboard:
-				if (transform.position.x > DestinationXPosn)
-				{ }// joe, since piece is now a child of the player, it moves along with it, so no calc needed here
-				   // transform.position = new Vector3(transform.position.x - XSpeed, transform.position.y);
-				else
-				{
+				if (transform.position.x <= DestinationXPosn)
 					CurrentState = PieceState.OnSpringboard;
-				}
 				break;
 			case PieceState.OnSpringboard:
 				// not addressed yet
+				break;
+			case PieceState.DroppingInLandingZone:
+				// no special actions currently
 				break;
 			default:
 				Debug.LogError($"Piece state '{CurrentState}' action not defined");
@@ -69,15 +65,21 @@ public class PieceManager : MonoBehaviour
 	}
 
 	// This is called when a child border object collision is triggered, and it sends a message upward to here
-	public void CollisionDetected()
+	public void CollisionDetected(string blockName)
 	{ 
-		//Debug.Log("Piece notified of collision");
+		Debug.Log($"Piece {SimPiece.Id} notified of collision by block:{blockName}");
 		yMove = 0f;
 	}
 
-	public void BeginDropUntilCollision()
+	public void BeginDropInLandingZoneUntilCollision()
 	{
-		//Debug.Log($"PieceDropSpeed:{PieceDropSpeed}");
+		CurrentState = PieceState.DroppingInLandingZone;
+		yMove = PieceDropSpeed;
+	}
+
+	public void BeginDropToSpringboardUntilCollision()
+	{
+		CurrentState = PieceState.MovingToSpringboard;
 		yMove = PieceDropSpeed;
 	}
 
@@ -86,7 +88,7 @@ public class PieceManager : MonoBehaviour
 		CurrentState = PieceState.DroppingToNextBinCell;
 		DestinationYPosn = yPosn;
 		yMove = PieceDropSpeed;
-		Debug.Log($"pc{SimPiece.Id} from {transform.position.y} to {yPosn}");
+		//Debug.Log($"pc{SimPiece.Id} from {transform.position.y} to {yPosn}");
 	}
 
 	public void BeginDropFromBinToPlayer(float destinationYPosn)

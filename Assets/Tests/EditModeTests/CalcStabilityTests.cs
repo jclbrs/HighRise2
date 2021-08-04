@@ -92,6 +92,18 @@ public class CalcStabilityTests
     }
 
     [Test]
+    public void Place2BlockPieceAbove1BlockOnFarRight_expectStable() // This is a case where the center of gravity is right on the edge of the piece below it
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus status;
+        zone.TryPlacePiece(0, 0, 5, out status);
+        zone.TryPlacePiece(1, 1, 4, out status);
+
+        bool isStable = zone.CalculateStability();
+        Assert.IsTrue(isStable);
+    }
+
+    [Test]
     public void Place3BlockPieceAbove2Separated1Blocks_expectStable() // This is a case where the center of gravity is is above a gap below it, but the edges should support it
     {
         LandingZoneLogic zone = new LandingZoneLogic();

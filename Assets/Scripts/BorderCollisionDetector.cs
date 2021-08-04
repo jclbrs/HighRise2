@@ -16,9 +16,17 @@ public class BorderCollisionDetector : MonoBehaviour
         
     }
 
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
+    // This approach did not work well.  Switched to the trigger approach (below)
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
         Debug.Log($"Border {gameObject.name} detected collision");
+        SendMessageUpwards("CollisionDetected", gameObject.name);
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+	{
+        //Debug.Log($"Border {gameObject.name} detected trigger");
         SendMessageUpwards("CollisionDetected", gameObject.name);
 	}
 }

@@ -67,7 +67,7 @@ public class PieceManager : MonoBehaviour
 	// This is called when a child border object collision is triggered, and it sends a message upward to here
 	public void CollisionDetected(string blockName)
 	{ 
-		Debug.Log($"Piece {SimPiece.Id} notified of collision by block:{blockName}");
+		//Debug.Log($"Piece {SimPiece.Id} notified of collision by block:{blockName}");
 		yMove = 0f;
 	}
 

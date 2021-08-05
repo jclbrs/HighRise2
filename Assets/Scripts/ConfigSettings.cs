@@ -13,6 +13,7 @@ public class ConfigSettings : MonoBehaviour
     public GameObject SpringboardObject;
     public GameObject BinsObject;
     public GameObject SprungPiecesContainer;
+    public GameObject DestroyingPieceParticlesPrefab;
 
     public int NumBins;
     public int NumCellsPerBin;

@@ -25,7 +25,7 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 
 		public int FirstAvailableSpring()
 		{
-            return Springs.FindIndex(i => i == int.MinValue);
+            return Springs.FindLastIndex(i => i > int.MinValue) + 1;
 		}
 
         public bool TryMovePieceToAvailableSpring(int pieceId, int width, out int springIdx)

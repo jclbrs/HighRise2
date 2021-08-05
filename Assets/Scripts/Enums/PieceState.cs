@@ -16,6 +16,7 @@ namespace Assets.Scripts.Enums
 		MovingUpFromSpringboard,
 		MovingDownToLandingZone,
 		LandedOnLandingZone,
-		DroppingInLandingZone
+		DroppingInLandingZone,
+		IntoGarbage
 	}
 }

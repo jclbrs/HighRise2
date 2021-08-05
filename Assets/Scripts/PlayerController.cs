@@ -152,8 +152,10 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
-			// joe - piece doesn't fit on springboard, so move to area where it will be sent to garbage
-			throw new NotImplementedException("Need move to garbage area");
+			// joe - piece doesn't fit on springboard, so move destroy (or drop into garbage)
+			_attachedPieceManager.TossInGarbage();
+			_attachedPieceManager = null;
+			_currentState = PlayerState.IdleUnderBin;
 		}
 		//Debug.Log($"1st avail spring:{firstAvailableSpringIdx}");
 	}

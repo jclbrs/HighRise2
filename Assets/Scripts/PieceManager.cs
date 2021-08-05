@@ -17,12 +17,14 @@ public class PieceManager : MonoBehaviour
 	public float XSpeed;
 	public float DestinationXPosn;
 	public float BlockWidth;
+	private GameObject _destroyingPieceParticlesPrefab;
 	private EventsManager _eventsManager;
 
-	public void Initialize(EventsManager eventsManager, float blockWidth)
+	public void Initialize(EventsManager eventsManager, float blockWidth, GameObject destroyingPieceParticlesPrefab)
 	{
 		_eventsManager = eventsManager;
 		BlockWidth = blockWidth;
+		_destroyingPieceParticlesPrefab = destroyingPieceParticlesPrefab;
 	}
 
 	void Update()
@@ -57,6 +59,9 @@ public class PieceManager : MonoBehaviour
 				break;
 			case PieceState.DroppingInLandingZone:
 				// no special actions currently
+				break;
+			case PieceState.IntoGarbage:
+				// no actions, as a coroutine is in progress to destroy the piece
 				break;
 			default:
 				Debug.LogError($"Piece state '{CurrentState}' action not defined");
@@ -140,5 +145,18 @@ public class PieceManager : MonoBehaviour
 	public float GetXWidth()
 	{
 		return SimPiece.GetSimWidth() * BlockWidth;
+	}
+
+	public void TossInGarbage()
+	{
+		CurrentState = PieceState.IntoGarbage;
+		StartCoroutine(DestroyPiece());
+	}
+
+	private IEnumerator DestroyPiece()
+	{
+		GameObject particleEffect = Instantiate(_destroyingPieceParticlesPrefab, transform);
+		yield return new WaitForSeconds(3f);
+		Destroy(gameObject);
 	}
 }

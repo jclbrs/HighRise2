@@ -2047,6 +2047,8 @@ MonoBehaviour:
   SpringboardObject: {fileID: 1036991248}
   BinsObject: {fileID: 942412436}
   SprungPiecesContainer: {fileID: 1769368288}
+  DestroyingPieceParticlesPrefab: {fileID: 5539830578366708729, guid: 907c2197559252541b174113feec84f4,
+    type: 3}
   NumBins: 5
   NumCellsPerBin: 4
   Bin0Posn: {x: 5, y: 5}

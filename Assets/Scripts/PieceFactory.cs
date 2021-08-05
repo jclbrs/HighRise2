@@ -7,14 +7,16 @@ using UnityEngine;
 public class PieceFactory : MonoBehaviour
 {
 	private GameObject _piecePrefab;
+	private GameObject _destroyingPieceParticlesPrefab;
 	private float _pieceDropSpeed;
 	private float _pieceXSpeed;
 	private float _blockWidth;
 	private EventsManager _eventsManager;
 
-	public void InitializeGameSettings(GameObject piecePrefab, float pieceDropSpeed, float pieceXSpeed, float blockWidth, EventsManager eventsManager)
+	public void InitializeGameSettings(GameObject piecePrefab, GameObject destroyingPieceParticlesPrefab, float pieceDropSpeed, float pieceXSpeed, float blockWidth, EventsManager eventsManager)
 	{
 		_piecePrefab = piecePrefab;
+		_destroyingPieceParticlesPrefab = destroyingPieceParticlesPrefab;
 		_pieceDropSpeed = pieceDropSpeed;
 		_pieceXSpeed = pieceXSpeed;
 		_eventsManager = eventsManager;
@@ -25,11 +27,12 @@ public class PieceFactory : MonoBehaviour
 	{
 		GameObject selectedPiece = Instantiate(_piecePrefab, parentTransform);
 		selectedPiece.transform.localPosition = new Vector3(x, y);
+
 		PieceManager newPieceManager = selectedPiece.GetComponent<PieceManager>();
 		newPieceManager.yMove = 0.0f;
 		newPieceManager.PieceDropSpeed = _pieceDropSpeed;
 		newPieceManager.XSpeed = _pieceXSpeed;
-		newPieceManager.Initialize(_eventsManager,_blockWidth);
+		newPieceManager.Initialize(_eventsManager,_blockWidth, _destroyingPieceParticlesPrefab);
 
 		SimPiece simPiece = SimPieceLibrary.SimPieces[pieceId];
 		newPieceManager.ConstructPieceShape(selectedPiece, simPiece);

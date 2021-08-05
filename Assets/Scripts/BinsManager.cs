@@ -27,7 +27,6 @@ public class BinsManager : MonoBehaviour
 		_binPieceYSpacing = binPieceYSpacing;
 		_yDropPointToPlayer = yDropPointToPlayer;
 		_bins = new Dictionary<int, List<GameObject>>();
-		//_playerController.BinPieceDropRequested += DropBinPieceToPlayer(int binIdx);
 	}
 
 	public void InitializeLevelSettings(LogicController logicController)
@@ -64,24 +63,6 @@ public class BinsManager : MonoBehaviour
 				}
 				_bins[binIdx] = piecesInBin;
 			}
-			// Testing
-			//PieceManager pc0 = _bins[0][0].GetComponent<PieceManager>();
-			//float x0 = pc0.transform.position.x;
-			//float y0 = pc0.transform.position.y;
-			//PieceManager pc1 = _bins[0][1].GetComponent<PieceManager>();
-			//float x1 = pc1.transform.position.x;
-			//float y1 = pc1.transform.position.y;
-			//PieceManager pc2 = _bins[0][2].GetComponent<PieceManager>();
-			//float x2 = pc2.transform.position.x;
-			//float y2 = pc2.transform.position.y;
-			//PieceManager pc3 = _bins[0][3].GetComponent<PieceManager>();
-			//float x3 = pc3.transform.position.x;
-			//float y3 = pc3.transform.position.y;
-			//int id0 = pc0.SimPiece.Id;
-			//int id1 = pc1.SimPiece.Id;
-			//int id2 = pc2.SimPiece.Id;
-			//int id3 = pc3.SimPiece.Id;
-			//Debug.Log($"Created: {id0}-({x0}/{y0}) .. {id1}-({x1}/{y1}) .. {id2}-({x2}/{y2}) .. {id3}-({x3}/{y3})");
 		}
 		catch (Exception ex)
 		{
@@ -89,37 +70,17 @@ public class BinsManager : MonoBehaviour
 		}
 	}
 
-	// Kicked off from a UnityEvent on Player Controller
+	// Kicked off from an event on Player Controller
 	public void OnDroppingBinPieceToPlayer(int binIdx)
 	{
 		BinsLogic binsLgc = _logicController.BinsLogic;
 		SimPiece simPiece = binsLgc.DropPieceFromBin(binIdx);
-		Debug.Log($"Received request to drop bin piece from bin:{binIdx}, pieceId:{simPiece.Id}");
+		//Debug.Log($"Received request to drop bin piece from bin:{binIdx}, pieceId:{simPiece.Id}");
 
 		// Drop the selected piece
 		PieceManager pieceManager = _bins[binIdx][0].GetComponent<PieceManager>();
 		pieceManager.CurrentState = PieceState.DroppingFromBinToPlayer;
 		pieceManager.BeginDropFromBinToPlayer(_yDropPointToPlayer);
-
-
-		// testing before
-		//PieceManager pc0 = _bins[0][0].GetComponent<PieceManager>();
-		//float x0 = pc0.transform.position.x;
-		//float y0 = pc0.transform.position.y;
-		//PieceManager pc1 = _bins[0][1].GetComponent<PieceManager>();
-		//float x1 = pc1.transform.position.x;
-		//float y1 = pc1.transform.position.y;
-		//PieceManager pc2 = _bins[0][2].GetComponent<PieceManager>();
-		//float x2 = pc2.transform.position.x;
-		//float y2 = pc2.transform.position.y;
-		//PieceManager pc3 = _bins[0][3].GetComponent<PieceManager>();
-		//float x3 = pc3.transform.position.x;
-		//float y3 = pc3.transform.position.y;
-		//int id0 = pc0.SimPiece.Id;
-		//int id1 = pc1.SimPiece.Id;
-		//int id2 = pc2.SimPiece.Id;
-		//int id3 = pc3.SimPiece.Id;
-		//Debug.Log($"b4: {id0}-({x0}/{y0}) .. {id1}-({x1}/{y1}) .. {id2}-({x2}/{y2}) .. {id3}-({x3}/{y3})");
 
 		// Move the remaining bin pieces down to the next position
 		float yPosn;
@@ -143,24 +104,5 @@ public class BinsManager : MonoBehaviour
 		pieceManager = addedPiece.GetComponent<PieceManager>();
 		pieceManager.BeginDropToYPosnInBin(_bin0Posn.y + (binsLgc.NumCellsPerBin - 1) * _binPieceYSpacing);
 		_bins[binIdx][binsLgc.NumCellsPerBin - 1] = pieceManager.gameObject;
-
-		// testing after
-		//pc0 = _bins[0][0].GetComponent<PieceManager>();
-		//x0 = pc0.transform.position.x;
-		//y0 = pc0.transform.position.y;
-		//pc1 = _bins[0][1].GetComponent<PieceManager>();
-		//x1 = pc1.transform.position.x;
-		//y1 = pc1.transform.position.y;
-		//pc2 = _bins[0][2].GetComponent<PieceManager>();
-		//x2 = pc2.transform.position.x;
-		//y2 = pc2.transform.position.y;
-		//pc3 = _bins[0][3].GetComponent<PieceManager>();
-		//x3 = pc3.transform.position.x;
-		//y3 = pc3.transform.position.y;
-		//id0 = pc0.SimPiece.Id;
-		//id1 = pc1.SimPiece.Id;
-		//id2 = pc2.SimPiece.Id;
-		//id3 = pc3.SimPiece.Id;
-		//Debug.Log($"after: {id0}-({x0}/{y0}) .. {id1}-({x1}/{y1}) .. {id2}-({x2}/{y2}) .. {id3}-({x3}/{y3})");
 	}
 }

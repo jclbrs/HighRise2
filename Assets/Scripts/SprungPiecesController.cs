@@ -78,7 +78,8 @@ public class SprungPiecesController : MonoBehaviour
 				foreach(PieceManager pieceMgr in _sprungPieces.Values)
 				{
 					simPieces.Add(pieceMgr.SimPiece);
-					pieceMgr.transform.SetParent(null);
+					GameObject landingPiecesGO = GameObject.Find("/LandingZone/LandingPieces");
+					pieceMgr.transform.SetParent(landingPiecesGO.transform);
 					pieceMgr.BeginDropInLandingZoneUntilCollision();
 				}
 				bool isStable = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);

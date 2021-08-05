@@ -7,6 +7,7 @@ public class EventsManager : MonoBehaviour
 	public event Action<PieceManager> PieceDroppedFromBin;
 	public event Action<int, PieceManager> PieceDroppedToSpringboard;
 	public event Action SpringboardTriggered;
+	public event Action<bool,int> PiecesLanded;
 
 	public void OnBinPieceSelected(int binIdx)
 	{
@@ -28,7 +29,10 @@ public class EventsManager : MonoBehaviour
 		SpringboardTriggered?.Invoke();
 	}
 
-
+	public void OnPiecesLanded(bool isStable, int highestRowIdx)
+	{
+		PiecesLanded?.Invoke(isStable, highestRowIdx);
+	}
 
 
 }

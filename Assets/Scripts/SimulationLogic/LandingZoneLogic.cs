@@ -380,5 +380,18 @@ namespace Assets.Scripts.SimulationLogic
 			rowPieceForce.CtrOfMassAbove = rowPieceForce.CtrOfMass;
 			return splitForceOnLeft;
 		}
+
+		public int GetHighestPieceRowIdx()
+		{
+			for (int zoneRow = NumRowsInLandingZone - 3; zoneRow > 0; zoneRow--)
+			{
+				for (int zoneCol = 0; zoneCol < NumColsInLandingZone; zoneCol++)
+				{
+					if (LandingZone[zoneCol, zoneRow].PieceId > int.MinValue)
+						return zoneRow;
+				}
+			}
+			return -1;
+		}
 	}
 }

@@ -14,6 +14,7 @@ public class ConfigSettings : MonoBehaviour
     public GameObject BinsObject;
     public GameObject SprungPiecesContainer;
     public GameObject DestroyingPieceParticlesPrefab;
+    public GameObject LandingZoneObject;
 
     public int NumBins;
     public int NumCellsPerBin;

@@ -84,6 +84,7 @@
     <Compile Include="Assets\Scripts\PieceFactory.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Enums\PlacePieceStatus.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Models\RowPieceForce.cs" />
+    <Compile Include="Assets\Scripts\LandingZoneController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\ScriptDefinitions.asmdef" />

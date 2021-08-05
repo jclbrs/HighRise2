@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
 	private BinsManager _binsManager;
 	private LogicController _logicController;
 	private SprungPiecesController _sprungPiecesController;
+	private LandingZoneController _landingZoneController;
 	private EventsManager _eventsManager;
 	private int _currentLevel;
 
@@ -30,6 +31,7 @@ public class GameController : MonoBehaviour
 		_playerController = _config.PlayerObject.GetComponent<PlayerController>();
 		_binsManager = _config.BinsObject.GetComponent<BinsManager>();
 		_sprungPiecesController = _config.SprungPiecesContainer.GetComponent<SprungPiecesController>();
+		_landingZoneController = _config.LandingZoneObject.GetComponent<LandingZoneController>();
 
 		// Get the starting level from ConfigSettings (Normally this will be 1, but can change for testing purposes)
 		_currentLevel = _config.InitialLevel;
@@ -39,7 +41,7 @@ public class GameController : MonoBehaviour
 		_pieceFactory.InitializeGameSettings(_config.PiecePrefab, _config.DestroyingPieceParticlesPrefab, _config.PieceDropFromBinYSpeed, _config.PieceXSpeed, _config.BlockWidth, _eventsManager);
 		_springboardController.InitializeGameSettings(_config.SpringboardYSpeed, _config.SpringboardMoveHeight);
 		_binsManager.InitializeGameSettings(_pieceFactory, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing, _config.PieceYFromBinDrop);
-		_sprungPiecesController.InitializeGameSettings(_config.SpringOverPoints, _config.FirstPieceSpringX, _config.BlockWidth, _logicController, _config.SprungYSpeed);
+		_sprungPiecesController.InitializeGameSettings(_eventsManager, _config.SpringOverPoints, _config.FirstPieceSpringX, _config.BlockWidth, _logicController, _config.SprungYSpeed);
 		List<float> springboardXPosns = _sprungPiecesController.GetInitialSpringXPosns();
 		_playerController.InitializeGameSettings(springboardXPosns, _config.PlayerXSpeed, _eventsManager);
 
@@ -48,6 +50,7 @@ public class GameController : MonoBehaviour
 		_eventsManager.PieceDroppedFromBin += _playerController.OnBeginMovePieceToSpringboard;
 		_eventsManager.PieceDroppedToSpringboard += _springboardController.OnPieceDroppedToSpringboard;
 		_eventsManager.SpringboardTriggered += _springboardController.OnSpringboardTriggered;
+		_eventsManager.PiecesLanded += _landingZoneController.OnPiecesLanded;
 
 		SetupLevel(_currentLevel);
 	}
@@ -58,6 +61,7 @@ public class GameController : MonoBehaviour
 		_eventsManager.PieceDroppedFromBin -= _playerController.OnBeginMovePieceToSpringboard;
 		_eventsManager.PieceDroppedToSpringboard -= _springboardController.OnPieceDroppedToSpringboard;
 		_eventsManager.SpringboardTriggered -= _springboardController.OnSpringboardTriggered;
+		_eventsManager.PiecesLanded -= _landingZoneController.OnPiecesLanded;
 	}
 
 	// Some of these settings might be the same throughout the game, but to stay flexible, they are being populated for each level

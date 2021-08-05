@@ -11,6 +11,7 @@ using UnityEngine;
 // Imagine it is like an amusement park ride where the guests (pieces) go in for the ride, and are dropped off at the end of the ride
 public class SprungPiecesController : MonoBehaviour
 {
+	EventsManager _eventsManager;
 	SprungPiecesState _currentState;
 	private int _destSpingOverIndex;
 	private List<Vector2> _springOverPathPoints;
@@ -28,8 +29,9 @@ public class SprungPiecesController : MonoBehaviour
 		_currentState = SprungPiecesState.Idle;
 	}
 
-	internal void InitializeGameSettings(List<Vector2> springOverPathPoints, float firstPieceSpringX, float pieceSpringXSpacing, LogicController logicController, float ySpeed)
+	internal void InitializeGameSettings(EventsManager eventsManager, List<Vector2> springOverPathPoints, float firstPieceSpringX, float pieceSpringXSpacing, LogicController logicController, float ySpeed)
 	{
+		_eventsManager = eventsManager;
 		_springOverPathPoints = springOverPathPoints;
 		_initialPosition = transform.position;
 		_firstPieceSpringX = firstPieceSpringX;
@@ -83,7 +85,8 @@ public class SprungPiecesController : MonoBehaviour
 					pieceMgr.BeginDropInLandingZoneUntilCollision();
 				}
 				bool isStable = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
-				Debug.Log($"Stable:{isStable}");
+				int highestLandingRowIdx = _logicController.LandingZoneLogic.GetHighestPieceRowIdx();
+				_eventsManager.OnPiecesLanded(isStable, highestLandingRowIdx);
 				transform.SetParent(_springboardController.transform);
 				transform.localPosition = Vector3.zero;
 			}

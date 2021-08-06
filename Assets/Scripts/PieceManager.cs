@@ -12,13 +12,15 @@ public class PieceManager : MonoBehaviour
 	public float PieceDropSpeed;
 
 	public PieceState CurrentState;
-	public  SimPiece SimPiece { get; private set; }
+	public SimPiece SimPiece { get; private set; }
 	public float DestinationYPosn;
 	public float XSpeed;
 	public float DestinationXPosn;
 	public float BlockWidth;
 	private GameObject _destroyingPieceParticlesPrefab;
 	private EventsManager _eventsManager;
+	private bool _isLandingZoneStable;
+	private float _rotationSpeed;
 
 	public void Initialize(EventsManager eventsManager, float blockWidth, GameObject destroyingPieceParticlesPrefab)
 	{
@@ -66,6 +68,9 @@ public class PieceManager : MonoBehaviour
 			case PieceState.IntoGarbage:
 				// no actions, as a coroutine is in progress to destroy the piece
 				break;
+			case PieceState.FallingUnstable:
+				transform.Rotate(Vector3.forward * (_rotationSpeed * Time.deltaTime));
+				break;
 			default:
 				Debug.LogError($"Piece state '{CurrentState}' action not defined");
 				break;
@@ -75,15 +80,23 @@ public class PieceManager : MonoBehaviour
 	// This is called when a child border object collision is triggered, and it sends a message upward to here
 	public void CollisionDetected(string blockName)
 	{
-		//Debug.Log($"Piece {SimPiece.Id} notified of collision by block:{blockName}");
+		if (CurrentState == PieceState.FallingUnstable) // ignore collisions if falling due to instability
+			return;
+
 		if (CurrentState == PieceState.DroppingInLandingZone)
+		{
 			CurrentState = PieceState.LandedOnLandingZone;
+			if (!_isLandingZoneStable)
+				StartUnstableAction();
+		}
+		//Debug.Log($"Piece {SimPiece.Id} notified of collision by block:{blockName}");
 		yMove = 0f;
 	}
 
-	public void BeginDropInLandingZoneUntilCollision()
+	public void BeginDropInLandingZoneUntilCollision(bool isLandingZoneStable)
 	{
 		CurrentState = PieceState.DroppingInLandingZone;
+		_isLandingZoneStable = isLandingZoneStable;
 		yMove = PieceDropSpeed;
 	}
 
@@ -163,5 +176,16 @@ public class PieceManager : MonoBehaviour
 		GameObject particleEffect = Instantiate(_destroyingPieceParticlesPrefab, transform);
 		yield return new WaitForSeconds(3f);
 		Destroy(gameObject);
+	}
+
+	public void StartUnstableAction()
+	{
+		if (CurrentState == PieceState.LandedOnLandingZone)
+		{
+			Debug.Log("Starting unstable actions");
+			CurrentState = PieceState.FallingUnstable;
+			_rotationSpeed = 12f; // joe just guessing
+			yMove = PieceDropSpeed;
+		}
 	}
 }

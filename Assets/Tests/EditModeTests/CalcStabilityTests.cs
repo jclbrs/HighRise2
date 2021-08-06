@@ -92,6 +92,18 @@ public class CalcStabilityTests
     }
 
     [Test]
+    public void Place2BlockPieceAbove1BlockInMiddleCol_expectStable() // This is a case where the center of gravity is right on the edge of the piece below it
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus status;
+        zone.TryPlacePiece(0, 0, 3, out status);
+        zone.TryPlacePiece(1, 1, 2, out status);
+
+        bool isStable = zone.CalculateStability();
+        Assert.IsTrue(isStable);
+    }
+
+    [Test]
     public void Place2BlockPieceAbove1BlockOnFarRight_expectStable() // This is a case where the center of gravity is right on the edge of the piece below it
     {
         LandingZoneLogic zone = new LandingZoneLogic();
@@ -114,6 +126,32 @@ public class CalcStabilityTests
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
+    }
+
+    [Test]
+    public void Stack1_2_3WideOffset_expectUnstable()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus status;
+        zone.TryPlacePiece(0, 0, 0, out status);
+        zone.TryPlacePiece(1, 1, 1, out status);
+        zone.TryPlacePiece(2, 2, 2, out status);
+
+        bool isStable = zone.CalculateStability();
+        Assert.IsFalse(isStable);
+    }
+
+    [Test]
+    public void Stack1_3_3TallOffset_expectUnstable()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus status;
+        zone.TryPlacePiece(0, 0, 0, out status);
+        zone.TryPlacePiece(6, 1, 0, out status);
+        zone.TryPlacePiece(6, 4, 1, out status);
+
+        bool isStable = zone.CalculateStability();
+        Assert.IsFalse(isStable);
     }
 
     [Test]

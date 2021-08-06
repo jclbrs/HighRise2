@@ -77,16 +77,22 @@ public class SprungPiecesController : MonoBehaviour
 			{
 				_currentState = SprungPiecesState.Idle;
 				List<SimPiece> simPieces = new List<SimPiece>();
-				foreach(PieceManager pieceMgr in _sprungPieces.Values)
-				{
+				foreach (PieceManager pieceMgr in _sprungPieces.Values)
 					simPieces.Add(pieceMgr.SimPiece);
+
+				bool isStable = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
+				foreach (PieceManager pieceMgr in _sprungPieces.Values)
+				{
+					pieceMgr.BeginDropInLandingZoneUntilCollision(isStable);
 					GameObject landingPiecesGO = GameObject.Find("/LandingZone/LandingPieces");
 					pieceMgr.transform.SetParent(landingPiecesGO.transform);
-					pieceMgr.BeginDropInLandingZoneUntilCollision();
 				}
-				bool isStable = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
+
+				Debug.Log($"SprungPiecesController. Stable:{isStable}");
+
+
 				int highestLandingRowIdx = _logicController.LandingZoneLogic.GetHighestPieceRowIdx();
-				_eventsManager.OnPiecesLanded(isStable, highestLandingRowIdx);
+				_eventsManager.OnPiecesLanding(isStable, highestLandingRowIdx);  // The row arrow should be a listener
 				transform.SetParent(_springboardController.transform);
 				transform.localPosition = Vector3.zero;
 			}

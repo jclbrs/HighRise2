@@ -221,13 +221,21 @@ namespace Assets.Scripts.SimulationLogic
 			int rowPieceWidth = rowPieceForce.EndColIdx - rowPieceForce.StartColIdx + 1;
 			rowPieceForce.CtrOfMass = rowPieceForce.StartColIdx + rowPieceWidth / 2f;
 			// Now find if there are accumulated pieces above that have a center of gravity on this current piece
+
+			// Find the applicable 'above' force, if any, and apply it to this force
+			RowPieceForce forceAbove = _aboveRowForces.Find(r => rowPieceForce.StartColIdx <= r.AccumulatedCtrOfMass && rowPieceForce.EndColIdx >= r.AccumulatedCtrOfMass);
+			if (forceAbove != null)
+			{
+				rowPieceForce.MassAbove = forceAbove.AccumulatedMass;
+				rowPieceForce.CtrOfMassAbove = forceAbove.AccumulatedCtrOfMass;
+			}
 			CalcEffectOfAboveForces(rowPieceForce);
 
 			// === Run stability checks ====
 			// Check if already on the ground
 			if (row == 0)
 			{
-				_currentRowForces.Add(rowPieceForce);
+				_currentRowForces.Add(rowPieceForce); // joe is this needed????
 				return true;
 			}
 
@@ -247,7 +255,10 @@ namespace Assets.Scripts.SimulationLogic
 					if (pieceIdBelowLeft == pieceIdBelowRight)
 					{
 						// The blocks on left and right are part of the same piece, so leave this current piece's center of mass as is
-						_currentRowForces.Add(rowPieceForce);
+						// Joe, there is a potential flaw here:
+						//		we are using the piece id to indicate whether it is the same piece
+						//		In reality, we could have 2 different pieces with the same shape (same pieceId) next to each other
+						// We should consider having unique identifiers for the pieces, and not rely solely on pieceId
 						return true;
 					}
 
@@ -261,19 +272,15 @@ namespace Assets.Scripts.SimulationLogic
 				{
 					float shiftCenterOfMass = (hasPieceBelowLeft ? -0.1f : 0.1f);
 					rowPieceForce.AccumulatedCtrOfMass += shiftCenterOfMass;
-					_currentRowForces.Add(rowPieceForce);
 					return true;
 				}
 			}
 
 
 			// Check if above another piece
-			int colIdxWithCtrOfGrav = (int)Math.Floor(rowPieceForce.AccumulatedCtrOfMass);
-			if (LandingZone[colIdxWithCtrOfGrav, row - 1].PieceId > int.MinValue)
-			{
-				_currentRowForces.Add(rowPieceForce);
+			int colIdxWithCtrOfMass = (int)Math.Floor(rowPieceForce.AccumulatedCtrOfMass);
+			if (LandingZone[colIdxWithCtrOfMass, row - 1].PieceId > int.MinValue)
 				return true;
-			}
 			else // not above another piece.  This means either it is straddling 2 pieces below, or its center is not stable
 			{
 				// check if straddling, which can only happen if the piece is 3-blocks wide
@@ -323,7 +330,7 @@ namespace Assets.Scripts.SimulationLogic
 
 		private void CalcEffectOfAboveForces(RowPieceForce rowPieceForce)
 		{
-			RowPieceForce aboveRowForce = _aboveRowForces.Find(p => p.CtrOfMass >= rowPieceForce.StartColIdx && p.CtrOfMass <= rowPieceForce.EndColIdx);
+			RowPieceForce aboveRowForce = _aboveRowForces.Find(p => p.AccumulatedCtrOfMass >= rowPieceForce.StartColIdx && p.AccumulatedCtrOfMass <= rowPieceForce.EndColIdx + 1);
 			if (aboveRowForce != null)
 			{
 				rowPieceForce.CtrOfMassAbove = aboveRowForce.AccumulatedCtrOfMass;
@@ -332,8 +339,6 @@ namespace Assets.Scripts.SimulationLogic
 			// now calculate the total weight and center of gravity for this piece, including the effect of the pieces weighing down on it
 			rowPieceForce.AccumulatedMass = rowPieceForce.Mass + rowPieceForce.MassAbove; // Joe, this could be a calculated property in RowPieceForce class
 			rowPieceForce.AccumulatedCtrOfMass = (rowPieceForce.Mass * rowPieceForce.CtrOfMass + rowPieceForce.MassAbove * rowPieceForce.CtrOfMassAbove) / rowPieceForce.AccumulatedMass;
-			// We're done with the above forces on this piece, so it can be removed
-			_aboveRowForces.Remove(aboveRowForce);
 			_currentRowForces.Add(rowPieceForce);
 		}
 

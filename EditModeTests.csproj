@@ -60,9 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Tests\EditModeTests\PieceTests.cs" />
+    <Compile Include="Assets\Tests\EditModeTests\CalcStabilityTests.cs" />
     <Compile Include="Assets\Tests\EditModeTests\BinTests.cs" />
     <Compile Include="Assets\Tests\EditModeTests\LandingZoneLogicTests.cs" />
-    <Compile Include="Assets\Tests\EditModeTests\CalcStabilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Tests\EditModeTests\EditModeTests.asmdef" />

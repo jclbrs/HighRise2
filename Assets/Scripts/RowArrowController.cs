@@ -13,16 +13,16 @@ public class RowArrowController : MonoBehaviour
 		_startYCoord = transform.position.y;
 	}
 
-	public void OnPiecesLanded(bool isStable, int highestRowReached)
+	public void OnPiecesLanding(bool isStable, int highestRowReached)
 	{
-		_destYCoord = _startYCoord + (highestRowReached + 1) * 0.86f; // JOE this is messed up.  FIX!!!
+		_destYCoord = _startYCoord + (highestRowReached + 1) * 0.86f; // The hard coded value here is (approx) the screen height of a block
 		StartCoroutine(MovePointer());
 	}
 
 	public IEnumerator MovePointer() 
 	{
 		float elapsedTime = 0;
-		float durationSeconds = 1f; // hard coding to see how it looks
+		float durationSeconds = 1f; 
 		Vector3 startingPosition = new Vector3(transform.position.x, transform.position.y);
 		Vector3 endingPosition = new Vector3(transform.position.x, _destYCoord);
 		yield return new WaitForSeconds(1f);

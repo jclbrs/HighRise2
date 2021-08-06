@@ -17,6 +17,7 @@ namespace Assets.Scripts.Enums
 		MovingDownToLandingZone,
 		LandedOnLandingZone,
 		DroppingInLandingZone,
-		IntoGarbage
+		IntoGarbage,
+		FallingUnstable
 	}
 }

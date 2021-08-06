@@ -383,7 +383,7 @@ namespace Assets.Scripts.SimulationLogic
 
 		public int GetHighestPieceRowIdx()
 		{
-			for (int zoneRow = NumRowsInLandingZone - 3; zoneRow > 0; zoneRow--)
+			for (int zoneRow = NumRowsInLandingZone - 3; zoneRow >= 0; zoneRow--)
 			{
 				for (int zoneCol = 0; zoneCol < NumColsInLandingZone; zoneCol++)
 				{

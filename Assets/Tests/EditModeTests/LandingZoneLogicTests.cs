@@ -100,7 +100,6 @@ public class LandingZoneLogicTests
     [Test]
     public void FindLandingPosition_NoOtherPiecesOnCol0_ReturnRow0()
 	{
-        SimPiece testPiece = SimPieceLibrary.SimPieces[0];
         LandingZoneLogic zone = new LandingZoneLogic();
 
         int row = zone.FindLandingPosition(0, 0);
@@ -110,7 +109,6 @@ public class LandingZoneLogicTests
     [Test]
     public void FindLandingPosition_NoOtherPiecesOnCol3_ReturnRow0()
     {
-        SimPiece testPiece = SimPieceLibrary.SimPieces[0];
         LandingZoneLogic zone = new LandingZoneLogic();
 
         int row = zone.FindLandingPosition(3, 0);
@@ -120,7 +118,6 @@ public class LandingZoneLogicTests
     [Test]
     public void FindLandingPosition_smallPiecesOnCol0_ReturnRow1()
     {
-        SimPiece testPiece = SimPieceLibrary.SimPieces[0];
         LandingZoneLogic zone = new LandingZoneLogic();
         PlacePieceStatus placePieceStatus;
         if (zone.TryPlacePiece(0, 0, 0, out placePieceStatus))
@@ -135,7 +132,6 @@ public class LandingZoneLogicTests
     [Test]
     public void FindLandingPosition_TallPiecesOnCol0_ReturnRow3()
     {
-        SimPiece testPiece = SimPieceLibrary.SimPieces[0];
         LandingZoneLogic zone = new LandingZoneLogic();
         PlacePieceStatus placePieceStatus;
         if (zone.TryPlacePiece(5, 0, 0, out placePieceStatus))
@@ -150,7 +146,6 @@ public class LandingZoneLogicTests
     [Test]
     public void FindLandingPosition_UShapePiecesOnCol0_ReturnRow1()
     {
-        SimPiece testPiece = SimPieceLibrary.SimPieces[0];
         LandingZoneLogic zone = new LandingZoneLogic();
         PlacePieceStatus placePieceStatus;
         if (zone.TryPlacePiece(14, 0, 0, out placePieceStatus))
@@ -160,5 +155,74 @@ public class LandingZoneLogicTests
         }
         else
             throw new Exception($"TryPlacePiece failed: {placePieceStatus}");
+    }
+
+    [Test]
+    public void GetHighestPieceRowIdx_1shortPc_Expect0()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus placePieceStatus;
+        if (zone.TryPlacePiece(0, 0, 0, out placePieceStatus))
+        {
+            int row = zone.GetHighestPieceRowIdx();
+            Assert.AreEqual(0, row);
+        }
+        else
+            throw new Exception($"TryPlacePiece failed: {placePieceStatus}");
+    }
+
+    [Test]
+    public void GetHighestPieceRowIdx_1MedPc_Expect1()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus placePieceStatus;
+        if (zone.TryPlacePiece(3, 0, 0, out placePieceStatus))
+        {
+            int row = zone.GetHighestPieceRowIdx();
+            Assert.AreEqual(1, row);
+        }
+        else
+            throw new Exception($"TryPlacePiece failed: {placePieceStatus}");
+    }
+
+    [Test]
+    public void GetHighestPieceRowIdx_1TallPc_Expect2()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus placePieceStatus;
+        if (zone.TryPlacePiece(6, 0, 0, out placePieceStatus))
+        {
+            int row = zone.GetHighestPieceRowIdx();
+            Assert.AreEqual(2, row);
+        }
+        else
+            throw new Exception($"TryPlacePiece failed: {placePieceStatus}");
+    }
+
+    [Test]
+    public void GetHighestPieceRowIdx_SeveralPcs_Expect2()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus placePieceStatus;
+        zone.TryPlacePiece(0, 0, 0, out placePieceStatus);
+        zone.TryPlacePiece(3, 0, 1, out placePieceStatus);
+        zone.TryPlacePiece(6, 0, 2, out placePieceStatus);
+
+        int row = zone.GetHighestPieceRowIdx();
+        Assert.AreEqual(2, row);
+    }
+
+    [Test]
+    public void GetHighestPieceRowIdx_SeveralStackedPcs_Expect5()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic();
+        PlacePieceStatus placePieceStatus;
+        zone.TryPlacePiece(0, 0, 0, out placePieceStatus);
+        zone.TryPlacePiece(3, 0, 1, out placePieceStatus);
+        zone.TryPlacePiece(6, 0, 2, out placePieceStatus);
+        zone.TryPlacePiece(6, 3, 2, out placePieceStatus);
+
+        int row = zone.GetHighestPieceRowIdx();
+        Assert.AreEqual(5, row);
     }
 }

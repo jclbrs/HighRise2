@@ -60,6 +60,9 @@ public class PieceManager : MonoBehaviour
 			case PieceState.DroppingInLandingZone:
 				// no special actions currently
 				break;
+			case PieceState.LandedOnLandingZone:
+				// no special actions
+				break;
 			case PieceState.IntoGarbage:
 				// no actions, as a coroutine is in progress to destroy the piece
 				break;
@@ -71,8 +74,10 @@ public class PieceManager : MonoBehaviour
 
 	// This is called when a child border object collision is triggered, and it sends a message upward to here
 	public void CollisionDetected(string blockName)
-	{ 
+	{
 		//Debug.Log($"Piece {SimPiece.Id} notified of collision by block:{blockName}");
+		if (CurrentState == PieceState.DroppingInLandingZone)
+			CurrentState = PieceState.LandedOnLandingZone;
 		yMove = 0f;
 	}
 

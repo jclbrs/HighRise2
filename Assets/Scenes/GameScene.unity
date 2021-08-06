@@ -349,6 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 274355308}
+  - component: {fileID: 274355309}
   m_Layer: 0
   m_Name: RowArrow
   m_TagString: Untagged
@@ -372,6 +373,18 @@ Transform:
   m_Father: {fileID: 805204395}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &274355309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274355307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b430dcba511df4286c2b3a18b4980c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &334521723
 GameObject:
   m_ObjectHideFlags: 0
@@ -2211,6 +2224,7 @@ MonoBehaviour:
   DestroyingPieceParticlesPrefab: {fileID: 5539830578366708729, guid: 907c2197559252541b174113feec84f4,
     type: 3}
   LandingZoneObject: {fileID: 805204394}
+  RowArrowObject: {fileID: 274355307}
   NumBins: 5
   NumCellsPerBin: 4
   Bin0Posn: {x: 5, y: 5}

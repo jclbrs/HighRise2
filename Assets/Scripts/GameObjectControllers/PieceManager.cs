@@ -185,7 +185,12 @@ public class PieceManager : MonoBehaviour
 			Debug.Log("Starting unstable actions");
 			CurrentState = PieceState.FallingUnstable;
 			_rotationSpeed = 12f; // joe just guessing
-			yMove = PieceDropSpeed;
+			yMove = PieceDropSpeed/3f;  // slow down the crashes
+			foreach (BoxCollider2D collider in gameObject.GetComponentsInChildren(typeof(Collision2D)))
+			{
+				collider.enabled = false;
+			}
+
 		}
 	}
 }

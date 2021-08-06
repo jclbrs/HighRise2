@@ -70,11 +70,11 @@ public class PlayerController : MonoBehaviour
 				break;
 			case PlayerState.PushingPieceToSpringboard:
 				//Debug.Log($"Moving piece: x:{transform.position.x}, speed:{_xSpeed}, Dest:{_destinationXCoord}");
-				transform.position = new Vector3(transform.position.x - _xSpeed* Time.deltaTime, transform.position.y);
+				transform.position = new Vector3(transform.position.x - _xSpeed * Time.deltaTime, transform.position.y);
 				if (transform.position.x <= _pieceXDestination + _pieceXWidth)
 				{
 					transform.position = new Vector3(_pieceXDestination + _pieceXWidth, transform.position.y); // if overshot, set to the exact desired position
-					_currentState = PlayerState.HoldingPieceOnSpringboard; 
+					_currentState = PlayerState.HoldingPieceOnSpringboard;
 					_currentXIndex = _destinationXIndex;
 				}
 				break;
@@ -218,10 +218,10 @@ public class PlayerController : MonoBehaviour
 				case PlayerState.MovingToBin: // player is already moving.  Ignore the extra key entry
 					break;
 				case PlayerState.HoldingPieceOnSpringboard:
-					if (_currentXIndex > 0 && _currentXIndex != _logicController.SpringboardLogic.FirstAvailableSpring()) 
+					if (_currentXIndex > 0 && _currentXIndex != _logicController.SpringboardLogic.FirstAvailableSpring())
 					{
 						_currentState = PlayerState.MovingToNextSpring;
-						_destinationXIndex = _currentXIndex-1;
+						_destinationXIndex = _currentXIndex - 1;
 						_pieceXDestination = _springboardXPosns[_destinationXIndex];
 						_isMoveRight = false;
 					}
@@ -249,7 +249,7 @@ public class PlayerController : MonoBehaviour
 					_isMoveRight = true;
 
 					// tell the world that the piece was dropped (the springboard should be listening)
-					_eventsManager.OnPieceDroppedToSpringboard(_currentXIndex,_attachedPieceManager);
+					_eventsManager.OnPieceDroppedToSpringboard(_currentXIndex, _attachedPieceManager);
 
 					// Have the piece drop to the springs
 					_attachedPieceManager.BeginDropToSpringboardUntilCollision();
@@ -257,12 +257,16 @@ public class PlayerController : MonoBehaviour
 					_attachedPieceManager = null;
 					break;
 			}
-			
+
 		}
-		if (Input.GetKeyDown(KeyCode.Return)){
+		if (Input.GetKeyDown(KeyCode.Return))
+		{
 			Debug.Log("Return pressed");
-			_logicController.SpringboardLogic.ClearSpringboard();
-			_eventsManager.OnSpringboardTriggered();
+			if (_currentState != PlayerState.HoldingPieceOnSpringboard) // disable the springing action if player is on the springboard
+			{
+				_logicController.SpringboardLogic.ClearSpringboard();
+				_eventsManager.OnSpringboardTriggered();
+			}
 		}
 	}
 

@@ -11,7 +11,7 @@ using UnityEngine;
 public class SpringboardController : MonoBehaviour
 {
 	private Dictionary<int, PieceManager> _springboardPieces;
-	private  SpringboardState _currentState;
+	private SpringboardState _currentState;
 	private float _springboardYSpeed;
 	private float _springboardMoveHeight;
 	private float _initialYCoord;
@@ -40,13 +40,16 @@ public class SpringboardController : MonoBehaviour
 				if (transform.position.y >= _initialYCoord + _springboardMoveHeight)
 				{
 					_currentState = SpringboardState.SpringingDown;
-
-					SprungPiecesController sprungPiecesController = gameObject.transform.Find("SprungPiecesContainer").GetComponent<SprungPiecesController>();
-					sprungPiecesController.transform.SetParent(null);
-					sprungPiecesController.OnPiecesReleasedFromSpringboard(this, _springboardPieces);
-					_springboardPieces = new Dictionary<int, PieceManager>();
+					Transform sprungPiecesContainer = gameObject.transform.Find("SprungPiecesContainer");
+					if (sprungPiecesContainer != null) // make sure sprungPiecesContainer is attached, and not currently detached and moving over to landing zone
+					{
+						SprungPiecesController sprungPiecesController = sprungPiecesContainer.GetComponent<SprungPiecesController>();
+						sprungPiecesController.transform.SetParent(null);
+						sprungPiecesController.OnPiecesReleasedFromSpringboard(this, _springboardPieces);
+						_springboardPieces = new Dictionary<int, PieceManager>();
+					}
 				}
-					
+
 				break;
 			case SpringboardState.SpringingDown:
 				transform.position = new Vector3(transform.position.x, transform.position.y - _springboardYSpeed);

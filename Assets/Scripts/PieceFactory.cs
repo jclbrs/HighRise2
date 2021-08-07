@@ -13,14 +13,14 @@ public class PieceFactory : MonoBehaviour
 	private float _blockWidth;
 	private EventsManager _eventsManager;
 
-	public void InitializeGameSettings(GameObject piecePrefab, GameObject destroyingPieceParticlesPrefab, float pieceDropSpeed, float pieceXSpeed, float blockWidth, EventsManager eventsManager)
+	public void InitializeGameSettings(PieceFactoryDIWrapper diWrapper)
 	{
-		_piecePrefab = piecePrefab;
-		_destroyingPieceParticlesPrefab = destroyingPieceParticlesPrefab;
-		_pieceDropSpeed = pieceDropSpeed;
-		_pieceXSpeed = pieceXSpeed;
-		_eventsManager = eventsManager;
-		_blockWidth = blockWidth;
+		_piecePrefab = diWrapper.PiecePrefab;
+		_destroyingPieceParticlesPrefab = diWrapper.DestroyingPieceParticlesPrefab;
+		_pieceDropSpeed = diWrapper.PieceDropFromBinYSpeed;
+		_pieceXSpeed = diWrapper.PieceXSpeed;
+		_eventsManager = diWrapper.EventsManager;
+		_blockWidth = diWrapper.BlockWidth;
 	}
 
 	public GameObject CreatePiece(Transform parentTransform, int pieceId, float x, float y)

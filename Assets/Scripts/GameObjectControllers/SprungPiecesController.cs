@@ -13,8 +13,8 @@ public class SprungPiecesController : MonoBehaviour
 {
 	EventsManager _eventsManager;
 	SprungPiecesState _currentState;
-	private int _destSpingOverIndex;
-	private List<Vector2> _springOverPathPoints;
+	private int _destSpingOverArchingIndex;
+	private List<Vector2> _springOverArchingPathPoints;
 	private Vector2 _initialPosition;
 	private Dictionary<int, PieceManager> _sprungPieces;
 	private SpringboardController _springboardController;
@@ -29,15 +29,15 @@ public class SprungPiecesController : MonoBehaviour
 		_currentState = SprungPiecesState.Idle;
 	}
 
-	internal void InitializeGameSettings(EventsManager eventsManager, List<Vector2> springOverPathPoints, float firstPieceSpringX, float pieceSpringXSpacing, LogicController logicController, float ySpeed)
+	internal void InitializeGameSettings(SprungPiecesDIWrapper wrapper)
 	{
-		_eventsManager = eventsManager;
-		_springOverPathPoints = springOverPathPoints;
+		_eventsManager = wrapper.EventsManager;
+		_springOverArchingPathPoints = wrapper.SpringOverPoints;
+		_firstPieceSpringX = wrapper.FirstPieceSpringX;
+		_pieceSpringXSpacing = wrapper.PieceSpringXSpacing;
+		_logicController = wrapper.LogicController;
+		_ySpeed = wrapper.SprungYSpeed;
 		_initialPosition = transform.position;
-		_firstPieceSpringX = firstPieceSpringX;
-		_pieceSpringXSpacing = pieceSpringXSpacing;
-		_logicController = logicController;
-		_ySpeed = ySpeed;
 
 		_springXCoords = new List<float>();
 		for (int i = 0; i < 6; i++) // hard coded, 6 springs
@@ -57,45 +57,53 @@ public class SprungPiecesController : MonoBehaviour
 		_currentState = SprungPiecesState.SpringingUp;
 		_sprungPieces = sprungPieces;
 		_springboardController = springboardController;
-		_destSpingOverIndex = 0;
+		_destSpingOverArchingIndex = 0;
 	}
 
 	private void Update()
 	{
-		if (_currentState == SprungPiecesState.SpringingUp)
+		if (_currentState != SprungPiecesState.SpringingUp)
+			return;
+
+		if (_destSpingOverArchingIndex < _springOverArchingPathPoints.Count) // These are configured positions on the screen that the pieces pass to move over to landing zone
 		{
-			if (_destSpingOverIndex < _springOverPathPoints.Count)
-			{
-				Vector2 destination = new Vector2(_initialPosition.x + _springOverPathPoints[_destSpingOverIndex].x, _initialPosition.y + _springOverPathPoints[_destSpingOverIndex].y);
-				transform.position = Vector2.MoveTowards(transform.position, destination, _ySpeed * Time.deltaTime); // joe fix the hard coded speed setting (should be from config)
-				if (Vector2.Distance(transform.position, destination) < 0.005) {
-					//Debug.Log($"curr idx:{_destSpingOverIndex}. destX/Y:{destination.x}/{destination.y}, yPnt:{_springOverPathPoints[_destSpingOverIndex].y}");
-					_destSpingOverIndex = _destSpingOverIndex + 1;
-				}
-				//new Vector3(transform.position.x, transform.position.y + 0.05f); // joe hard coded for testing
-			} else
-			{
-				_currentState = SprungPiecesState.Idle;
-				List<SimPiece> simPieces = new List<SimPiece>();
-				foreach (PieceManager pieceMgr in _sprungPieces.Values)
-					simPieces.Add(pieceMgr.SimPiece);
+			// move to the next coordinate to simulate a parabolic action up and over from springboard area to landing zone area
+			Vector2 destination = new Vector2(_initialPosition.x + _springOverArchingPathPoints[_destSpingOverArchingIndex].x, _initialPosition.y + _springOverArchingPathPoints[_destSpingOverArchingIndex].y);
+			transform.position = Vector2.MoveTowards(transform.position, destination, _ySpeed * Time.deltaTime); // joe fix the hard coded speed setting (should be from config)
+			if (Vector2.Distance(transform.position, destination) < 0.005)
+				_destSpingOverArchingIndex = _destSpingOverArchingIndex + 1;
+		}
+		else
+		{
+			// pieces (still children of the SprungPiecesController) are now at the top of the landing zone, and ready to drop
+			_currentState = SprungPiecesState.Idle;
+			List<SimPiece> simPieces = new List<SimPiece>();
+			foreach (PieceManager pieceMgr in _sprungPieces.Values)
+				simPieces.Add(pieceMgr.SimPiece);
 
-				bool isStable = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
-				foreach (PieceManager pieceMgr in _sprungPieces.Values)
-				{
-					pieceMgr.BeginDropInLandingZoneUntilCollision(isStable);
-					GameObject landingPiecesGO = GameObject.Find("/LandingZone/LandingPieces");
-					pieceMgr.transform.SetParent(landingPiecesGO.transform);
-				}
-				Debug.Log($"SprungPiecesController. Stable:{isStable}");
-				if (!isStable)
-					_logicController.LandingZoneLogic.ClearLandingZone();
+			// calculate newly added pieces to the simulation, and determine if stable
+			bool isStable = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
+			Debug.Log($"SprungPiecesController. Stable:{isStable}");
 
-				int highestLandingRowIdx = _logicController.LandingZoneLogic.GetHighestPieceRowIdx();
-				_eventsManager.OnPiecesLanding(isStable, highestLandingRowIdx);  // The row arrow should be a listener
-				transform.SetParent(_springboardController.transform);
-				transform.localPosition = Vector3.zero;
+			// move all piece out of SprungPiecesController, and have them now be children of LandingZone
+			foreach (PieceManager pieceMgr in _sprungPieces.Values)
+			{
+				pieceMgr.BeginDropInLandingZoneUntilCollision(isStable);
+				GameObject landingPiecesGO = GameObject.Find("/LandingZone/LandingPieces");
+				pieceMgr.transform.SetParent(landingPiecesGO.transform);
 			}
+
+			int highestLandingRowIdx = _logicController.LandingZoneLogic.GetHighestPieceRowIdx();
+			_eventsManager.OnPiecesLanding(isStable, highestLandingRowIdx);  // The row arrow should be a listener
+
+			// The SprungPiecesController is done transporting the pieces over to LandingZone, so now bring it back as a child of Springboard
+			transform.SetParent(_springboardController.transform);
+			transform.localPosition = Vector3.zero;
+
+			// If this is not stable, clear out the simulation landingZone to start over
+			if (!isStable)
+				_logicController.LandingZoneLogic.ClearLandingZone();
+
 		}
 	}
 }

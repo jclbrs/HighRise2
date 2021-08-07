@@ -41,10 +41,34 @@ public class GameController : MonoBehaviour
 
 		// Initialize the various components
 		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin);
-		_pieceFactory.InitializeGameSettings(_config.PiecePrefab, _config.DestroyingPieceParticlesPrefab, _config.PieceDropFromBinYSpeed, _config.PieceXSpeed, _config.BlockWidth, _eventsManager);
+
+		PieceFactoryDIWrapper pieceFactoryDIWrapper = new PieceFactoryDIWrapper
+		{
+			PiecePrefab = _config.PiecePrefab,
+			DestroyingPieceParticlesPrefab = _config.DestroyingPieceParticlesPrefab,
+			PieceDropFromBinYSpeed = _config.PieceDropFromBinYSpeed,
+			PieceXSpeed = _config.PieceXSpeed,
+			BlockWidth = _config.BlockWidth,
+			EventsManager = _eventsManager
+
+		};
+		_pieceFactory.InitializeGameSettings(pieceFactoryDIWrapper);
+
 		_springboardController.InitializeGameSettings(_config.SpringboardYSpeed, _config.SpringboardMoveHeight);
 		_binsManager.InitializeGameSettings(_pieceFactory, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing, _config.PieceYFromBinDrop);
-		_sprungPiecesController.InitializeGameSettings(_eventsManager, _config.SpringOverPoints, _config.FirstPieceSpringX, _config.BlockWidth, _logicController, _config.SprungYSpeed);
+
+		SprungPiecesDIWrapper sprungPiecesDIWrapper = new SprungPiecesDIWrapper
+		{
+			EventsManager = _eventsManager,
+			SpringOverPoints = _config.SpringOverPoints,
+			FirstPieceSpringX = _config.FirstPieceSpringX,
+			PieceSpringXSpacing = _config.BlockWidth,
+			BlockWidth = _config.BlockWidth,
+			LogicController = _logicController,
+			SprungYSpeed = _config.SprungYSpeed
+		};
+		_sprungPiecesController.InitializeGameSettings(sprungPiecesDIWrapper);
+
 		List<float> springboardXPosns = _sprungPiecesController.GetInitialSpringXPosns();
 		_playerController.InitializeGameSettings(springboardXPosns, _config.PlayerXSpeed, _eventsManager);
 

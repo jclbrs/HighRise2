@@ -101,9 +101,17 @@ public class SprungPiecesController : MonoBehaviour
 			transform.localPosition = Vector3.zero;
 
 			// If this is not stable, clear out the simulation landingZone to start over
-			if (!isStable)
+			if (isStable)
+			{
+				if (_logicController.LandingZoneLogic.IsLevelSuccess())
+				{ 
+					Debug.Log("LEVEL SUCCESS");
+					_eventsManager.OnSuccessfulLevel();
+				}
+			}
+			else
 				_logicController.LandingZoneLogic.ClearLandingZone();
-
+			
 		}
 	}
 }

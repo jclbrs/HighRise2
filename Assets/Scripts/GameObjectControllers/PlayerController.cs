@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 	private PieceManager _attachedPieceManager;
 
 	private float _xSpeed;
+	private float _ySpeed;
 
 	private PlayerState _currentState;
 	private int _currentXIndex; // x-index is based on the current state. If on springboard, based on which spring.  If under bins, based on which bin
@@ -24,14 +25,17 @@ public class PlayerController : MonoBehaviour
 	private float _pieceXDestination;
 	private float _playerXDestination;
 	private bool _isMoveRight; // -1 for left, +1 for right
+	private Vector2 _playerSuccessDestination;
 
 	private float _pieceXWidth;
 
-	public void InitializeGameSettings(List<float> springboardXPosns, float playerXSpeed, EventsManager eventsManager)
+	public void InitializeGameSettings(PlayerDIWrapper wrapper)
 	{
-		_springboardXPosns = springboardXPosns;
-		_xSpeed = playerXSpeed;
-		_eventsManager = eventsManager;
+		_springboardXPosns = wrapper.SpringboardXPosns;
+		_xSpeed = wrapper.XSpeed;
+		_ySpeed = wrapper.YSpeed;
+		_playerSuccessDestination = wrapper.SuccessDestination;
+		_eventsManager = wrapper.EventsManager;
 	}
 
 	public void InitializeLevelSettings(LogicController logicController, List<float> binXPosns, float xOffSetFromBin)
@@ -100,9 +104,19 @@ public class PlayerController : MonoBehaviour
 						_currentState = PlayerState.HoldingPieceOnSpringboard; // joe maybe change to reflect that player is still holding the piece above spring
 						_currentXIndex = _destinationXIndex;
 					}
-
 				}
-
+				break;
+			case PlayerState.MovingToXOnLevelSuccess:
+				transform.position = new Vector3(transform.position.x - _xSpeed * Time.deltaTime, transform.position.y);
+				if (transform.position.x <= _playerSuccessDestination.x)
+					_currentState = PlayerState.MovingToYOnLevelSuccess;
+				break;
+			case PlayerState.MovingToYOnLevelSuccess:
+				transform.position = new Vector3(transform.position.x , transform.position.y + _playerSuccessDestination.y * Time.deltaTime);
+				if (transform.position.y >= _playerSuccessDestination.y) { 
+					_currentState = PlayerState.IdleUnderBin; // get ready for next level
+					Debug.LogWarning("Player done climbing.  Time to change to next level");
+				}
 				break;
 			default:
 				throw new NotImplementedException($"Player State ({_currentState}) not handled yet");
@@ -270,4 +284,9 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	public void OnSuccessfulLevel()
+	{
+		Debug.Log("Player sees successful level");
+		_currentState = PlayerState.MovingToXOnLevelSuccess;
+	}
 }

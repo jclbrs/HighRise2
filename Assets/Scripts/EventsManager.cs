@@ -8,6 +8,8 @@ public class EventsManager : MonoBehaviour
 	public event Action<int, PieceManager> PieceDroppedToSpringboard;
 	public event Action SpringboardTriggered;
 	public event Action<bool,int> PiecesLanding;
+	public event Action SuccessfulLevel;
+	public event Action CanStartNextLevel;
 
 	public void OnBinPieceSelected(int binIdx)
 	{
@@ -32,6 +34,16 @@ public class EventsManager : MonoBehaviour
 	public void OnPiecesLanding(bool isStable, int highestRowIdx)
 	{
 		PiecesLanding?.Invoke(isStable, highestRowIdx);
+	}
+
+	public void OnSuccessfulLevel()
+	{
+		SuccessfulLevel?.Invoke();
+	}
+
+	public void OnReadyForNextLevel()
+	{
+		CanStartNextLevel?.Invoke();
 	}
 
 

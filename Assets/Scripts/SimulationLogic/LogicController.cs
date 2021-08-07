@@ -14,13 +14,13 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
         public SpringboardLogic SpringboardLogic { get; private set; }
         public LandingZoneLogic LandingZoneLogic;
 
-        public LogicController(int level, int numBins, int numCellsPerBin)
+        public LogicController(int level, int numBins, int numCellsPerBin, int landingSuccessRow)
 		{
             BinsLogic = new BinsLogic(level, numBins, numCellsPerBin);
             BinsLogic.PopulateAllBins();
 
             SpringboardLogic = new SpringboardLogic();
-            LandingZoneLogic = new LandingZoneLogic();
+            LandingZoneLogic = new LandingZoneLogic(landingSuccessRow);
 		}
 
         /// <summary>

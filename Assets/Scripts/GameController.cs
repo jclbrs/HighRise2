@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
 		_currentLevel = _config.InitialLevel;
 
 		// Initialize the various components
-		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin);
+		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin, _config.LandingSuccessRow);
 
 		PieceFactoryDIWrapper pieceFactoryDIWrapper = new PieceFactoryDIWrapper
 		{
@@ -70,7 +70,17 @@ public class GameController : MonoBehaviour
 		_sprungPiecesController.InitializeGameSettings(sprungPiecesDIWrapper);
 
 		List<float> springboardXPosns = _sprungPiecesController.GetInitialSpringXPosns();
-		_playerController.InitializeGameSettings(springboardXPosns, _config.PlayerXSpeed, _eventsManager);
+
+		PlayerDIWrapper playerDIWrapper = new PlayerDIWrapper
+		{
+			//springboardXPosns, _config.PlayerXSpeed, _config.PlayerYSpeed, _config.PlayerSuccesDestination, _eventsManager
+			SpringboardXPosns = springboardXPosns,
+			XSpeed = _config.PlayerXSpeed,
+			YSpeed = _config.PlayerYSpeed,
+			SuccessDestination = _config.PlayerSuccesDestination,
+			EventsManager = _eventsManager
+		};
+		_playerController.InitializeGameSettings(playerDIWrapper);
 
 		// set up subscriptions to events
 		_eventsManager.BinPieceSelected += _binsManager.OnDroppingBinPieceToPlayer;
@@ -79,6 +89,7 @@ public class GameController : MonoBehaviour
 		_eventsManager.SpringboardTriggered += _springboardController.OnSpringboardTriggered;
 		//_eventsManager.PiecesLanding += _landingZoneController.OnPiecesLanding;
 		_eventsManager.PiecesLanding += _rowArrowController.OnPiecesLanding;
+		_eventsManager.SuccessfulLevel += _playerController.OnSuccessfulLevel;
 
 		SetupLevel(_currentLevel);
 	}
@@ -91,6 +102,7 @@ public class GameController : MonoBehaviour
 		_eventsManager.SpringboardTriggered -= _springboardController.OnSpringboardTriggered;
 		//_eventsManager.PiecesLanding -= _landingZoneController.OnPiecesLanding;
 		_eventsManager.PiecesLanding -= _rowArrowController.OnPiecesLanding;
+		_eventsManager.SuccessfulLevel -= _playerController.OnSuccessfulLevel;
 	}
 
 	// Some of these settings might be the same throughout the game, but to stay flexible, they are being populated for each level

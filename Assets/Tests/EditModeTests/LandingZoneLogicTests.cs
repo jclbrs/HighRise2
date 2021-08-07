@@ -13,7 +13,7 @@ public class LandingZoneLogicTests
     [Test]
     public void Initialize_FirstRowZoneCellsShouldBeEmpty()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         bool isEmpty = true;
         for (int i = 0; i < zone.NumColsInLandingZone; i++)
 		{
@@ -26,7 +26,7 @@ public class LandingZoneLogicTests
 	[Test]
 	public void PlaceSimplePieceOn1stRow_ExpectProperPositioning()
 	{
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
         zone.TryPlacePiece(1, 0, 0, out status);
         Assert.AreEqual(zone.LandingZone[0, 0].PieceId, 1);
@@ -35,7 +35,7 @@ public class LandingZoneLogicTests
     [Test]
     public void PlaceComplexPieceOnR2C2_ExpectProperPositioning()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
         zone.TryPlacePiece(26, 2, 2, out status); // piece 26 is a tall U shape
 
@@ -56,7 +56,7 @@ public class LandingZoneLogicTests
     [Test]
     public void TryPlacePieceTooFarToRight_ExpectErrorStatus()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
         bool result = zone.TryPlacePiece(26, 2, 5,out status); // piece 26 is a tall U shape, width of 3
         Assert.IsFalse(result);
@@ -66,7 +66,7 @@ public class LandingZoneLogicTests
     [Test]
     public void TryPlacePieceBadCol_ExpectErrorStatus()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
         bool result = zone.TryPlacePiece(26, 2, 6, out status); // piece 26 is a tall U shape, width of 3
         Assert.IsFalse(result);
@@ -76,7 +76,7 @@ public class LandingZoneLogicTests
     [Test]
     public void TryPlacePieceBadRow_ExpectErrorStatus()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
         bool result = zone.TryPlacePiece(26, 50, 2, out status); // piece 26 is a tall U shape, width of 3
         Assert.IsFalse(result);
@@ -92,7 +92,7 @@ public class LandingZoneLogicTests
         {
             testPiece
         };
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         zone.StartNewPiecesPositioning(pieces);
         Assert.AreEqual(zone.LandingZone[0, zone.NumRowsInLandingZone-1 - 3].PieceId, 1);
     }
@@ -100,7 +100,7 @@ public class LandingZoneLogicTests
     [Test]
     public void FindLandingPosition_NoOtherPiecesOnCol0_ReturnRow0()
 	{
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
 
         int row = zone.FindLandingPosition(0, 0);
         Assert.AreEqual(0, row);
@@ -109,7 +109,7 @@ public class LandingZoneLogicTests
     [Test]
     public void FindLandingPosition_NoOtherPiecesOnCol3_ReturnRow0()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
 
         int row = zone.FindLandingPosition(3, 0);
         Assert.AreEqual(0, row);
@@ -118,7 +118,7 @@ public class LandingZoneLogicTests
     [Test]
     public void FindLandingPosition_smallPiecesOnCol0_ReturnRow1()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus placePieceStatus;
         if (zone.TryPlacePiece(0, 0, 0, out placePieceStatus))
         {
@@ -132,7 +132,7 @@ public class LandingZoneLogicTests
     [Test]
     public void FindLandingPosition_TallPiecesOnCol0_ReturnRow3()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus placePieceStatus;
         if (zone.TryPlacePiece(5, 0, 0, out placePieceStatus))
         {
@@ -146,7 +146,7 @@ public class LandingZoneLogicTests
     [Test]
     public void FindLandingPosition_UShapePiecesOnCol0_ReturnRow1()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus placePieceStatus;
         if (zone.TryPlacePiece(14, 0, 0, out placePieceStatus))
         {
@@ -160,7 +160,7 @@ public class LandingZoneLogicTests
     [Test]
     public void GetHighestPieceRowIdx_1shortPc_Expect0()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus placePieceStatus;
         if (zone.TryPlacePiece(0, 0, 0, out placePieceStatus))
         {
@@ -174,7 +174,7 @@ public class LandingZoneLogicTests
     [Test]
     public void GetHighestPieceRowIdx_1MedPc_Expect1()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus placePieceStatus;
         if (zone.TryPlacePiece(3, 0, 0, out placePieceStatus))
         {
@@ -188,7 +188,7 @@ public class LandingZoneLogicTests
     [Test]
     public void GetHighestPieceRowIdx_1TallPc_Expect2()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus placePieceStatus;
         if (zone.TryPlacePiece(6, 0, 0, out placePieceStatus))
         {
@@ -202,7 +202,7 @@ public class LandingZoneLogicTests
     [Test]
     public void GetHighestPieceRowIdx_SeveralPcs_Expect2()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus placePieceStatus;
         zone.TryPlacePiece(0, 0, 0, out placePieceStatus);
         zone.TryPlacePiece(3, 0, 1, out placePieceStatus);
@@ -215,7 +215,7 @@ public class LandingZoneLogicTests
     [Test]
     public void GetHighestPieceRowIdx_SeveralStackedPcs_Expect5()
     {
-        LandingZoneLogic zone = new LandingZoneLogic();
+        LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus placePieceStatus;
         zone.TryPlacePiece(0, 0, 0, out placePieceStatus);
         zone.TryPlacePiece(3, 0, 1, out placePieceStatus);
@@ -224,5 +224,18 @@ public class LandingZoneLogicTests
 
         int row = zone.GetHighestPieceRowIdx();
         Assert.AreEqual(5, row);
+    }
+
+    [Test]
+    public void GetHighestPieceRowIdx_three3Highs_Expect8()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic(18);
+        PlacePieceStatus placePieceStatus;
+        zone.TryPlacePiece(6, 0, 0, out placePieceStatus);
+        zone.TryPlacePiece(6, 3, 0, out placePieceStatus);
+        zone.TryPlacePiece(6, 6, 0, out placePieceStatus);
+
+        int row = zone.GetHighestPieceRowIdx();
+        Assert.AreEqual(8, row);
     }
 }

@@ -14,6 +14,8 @@ namespace Assets.Scripts.Enums
 		HoldingPieceOnSpringboard,
 		Climbing,
 		WaitingForBinPiece,
-		MovingToNextSpring
+		MovingToNextSpring,
+		MovingToXOnLevelSuccess,
+		MovingToYOnLevelSuccess
 	}
 }

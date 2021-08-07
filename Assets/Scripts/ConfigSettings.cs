@@ -14,6 +14,7 @@ public class ConfigSettings : MonoBehaviour
     public GameObject PiecePrefab;
     public GameObject DestroyingPieceParticlesPrefab;
     public float BlockWidth; // A block is one of the 3x3 sections that belong to a piece
+    public float PieceXSpeed;  // player speed will be the same, so the move to springboard together
 
     [Header("==== Bin related ====")]
     public GameObject BinsObject;
@@ -29,7 +30,8 @@ public class ConfigSettings : MonoBehaviour
     public GameObject PlayerObject;
     public float PlayerXOffsetFromBin;
     public float PlayerXSpeed;
-    public float PieceXSpeed;  // player speed will be the same, so the move to springboard together
+    public float PlayerYSpeed;
+    public Vector2 PlayerSuccesDestination;
 
     [Header("==== Springboard related ====")]
     public GameObject SpringboardObject;

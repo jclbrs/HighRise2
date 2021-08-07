@@ -13,13 +13,15 @@ namespace Assets.Scripts.SimulationLogic
 		public LandingZoneCell[,] LandingZone { get; set; }
 		public int NumRowsInLandingZone { get; private set; } = 24; // Actually only 21 used. the 3 remaining are to place the test piece in a starting position for calculations
 		public int NumColsInLandingZone { get; private set; } = 6;
+		private int _landingSuccessRow;
 
 		private List<RowPieceForce> _currentRowForces = new List<RowPieceForce>();
 		private List<RowPieceForce> _aboveRowForces = new List<RowPieceForce>(); // the accumulation of row forces for the rows above
 
-		public LandingZoneLogic()
+		public LandingZoneLogic(int landingSuccessRow)
 		{
 			ClearLandingZone();
+			_landingSuccessRow = landingSuccessRow;
 		}
 
 		public void ClearLandingZone()
@@ -397,6 +399,11 @@ namespace Assets.Scripts.SimulationLogic
 				}
 			}
 			return -1;
+		}
+
+		public bool IsLevelSuccess()
+		{
+			return (CalculateStability() && (GetHighestPieceRowIdx() >= _landingSuccessRow));
 		}
 	}
 }

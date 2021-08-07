@@ -2215,32 +2215,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1833086f8e38a164bbf26b2bf83275b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitialLevel: 1
   PiecePrefab: {fileID: 3053974505066577737, guid: f3ca1f6422012a5409a487781296ec0d,
     type: 3}
-  PlayerObject: {fileID: 1225235327}
-  SpringboardObject: {fileID: 1036991248}
-  BinsObject: {fileID: 942412436}
-  SprungPiecesContainer: {fileID: 1769368288}
   DestroyingPieceParticlesPrefab: {fileID: 5539830578366708729, guid: 907c2197559252541b174113feec84f4,
     type: 3}
-  LandingZoneObject: {fileID: 805204394}
-  RowArrowObject: {fileID: 274355307}
+  BlockWidth: 0.845
+  PieceXSpeed: 10
+  BinsObject: {fileID: 942412436}
   NumBins: 5
   NumCellsPerBin: 4
   Bin0Posn: {x: 5, y: 5}
   BinXSpacing: 3.5
   BinPieceYSpacing: 3.5
+  PieceDropFromBinYSpeed: -0.1
+  PieceYFromBinDrop: 2
+  PlayerObject: {fileID: 1225235327}
   PlayerXOffsetFromBin: 3
   PlayerXSpeed: 10
-  PieceXSpeed: 10
-  PieceDropFromBinYSpeed: -0.1
-  BlockWidth: 0.845
-  PieceYFromBinDrop: 2
+  PlayerYSpeed: 7
+  PlayerSuccesDestination: {x: -10.5, y: 22.5}
+  SpringboardObject: {fileID: 1036991248}
+  SprungPiecesContainer: {fileID: 1769368288}
   SprungYSpeed: 10
   SpringboardYSpeed: 0.1
   SpringboardMoveHeight: 1
   FirstPieceSpringX: -5.72
-  InitialLevel: 1
   SpringOverPoints:
   - {x: 0, y: 12.99}
   - {x: -0.62, y: 14.68}
@@ -2248,6 +2248,9 @@ MonoBehaviour:
   - {x: -3.24, y: 16.45}
   - {x: -5.16, y: 16.68}
   - {x: -7.54, y: 16.22}
+  LandingZoneObject: {fileID: 805204394}
+  RowArrowObject: {fileID: 274355307}
+  LandingSuccessRow: 19
 --- !u!114 &1604376033
 MonoBehaviour:
   m_ObjectHideFlags: 0

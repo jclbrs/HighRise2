@@ -87,9 +87,9 @@ public class SprungPiecesController : MonoBehaviour
 					GameObject landingPiecesGO = GameObject.Find("/LandingZone/LandingPieces");
 					pieceMgr.transform.SetParent(landingPiecesGO.transform);
 				}
-
 				Debug.Log($"SprungPiecesController. Stable:{isStable}");
-
+				if (!isStable)
+					_logicController.LandingZoneLogic.ClearLandingZone();
 
 				int highestLandingRowIdx = _logicController.LandingZoneLogic.GetHighestPieceRowIdx();
 				_eventsManager.OnPiecesLanding(isStable, highestLandingRowIdx);  // The row arrow should be a listener

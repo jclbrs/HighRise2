@@ -21,12 +21,14 @@ public class PieceManager : MonoBehaviour
 	private EventsManager _eventsManager;
 	private bool _isLandingZoneStable;
 	private float _rotationSpeed;
+	private static System.Random _randomizer;
 
 	public void Initialize(EventsManager eventsManager, float blockWidth, GameObject destroyingPieceParticlesPrefab)
 	{
 		_eventsManager = eventsManager;
 		BlockWidth = blockWidth;
 		_destroyingPieceParticlesPrefab = destroyingPieceParticlesPrefab;
+		_randomizer = new System.Random();
 	}
 
 	void Update()
@@ -70,6 +72,8 @@ public class PieceManager : MonoBehaviour
 				break;
 			case PieceState.FallingUnstable:
 				transform.Rotate(Vector3.forward * (_rotationSpeed * Time.deltaTime));
+				if (transform.position.y < -50f)
+					Destroy(gameObject);
 				break;
 			default:
 				Debug.LogError($"Piece state '{CurrentState}' action not defined");
@@ -80,17 +84,26 @@ public class PieceManager : MonoBehaviour
 	// This is called when a child border object collision is triggered, and it sends a message upward to here
 	public void CollisionDetected(string blockName)
 	{
-		if (CurrentState == PieceState.FallingUnstable) // ignore collisions if falling due to instability
-			return;
-
-		if (CurrentState == PieceState.DroppingInLandingZone)
+		switch (CurrentState)
 		{
-			CurrentState = PieceState.LandedOnLandingZone;
-			if (!_isLandingZoneStable)
-				StartUnstableAction();
+			case PieceState.FallingUnstable: // ignore collisions if falling due to instability
+				break;
+			case PieceState.DroppingInLandingZone:
+				CurrentState = PieceState.LandedOnLandingZone;
+				if (!_isLandingZoneStable)
+				{
+					Component[] pieceManagersInLandingZone = transform.parent.GetComponentsInChildren(typeof(PieceManager));
+					foreach (PieceManager pieceManagerInLandingZone in pieceManagersInLandingZone)
+					{
+						pieceManagerInLandingZone.CurrentState = PieceState.FallingUnstable;
+						pieceManagerInLandingZone.StartUnstableAction();
+					}
+				}
+				break;
+			default:
+				yMove = 0f;
+				break;
 		}
-		//Debug.Log($"Piece {SimPiece.Id} notified of collision by block:{blockName}");
-		yMove = 0f;
 	}
 
 	public void BeginDropInLandingZoneUntilCollision(bool isLandingZoneStable)
@@ -180,17 +193,12 @@ public class PieceManager : MonoBehaviour
 
 	public void StartUnstableAction()
 	{
-		if (CurrentState == PieceState.LandedOnLandingZone)
+		_rotationSpeed = _randomizer.Next(-150, 150);
+		yMove = PieceDropSpeed/4f ;  // slow down the crashes
+		Component[] allChildColliders = gameObject.GetComponentsInChildren(typeof(BoxCollider2D));
+		foreach (BoxCollider2D collider in allChildColliders)
 		{
-			Debug.Log("Starting unstable actions");
-			CurrentState = PieceState.FallingUnstable;
-			_rotationSpeed = 12f; // joe just guessing
-			yMove = PieceDropSpeed/3f;  // slow down the crashes
-			foreach (BoxCollider2D collider in gameObject.GetComponentsInChildren(typeof(Collision2D)))
-			{
-				collider.enabled = false;
-			}
-
+			collider.enabled = false;
 		}
 	}
 }

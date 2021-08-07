@@ -15,7 +15,10 @@ public class RowArrowController : MonoBehaviour
 
 	public void OnPiecesLanding(bool isStable, int highestRowReached)
 	{
-		_destYCoord = _startYCoord + (highestRowReached + 1) * 0.86f; // The hard coded value here is (approx) the screen height of a block
+		if (isStable)
+			_destYCoord = _startYCoord + (highestRowReached + 1) * 0.86f; // The hard coded value here is (approx) the screen height of a block
+		else
+			_destYCoord = _startYCoord;
 		StartCoroutine(MovePointer());
 	}
 

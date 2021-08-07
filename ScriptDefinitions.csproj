@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\SimulationLogic\Models\SimPiece.cs" />
     <Compile Include="Assets\Scripts\PieceFactory.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Enums\PlacePieceStatus.cs" />
+    <Compile Include="Assets\Scripts\DependencyInjectionWrappers\BinsDIWrapper.cs" />
     <Compile Include="Assets\Scripts\DependencyInjectionWrappers\PieceFactoryDIWrapper.cs" />
     <Compile Include="Assets\Scripts\DependencyInjectionWrappers\PlayerDIWrapper.cs" />
     <Compile Include="Assets\Scripts\DependencyInjectionWrappers\SprungPiecesDIWrapper.cs" />

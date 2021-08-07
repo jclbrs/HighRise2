@@ -19,13 +19,13 @@ public class BinsManager : MonoBehaviour
 	private PieceFactory _pieceFactory;
 	private Dictionary<int, List<GameObject>> _bins;  // maintain a reference to the actual game objects in the bin
 
-	public void InitializeGameSettings(PieceFactory pieceFactory, Vector2 bin0Posn, float binXSpacing, float binPieceYSpacing, float yDropPointToPlayer)
+	public void InitializeGameSettings(BinsDIWrapper wrapper)
 	{
-		_pieceFactory = pieceFactory;
-		_bin0Posn = bin0Posn;
-		_binXSpacing = binXSpacing;
-		_binPieceYSpacing = binPieceYSpacing;
-		_yDropPointToPlayer = yDropPointToPlayer;
+		_pieceFactory = wrapper.PieceFactory;
+		_bin0Posn = wrapper.Bin0Posn;
+		_binXSpacing = wrapper.BinXSpacing;
+		_binPieceYSpacing = wrapper.BinPieceYSpacing;
+		_yDropPointToPlayer = wrapper.PieceYFromBinDrop;
 		_bins = new Dictionary<int, List<GameObject>>();
 	}
 

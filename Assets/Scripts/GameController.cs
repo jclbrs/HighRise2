@@ -55,7 +55,16 @@ public class GameController : MonoBehaviour
 		_pieceFactory.InitializeGameSettings(pieceFactoryDIWrapper);
 
 		_springboardController.InitializeGameSettings(_config.SpringboardYSpeed, _config.SpringboardMoveHeight);
-		_binsManager.InitializeGameSettings(_pieceFactory, _config.Bin0Posn, _config.BinXSpacing, _config.BinPieceYSpacing, _config.PieceYFromBinDrop);
+
+		BinsDIWrapper binsDIWrapper = new BinsDIWrapper
+		{
+			PieceFactory = _pieceFactory,
+			Bin0Posn = _config.Bin0Posn,
+			BinXSpacing = _config.BinXSpacing,
+			BinPieceYSpacing = _config.BinPieceYSpacing,
+			PieceYFromBinDrop = _config.PieceYFromBinDrop
+		};
+		_binsManager.InitializeGameSettings(binsDIWrapper);
 
 		SprungPiecesDIWrapper sprungPiecesDIWrapper = new SprungPiecesDIWrapper
 		{
@@ -90,7 +99,16 @@ public class GameController : MonoBehaviour
 		//_eventsManager.PiecesLanding += _landingZoneController.OnPiecesLanding;
 		_eventsManager.PiecesLanding += _rowArrowController.OnPiecesLanding;
 		_eventsManager.SuccessfulLevel += _playerController.OnSuccessfulLevel;
+		_eventsManager.CanStartNextLevel += OnStartNextLevel;
 
+		SetupLevel(_currentLevel);
+	}
+
+	private void OnStartNextLevel()
+	{
+		_currentLevel++;
+		Debug.Log($"Ready to start next level:{_currentLevel}");
+		//_logicController
 		SetupLevel(_currentLevel);
 	}
 
@@ -103,6 +121,7 @@ public class GameController : MonoBehaviour
 		//_eventsManager.PiecesLanding -= _landingZoneController.OnPiecesLanding;
 		_eventsManager.PiecesLanding -= _rowArrowController.OnPiecesLanding;
 		_eventsManager.SuccessfulLevel -= _playerController.OnSuccessfulLevel;
+		_eventsManager.CanStartNextLevel -= OnStartNextLevel;
 	}
 
 	// Some of these settings might be the same throughout the game, but to stay flexible, they are being populated for each level
@@ -118,27 +137,3 @@ public class GameController : MonoBehaviour
 
 	}
 }
-
-/*
- So you know how you have to be careful with container objects because if you mess with them in one place while adding or removing in another place, you get all kinds of fun errors?
-And in realtime games, that's a serious concern and frequent problem.
-So... copy/pasting some code from this Poker game I'm writing for Gameboard...
-        public void NewPlayerJoined(PokerPlayerSceneObject inPlayerObject)
-        {
-            lock(PlayerValues)
-            {
-                PokerPlayerValues playerValues = new PokerPlayerValues()
-                {
-                    playerObject = inPlayerObject,
-                };
-
-                PlayerValues.Add(playerValues);
-            }
-        }
-The player joins, I put them in a local object that maintains game specific data, then store them in the PlayerValues list.
-Which I've wrapped in a Lock statement.
-This prevents ANYTHING else from touching PlayerValues until it's unlocked.
-And C# essentially queues it up, so it will wait until it's unlocked before doing other things with it.
-So you don't lose anything, and you don't have to worry about sequence breaking the code and hitting errors.
-
-*/

@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
 				if (transform.position.y >= _playerSuccessDestination.y) { 
 					_currentState = PlayerState.IdleUnderBin; // get ready for next level
 					Debug.LogWarning("Player done climbing.  Time to change to next level");
+					_eventsManager.OnReadyForNextLevel();
 				}
 				break;
 			default:

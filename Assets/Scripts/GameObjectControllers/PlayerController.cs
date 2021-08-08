@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 	private float _ySpeed;
 
 	private PlayerState _currentState;
+	private float _floorY;
 	private int _currentXIndex; // x-index is based on the current state. If on springboard, based on which spring.  If under bins, based on which bin
 	private int _destinationXIndex;
 	private float _pieceXDestination;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
 	public void InitializeGameSettings(PlayerDIWrapper wrapper)
 	{
 		_springboardXPosns = wrapper.SpringboardXPosns;
+		_floorY = wrapper.FloorY;
 		_xSpeed = wrapper.XSpeed;
 		_ySpeed = wrapper.YSpeed;
 		_playerSuccessDestination = wrapper.SuccessDestination;
@@ -46,7 +48,7 @@ public class PlayerController : MonoBehaviour
 			_playerXBelowBins.Add(binXPosn + xOffSetFromBin);
 		_currentState = PlayerState.IdleUnderBin;
 		_currentXIndex = 0;
-		transform.position = new Vector3(_playerXBelowBins[0], transform.position.y);
+		transform.position = new Vector3(_playerXBelowBins[0], _floorY);
 	}
 
 	private void Start()

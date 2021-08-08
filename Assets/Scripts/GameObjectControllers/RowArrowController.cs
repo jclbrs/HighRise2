@@ -13,6 +13,11 @@ public class RowArrowController : MonoBehaviour
 		_startYCoord = transform.position.y;
 	}
 
+	public void InitializeLevelSettings()
+	{
+		transform.position = new Vector3(transform.position.x, _startYCoord);
+	}
+
 	public void OnPiecesLanding(bool isStable, int highestRowReached)
 	{
 		if (isStable)

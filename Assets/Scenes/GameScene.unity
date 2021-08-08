@@ -906,7 +906,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824974982}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.96, y: -10, z: -43.320263}
+  m_LocalPosition: {x: -9, y: -9.93, z: -43.320263}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1283488784}
@@ -2221,13 +2221,13 @@ MonoBehaviour:
     type: 3}
   DestroyingPieceParticlesPrefab: {fileID: 5539830578366708729, guid: 907c2197559252541b174113feec84f4,
     type: 3}
-  BlockWidth: 0.845
+  BlockWidth: 0.847
   PieceXSpeed: 10
   BlockColors:
   - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 0.46226418, g: 0.20278569, b: 0.20278569, a: 1}
-  - {r: 0.6981132, g: 0.60329366, b: 0.2272161, a: 1}
-  - {r: 0.30841702, g: 0.5471698, b: 0.13679245, a: 0}
+  - {r: 0.7735849, g: 0.1788003, b: 0.1788003, a: 1}
+  - {r: 0.93987167, g: 0.9622642, b: 0.12255252, a: 1}
+  - {r: 0.37778014, g: 0.8018868, b: 0.07186719, a: 0}
   - {r: 0.3488341, g: 0.6320754, b: 0.6285851, a: 0}
   - {r: 0.4130269, g: 0.33521715, b: 0.764151, a: 0}
   - {r: 0.8207547, g: 0.58459413, b: 0.6921216, a: 0}
@@ -2241,10 +2241,11 @@ MonoBehaviour:
   PieceDropFromBinYSpeed: -0.1
   PieceYFromBinDrop: 2
   PlayerObject: {fileID: 1225235327}
+  PlayerFloorY: 0.94
   PlayerXOffsetFromBin: 3
   PlayerXSpeed: 10
-  PlayerYSpeed: 7
-  PlayerSuccesDestination: {x: -10.5, y: 22.5}
+  PlayerYSpeed: 5
+  PlayerSuccesDestination: {x: -11.6, y: 22.5}
   SpringboardObject: {fileID: 1036991248}
   SprungPiecesContainer: {fileID: 1769368288}
   SprungYSpeed: 10

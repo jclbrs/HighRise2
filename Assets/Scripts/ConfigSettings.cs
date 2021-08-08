@@ -29,6 +29,7 @@ public class ConfigSettings : MonoBehaviour
 
     [Header("==== Player related ====")]
     public GameObject PlayerObject;
+    public float PlayerFloorY;
     public float PlayerXOffsetFromBin;
     public float PlayerXSpeed;
     public float PlayerYSpeed;

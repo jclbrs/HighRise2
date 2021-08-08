@@ -85,6 +85,7 @@ public class GameController : MonoBehaviour
 		{
 			//springboardXPosns, _config.PlayerXSpeed, _config.PlayerYSpeed, _config.PlayerSuccesDestination, _eventsManager
 			SpringboardXPosns = springboardXPosns,
+			FloorY = _config.PlayerFloorY,
 			XSpeed = _config.PlayerXSpeed,
 			YSpeed = _config.PlayerYSpeed,
 			SuccessDestination = _config.PlayerSuccesDestination,
@@ -131,6 +132,7 @@ public class GameController : MonoBehaviour
 		_logicController.SetupLevel(_currentLevel, _config.NumBins, _config.NumCellsPerBin, _config.LandingSuccessRow);
 		_binsManager.InitializeLevelSettings(_logicController);
 		_landingZoneController.SetupLevel();
+		_rowArrowController.InitializeLevelSettings();
 
 		List<float> binXPosns = _binsManager.GetBinXPosns();
 		_playerController.InitializeLevelSettings(_logicController, binXPosns, _config.PlayerXOffsetFromBin);

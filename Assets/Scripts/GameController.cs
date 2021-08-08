@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
 		_currentLevel = _config.InitialLevel;
 
 		// Initialize the various components
-		_logicController = new LogicController(_currentLevel, _config.NumBins, _config.NumCellsPerBin, _config.LandingSuccessRow);
+		_logicController = new LogicController();
 
 		PieceFactoryDIWrapper pieceFactoryDIWrapper = new PieceFactoryDIWrapper
 		{
@@ -49,7 +49,8 @@ public class GameController : MonoBehaviour
 			PieceDropFromBinYSpeed = _config.PieceDropFromBinYSpeed,
 			PieceXSpeed = _config.PieceXSpeed,
 			BlockWidth = _config.BlockWidth,
-			EventsManager = _eventsManager
+			EventsManager = _eventsManager,
+			BlockColors = _config.BlockColors
 
 		};
 		_pieceFactory.InitializeGameSettings(pieceFactoryDIWrapper);
@@ -99,7 +100,7 @@ public class GameController : MonoBehaviour
 		//_eventsManager.PiecesLanding += _landingZoneController.OnPiecesLanding;
 		_eventsManager.PiecesLanding += _rowArrowController.OnPiecesLanding;
 		_eventsManager.SuccessfulLevel += _playerController.OnSuccessfulLevel;
-		_eventsManager.CanStartNextLevel += OnStartNextLevel;
+		_eventsManager.CanStartNextLevel += OnStartNextLevel; // 
 
 		SetupLevel(_currentLevel);
 	}
@@ -127,9 +128,9 @@ public class GameController : MonoBehaviour
 	// Some of these settings might be the same throughout the game, but to stay flexible, they are being populated for each level
 	public void SetupLevel(int level)
 	{
-		// Set up x positions that player can move to/from
-		_logicController.SetupLevel(level);
+		_logicController.SetupLevel(_currentLevel, _config.NumBins, _config.NumCellsPerBin, _config.LandingSuccessRow);
 		_binsManager.InitializeLevelSettings(_logicController);
+		_landingZoneController.SetupLevel();
 
 		List<float> binXPosns = _binsManager.GetBinXPosns();
 		_playerController.InitializeLevelSettings(_logicController, binXPosns, _config.PlayerXOffsetFromBin);

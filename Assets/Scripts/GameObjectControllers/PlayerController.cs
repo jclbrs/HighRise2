@@ -245,7 +245,7 @@ public class PlayerController : MonoBehaviour
 					throw new Exception($"actions for {_currentState} not written yet");
 			}
 		}
-		if (Input.GetKeyDown("space"))
+		if (Input.GetKeyDown("space"))  // used for dropping pieces (either from bin, or onto springboard
 		{
 			switch (_currentState)
 			{
@@ -268,7 +268,6 @@ public class PlayerController : MonoBehaviour
 
 					// Have the piece drop to the springs
 					_attachedPieceManager.BeginDropToSpringboardUntilCollision();
-					_attachedPieceManager.SimPiece.SpringboardColumn = _currentXIndex;
 					_attachedPieceManager = null;
 					break;
 			}

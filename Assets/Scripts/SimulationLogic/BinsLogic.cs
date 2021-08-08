@@ -15,8 +15,8 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		public List<SimPiece> ApplicableSimPieces { get; private set; }
 		public int NumBins { get; private set; }
 		public int NumCellsPerBin { get; private set; }
-		private readonly int _level;
-		private Random _rnd;
+		private int _level;
+		private static Random _rnd;
 
 		/// <summary>
 		/// Constructor completely sets up and populates all bins for a level
@@ -24,14 +24,19 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		/// <param name="level">1-index</param>
 		/// <param name="numBins"></param>
 		/// <param name="numCellsPerBin"></param>
-		public BinsLogic(int level, int numBins, int numCellsPerBin)
+		public BinsLogic()
+		{
+			_rnd = new Random();
+		}
+
+		public void SetupLevel(int level, int numBins, int numCellsPerBin)
 		{
 			NumBins = numBins;
 			NumCellsPerBin = numCellsPerBin;
 			_level = level;
-			_rnd = new Random();
 			ApplicableSimPieces = SimPieceLibrary.SimPieces.Where(x => x.LevelFirstAppears <= level).ToList();
 			SimBins = new Dictionary<int, List<SimPiece>>();
+
 		}
 
 		public void PopulateAllBins()
@@ -54,13 +59,13 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 
 			List<SimPiece> binPieces = new List<SimPiece>();
 
-			// bool joeTempPieceToggle = true;
+			 //bool joeTempPieceToggle = true;
 
 			for (int i = 0; i < NumCellsPerBin; i++)
 			{
 				SimPiece nextPiece = ApplicableSimPieces[_rnd.Next(ApplicableSimPieces.Count)];
 				// start joe testing to just look at 2 specific pieces
-				//int joeTestId = (joeTempPieceToggle ? 5 : 1);
+				//int joeTestId = (joeTempPieceToggle ? 0 : 2);
 				//joeTempPieceToggle = !joeTempPieceToggle;
 				//SimPiece nextPiece = SimPieceLibrary.SimPieces.Find(x => x.Id == joeTestId);
 				// end Joe testing

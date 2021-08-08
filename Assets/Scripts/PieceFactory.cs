@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.SimulationLogic;
@@ -11,6 +12,7 @@ public class PieceFactory : MonoBehaviour
 	private float _pieceDropSpeed;
 	private float _pieceXSpeed;
 	private float _blockWidth;
+	private List<Color> _blockColors;
 	private EventsManager _eventsManager;
 
 	public void InitializeGameSettings(PieceFactoryDIWrapper diWrapper)
@@ -21,6 +23,7 @@ public class PieceFactory : MonoBehaviour
 		_pieceXSpeed = diWrapper.PieceXSpeed;
 		_eventsManager = diWrapper.EventsManager;
 		_blockWidth = diWrapper.BlockWidth;
+		_blockColors = diWrapper.BlockColors;
 	}
 
 	public GameObject CreatePiece(Transform parentTransform, int pieceId, float x, float y)
@@ -34,11 +37,27 @@ public class PieceFactory : MonoBehaviour
 		newPieceManager.XSpeed = _pieceXSpeed;
 		newPieceManager.Initialize(_eventsManager,_blockWidth, _destroyingPieceParticlesPrefab);
 
-		SimPiece simPiece = SimPieceLibrary.SimPieces[pieceId];
+
+		SimPiece simPiece = new SimPiece(SimPieceLibrary.SimPieces[pieceId]);
 		newPieceManager.ConstructPieceShape(selectedPiece, simPiece);
+
+		Color pieceColor = CalculatePieceColor(newPieceManager.SimPiece.Id);
+		SpriteRenderer[] renderers = newPieceManager.gameObject.GetComponentsInChildren<SpriteRenderer>();
+		foreach (SpriteRenderer renderer in renderers)
+		{
+			if (renderer.transform.name.ToLower().Contains("block"))
+				renderer.color = pieceColor;
+		}
+
 		PlayerController playerController = GameObject.Find("Player").GetComponent<PlayerController>();
 		return selectedPiece;
 	}
 
-
+	// This assumes there are 8 different pieces per level, and the color changes for each associated level piece
+	private Color CalculatePieceColor(int pieceId)
+	{
+		int colorIdx = (int)(pieceId / 8);
+		Color levelColor = _blockColors[colorIdx];
+		return levelColor;
+	}
 }

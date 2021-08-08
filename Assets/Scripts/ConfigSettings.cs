@@ -15,6 +15,7 @@ public class ConfigSettings : MonoBehaviour
     public GameObject DestroyingPieceParticlesPrefab;
     public float BlockWidth; // A block is one of the 3x3 sections that belong to a piece
     public float PieceXSpeed;  // player speed will be the same, so the move to springboard together
+    public List<Color> BlockColors;
 
     [Header("==== Bin related ====")]
     public GameObject BinsObject;

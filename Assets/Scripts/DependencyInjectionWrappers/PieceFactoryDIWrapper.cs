@@ -10,4 +10,5 @@ public class PieceFactoryDIWrapper
 	public float PieceXSpeed;
 	public float BlockWidth;
 	public EventsManager EventsManager;
+	public List<Color> BlockColors;
 }

@@ -13,23 +13,25 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
         public BinsLogic BinsLogic { get; private set; }
         public SpringboardLogic SpringboardLogic { get; private set; }
         public LandingZoneLogic LandingZoneLogic;
+        public int CurrentLevel { get; private set; }
 
-        public LogicController(int level, int numBins, int numCellsPerBin, int landingSuccessRow)
+        public LogicController()
 		{
-            BinsLogic = new BinsLogic(level, numBins, numCellsPerBin);
-            BinsLogic.PopulateAllBins();
-
-            SpringboardLogic = new SpringboardLogic();
-            LandingZoneLogic = new LandingZoneLogic(landingSuccessRow);
-		}
+            BinsLogic = new BinsLogic();
+        }
 
         /// <summary>
         /// Populates the bins for the current level, and clears the Springboard & landing zone
         /// </summary>
         /// <param name="level">Level is 1-based</param>
-        public void SetupLevel(int level)
+        public void SetupLevel(int level, int numBins, int numCellsPerBin, int landingSuccessRow)
 		{
-            //_binsLogic.Initialize(level);
-		}
+            CurrentLevel = level;
+            BinsLogic.SetupLevel(level, numBins, numCellsPerBin);
+            BinsLogic.PopulateAllBins();
+
+            SpringboardLogic = new SpringboardLogic();
+            LandingZoneLogic = new LandingZoneLogic(landingSuccessRow);
+        }
 	}
 }

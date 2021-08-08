@@ -17,7 +17,10 @@ namespace Assets.Scripts.SimulationLogic.Models
                                                    // it refers to the bottom left of the piece, even if the piece is '7' shaped, and nothing solid there
         public int SpringboardRow { get; set; } // this will be set where the piece is set after dropping into the landing zone
 
-        public SimPiece(int id, int levelFirstAppears, bool c0r0, bool c1r0, bool c2r0, bool c0r1, bool c1r1, bool c2r1, bool c0r2, bool c1r2, bool c2r2)
+        public SimPiece(SimPiece sp): this(sp.Id, sp.LevelFirstAppears, sp.Shape[0, 0], sp.Shape[1, 0], sp.Shape[2, 0], sp.Shape[0, 1], sp.Shape[1, 1], sp.Shape[2, 1], sp.Shape[0, 2], sp.Shape[1, 2], sp.Shape[2, 2])
+		{}
+
+		public SimPiece(int id, int levelFirstAppears, bool c0r0, bool c1r0, bool c2r0, bool c0r1, bool c1r1, bool c2r1, bool c0r2, bool c1r2, bool c2r2)
         {
             Id = id;
             LevelFirstAppears = levelFirstAppears;

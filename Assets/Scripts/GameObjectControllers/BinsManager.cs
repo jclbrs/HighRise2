@@ -47,6 +47,11 @@ public class BinsManager : MonoBehaviour
 
 	public void CreateBinsForLevel()
 	{
+		// get rid of the pieces on the bin from a previous level
+
+		foreach (Transform child in transform.Find("BinPieces"))
+			GameObject.Destroy(child.gameObject);
+
 		try
 		{
 			for (int binIdx = 0; binIdx < _logicController.BinsLogic.SimBins.Count; binIdx++)
@@ -57,7 +62,7 @@ public class BinsManager : MonoBehaviour
 					int pieceId = _logicController.BinsLogic.SimBins[binIdx][binCell].Id;
 					float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
 					float yPosn = _bin0Posn.y + binCell * _binPieceYSpacing;
-					GameObject piece = _pieceFactory.CreatePiece(transform, pieceId, xPosn, yPosn);
+					GameObject piece = _pieceFactory.CreatePiece(transform.Find("BinPieces").transform, pieceId, xPosn, yPosn);
 					piece.GetComponent<PieceManager>().CurrentState = PieceState.InBin;
 					piecesInBin.Add(piece);
 				}
@@ -100,7 +105,7 @@ public class BinsManager : MonoBehaviour
 		int newPieceId = binsLgc.SimBins[binIdx][binsLgc.NumCellsPerBin - 1].Id;
 		float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
 		yPosn = _bin0Posn.y + binsLgc.NumCellsPerBin * _binPieceYSpacing;
-		GameObject addedPiece = _pieceFactory.CreatePiece(transform, newPieceId, xPosn, yPosn);
+		GameObject addedPiece = _pieceFactory.CreatePiece(transform.Find("BinPieces").transform, newPieceId, xPosn, yPosn);
 		pieceManager = addedPiece.GetComponent<PieceManager>();
 		pieceManager.BeginDropToYPosnInBin(_bin0Posn.y + (binsLgc.NumCellsPerBin - 1) * _binPieceYSpacing);
 		_bins[binIdx][binsLgc.NumCellsPerBin - 1] = pieceManager.gameObject;

@@ -13,14 +13,16 @@ public class BinTests
     [Test]
     public void InitializeLevel2_ExpectOnlyLevel1And2ApplicablePieces()
     {
-        BinsLogic binsLogic = new BinsLogic(2,5, 4);
+        BinsLogic binsLogic = new BinsLogic();
+        binsLogic.SetupLevel(2, 5, 4);
         Assert.IsFalse(binsLogic.ApplicableSimPieces.Exists(x => x.LevelFirstAppears > 2));
     }
 
     [Test]
     public void PopulateBin_ExpectCorrectNumPiecesInData()
     {
-        BinsLogic binsLogic = new BinsLogic(2, 5, 4);
+        BinsLogic binsLogic = new BinsLogic();
+        binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateBin(2);
         Assert.AreEqual(4, binsLogic.SimBins[2].Count);
     }
@@ -28,7 +30,8 @@ public class BinTests
     [Test]
     public void PopulateBin_ExpectCorrectPieceState()
     {
-        BinsLogic binsLogic = new BinsLogic(2, 5, 4);
+        BinsLogic binsLogic = new BinsLogic();
+        binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateBin(2);
         Assert.AreEqual(binsLogic.SimBins[2][0].CurrentState, PieceState.InBin);
     }
@@ -36,7 +39,8 @@ public class BinTests
     [Test]
     public void PopulateAllBins_Expect5BinsInData()
     {
-        BinsLogic binsLogic = new BinsLogic(2, 5, 4);
+        BinsLogic binsLogic = new BinsLogic();
+        binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateAllBins();
         Assert.AreEqual(5, binsLogic.SimBins.Count);
     }
@@ -44,7 +48,8 @@ public class BinTests
     [Test]
     public void DropPiece_ExpectBottomPieceRetrieved()
     {
-        BinsLogic binsLogic = new BinsLogic(2, 5, 4);
+        BinsLogic binsLogic = new BinsLogic();
+        binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateBin(3);
         SimPiece bottomPiece = binsLogic.SimBins[3][0];
 
@@ -55,7 +60,8 @@ public class BinTests
     [Test]
     public void DropPiece_Expect2ndPieceAtBottom()
     {
-        BinsLogic binsLogic = new BinsLogic(2, 5, 4);
+        BinsLogic binsLogic = new BinsLogic();
+        binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateBin(3);
         SimPiece secondBottomPiece = binsLogic.SimBins[3][1];
 
@@ -66,7 +72,8 @@ public class BinTests
     [Test]
     public void DropPiece_ExpectTopPieceMovedDown()
     {
-        BinsLogic binsLogic = new BinsLogic(2, 5, 4);
+        BinsLogic binsLogic = new BinsLogic();
+        binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateBin(3);
         SimPiece topPiece = binsLogic.SimBins[3][3];
 
@@ -77,7 +84,8 @@ public class BinTests
     [Test]
     public void DropPiece_ExpectChangedPieceState()
     {
-        BinsLogic binsLogic = new BinsLogic(2, 5, 4);
+        BinsLogic binsLogic = new BinsLogic();
+        binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateBin(3);
 
         SimPiece droppedPiece = binsLogic.DropPieceFromBin(3);

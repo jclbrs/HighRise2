@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Assets.Scripts.Enums;
 using Assets.Scripts.SimulationLogic.Models;
 using ScriptDefinitions.Assets.Scripts.SimulationLogic;
@@ -53,7 +54,14 @@ public class SprungPiecesController : MonoBehaviour
 
 	public void OnPiecesReleasedFromSpringboard(SpringboardController springboardController, Dictionary<int, PieceManager> sprungPieces)
 	{
-		Debug.Log("Sprung pieces released");
+		// joe debugging
+		StringBuilder sb = new StringBuilder();
+		foreach(KeyValuePair<int, PieceManager> kvp in sprungPieces)
+		{
+			sb.Append($"{kvp.Key}-{kvp.Value.SimPiece.SpringboardColumn} ...");
+		}
+		Debug.Log($"Sprung pieces released: {sb.ToString()}");
+		// end joe debugging
 		_currentState = SprungPiecesState.SpringingUp;
 		_sprungPieces = sprungPieces;
 		_springboardController = springboardController;

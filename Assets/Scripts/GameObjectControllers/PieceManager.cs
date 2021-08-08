@@ -82,7 +82,7 @@ public class PieceManager : MonoBehaviour
 	}
 
 	// This is called when a child border object collision is triggered, and it sends a message upward to here
-	public void CollisionDetected(string blockName)
+	public void CollisionDetected(Collider2D collider)
 	{
 		switch (CurrentState)
 		{
@@ -90,6 +90,7 @@ public class PieceManager : MonoBehaviour
 				break;
 			case PieceState.DroppingInLandingZone:
 				CurrentState = PieceState.LandedOnLandingZone;
+				yMove = 0f;
 				if (!_isLandingZoneStable)
 				{
 					Component[] pieceManagersInLandingZone = transform.parent.GetComponentsInChildren(typeof(PieceManager));
@@ -154,6 +155,8 @@ public class PieceManager : MonoBehaviour
 					// Activate/Deactivate the borders, based on its neighbors
 					if (currentBlock.activeSelf)
 					{
+						SpriteRenderer renderer = currentBlock.GetComponent<SpriteRenderer>();
+						//renderer.color = Color.red;
 						if (row < 2 && simShape[col, row + 1]) // could have piece above it
 							currentBlock.transform.Find("Border_top").gameObject.SetActive(false);
 						if (row > 0 && simShape[col, row - 1]) // could have piece below it

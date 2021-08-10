@@ -72,12 +72,12 @@ public class SpringboardController : MonoBehaviour
 		{
 			sb.Append($"{key.ToString()},");
 		}
-		Debug.Log($"Piece dropped to springboard at {xIdx}. Springs:{sb.ToString()}");
+		//Debug.Log($"Piece dropped to springboard at {xIdx}. Springs:{sb.ToString()}");
 	}
 
 	public void OnSpringboardTriggered()
 	{
-		Debug.Log("Springboard triggered");
+		//Debug.Log("Springboard triggered");
 		_currentState = SpringboardState.SpringingUp;
 	}
 }

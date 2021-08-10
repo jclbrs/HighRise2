@@ -62,9 +62,24 @@ public class PieceManager : MonoBehaviour
 				// not addressed yet
 				break;
 			case PieceState.DroppingInLandingZone:
-				// no special actions currently
+				if (transform.position.y <= DestinationYPosn) {
+					transform.position = new Vector3(transform.position.x, DestinationYPosn);
+					CurrentState = PieceState.LandedOnLandingZone;
+					yMove = 0f;
+					if (!_isLandingZoneStable)
+					{
+						Component[] pieceManagersInLandingZone = transform.parent.GetComponentsInChildren(typeof(PieceManager));
+						foreach (PieceManager pieceManagerInLandingZone in pieceManagersInLandingZone)
+						{
+							pieceManagerInLandingZone.CurrentState = PieceState.FallingUnstable;
+							pieceManagerInLandingZone.StartUnstableAction();
+						}
+					}
+				}
+				DrawDownRay();
 				break;
 			case PieceState.LandedOnLandingZone:
+				
 				// no special actions
 				break;
 			case PieceState.IntoGarbage:
@@ -84,22 +99,23 @@ public class PieceManager : MonoBehaviour
 	// This is called when a child border object collision is triggered, and it sends a message upward to here
 	public void CollisionDetected(Collider2D collider)
 	{
+		Debug.Log("Collision");
 		switch (CurrentState)
 		{
 			case PieceState.FallingUnstable: // ignore collisions if falling due to instability
 				break;
 			case PieceState.DroppingInLandingZone:
 				CurrentState = PieceState.LandedOnLandingZone;
-				yMove = 0f;
-				if (!_isLandingZoneStable)
-				{
-					Component[] pieceManagersInLandingZone = transform.parent.GetComponentsInChildren(typeof(PieceManager));
-					foreach (PieceManager pieceManagerInLandingZone in pieceManagersInLandingZone)
-					{
-						pieceManagerInLandingZone.CurrentState = PieceState.FallingUnstable;
-						pieceManagerInLandingZone.StartUnstableAction();
-					}
-				}
+				//yMove = 0f;
+				//if (!_isLandingZoneStable)
+				//{
+				//	Component[] pieceManagersInLandingZone = transform.parent.GetComponentsInChildren(typeof(PieceManager));
+				//	foreach (PieceManager pieceManagerInLandingZone in pieceManagersInLandingZone)
+				//	{
+				//		pieceManagerInLandingZone.CurrentState = PieceState.FallingUnstable;
+				//		pieceManagerInLandingZone.StartUnstableAction();
+				//	}
+				//}
 				break;
 			default:
 				yMove = 0f;
@@ -107,11 +123,53 @@ public class PieceManager : MonoBehaviour
 		}
 	}
 
-	public void BeginDropInLandingZoneUntilCollision(bool isLandingZoneStable)
+	private void DrawDownRay()
+	{
+		// joe testing
+		Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+		//Debug.Log($"Found {colliders.Length} colliders");
+		foreach (Collider2D collider in colliders)
+		{
+			//Debug.Log($"Name:{collider.transform.name}");
+			if (collider.transform.name == "Border_btm")
+			{
+				Vector2 rayStartCoord = new Vector2(collider.transform.position.x, collider.transform.position.y - 0.5f);
+				RaycastHit2D hit = Physics2D.Raycast(rayStartCoord, Vector2.down);
+				//Debug.Log($"Hit:{hit.point.x}/{hit.point.y}, distance:{hit.distance}");
+				Debug.DrawRay(rayStartCoord, Vector2.down * hit.distance, Color.green);
+				//float yCollision = hit.point.y;
+				//Debug.Log($"Piece {SimPiece.Id} yCollision:{yCollision}");
+			}
+		}
+		// joe end testing
+
+	}
+
+	public void BeginDropInLandingZone(bool isLandingZoneStable)
 	{
 		CurrentState = PieceState.DroppingInLandingZone;
 		_isLandingZoneStable = isLandingZoneStable;
 		yMove = PieceDropSpeed;
+
+		// Determine where to drop the piece, using Raycast of colliders below it
+		Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+		List<float> potentialYDestCoords = new List<float>();
+		foreach (Collider2D collider in colliders)
+		{
+			if (collider.transform.name == "Border_btm")
+			{
+				Vector2 rayStartCoord = new Vector2(collider.transform.position.x, collider.transform.position.y - 0.5f);
+				RaycastHit2D hit = Physics2D.Raycast(rayStartCoord, Vector2.down);
+				potentialYDestCoords.Add(hit.point.y);
+				Debug.DrawRay(rayStartCoord, Vector2.down * hit.distance, Color.green);
+			}
+		}
+
+		// JOE THIS IS MESSED UP.  FIX!!!
+		// The highest y-Coord is the 1st collision
+		potentialYDestCoords.Sort();
+		potentialYDestCoords.Reverse();
+		DestinationYPosn = potentialYDestCoords[0];
 	}
 
 	public void BeginDropToSpringboardUntilCollision()

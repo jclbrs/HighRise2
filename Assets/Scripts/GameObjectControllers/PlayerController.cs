@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
-			Debug.Log("Return pressed");
+			//Debug.Log("Return pressed");
 			if (_currentState != PlayerState.HoldingPieceOnSpringboard) // disable the springing action if player is on the springboard
 			{
 				_logicController.SpringboardLogic.ClearSpringboard();

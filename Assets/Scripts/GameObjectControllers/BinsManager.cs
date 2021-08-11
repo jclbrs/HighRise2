@@ -81,7 +81,7 @@ public class BinsManager : MonoBehaviour
 		BinsLogic binsLgc = _logicController.BinsLogic;
 		SimPiece simPiece = binsLgc.DropPieceFromBin(binIdx);
 		//Debug.Log($"Received request to drop bin piece from bin:{binIdx}, pieceId:{simPiece.Id}");
-
+		StartCoroutine(OpenCloseBinFloors(binIdx));
 		// Drop the selected piece
 		PieceManager pieceManager = _bins[binIdx][0].GetComponent<PieceManager>();
 		pieceManager.CurrentState = PieceState.DroppingFromBinToPlayer;
@@ -109,5 +109,15 @@ public class BinsManager : MonoBehaviour
 		pieceManager = addedPiece.GetComponent<PieceManager>();
 		pieceManager.BeginDropToYPosnInBin(_bin0Posn.y + (binsLgc.NumCellsPerBin - 1) * _binPieceYSpacing);
 		_bins[binIdx][binsLgc.NumCellsPerBin - 1] = pieceManager.gameObject;
+	}
+
+	private IEnumerator OpenCloseBinFloors(int binIdx)
+	{
+		GameObject binFloorsGmObj = transform.Find($"BinFloors/Bin{binIdx}Floors").gameObject;
+		foreach (Transform binFloor in binFloorsGmObj.transform)
+			binFloor.gameObject.SetActive(false);
+		yield return new WaitForSeconds(0.5f);
+		foreach (Transform binFloor in binFloorsGmObj.transform)
+			binFloor.gameObject.SetActive(true);
 	}
 }

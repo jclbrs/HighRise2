@@ -61,8 +61,19 @@ public class PieceManager : MonoBehaviour
 			case PieceState.OnSpringboard:
 				// not addressed yet
 				break;
+			case PieceState.DroppingFromPlayerToSpring:
+				if (transform.position.y <= DestinationYPosn)
+				{
+					transform.position = new Vector3(transform.position.x, DestinationYPosn);
+					CurrentState = PieceState.OnSpring;
+					yMove = 0f;
+				}
+				break;
+			case PieceState.OnSpring:
+				break;
 			case PieceState.DroppingInLandingZone:
-				if (transform.position.y <= DestinationYPosn) {
+				if (transform.position.y <= DestinationYPosn)
+				{
 					transform.position = new Vector3(transform.position.x, DestinationYPosn);
 					CurrentState = PieceState.LandedOnLandingZone;
 					yMove = 0f;
@@ -79,7 +90,7 @@ public class PieceManager : MonoBehaviour
 				DrawDownRay();
 				break;
 			case PieceState.LandedOnLandingZone:
-				
+
 				// no special actions
 				break;
 			case PieceState.IntoGarbage:
@@ -104,8 +115,8 @@ public class PieceManager : MonoBehaviour
 		{
 			case PieceState.FallingUnstable: // ignore collisions if falling due to instability
 				break;
-			case PieceState.DroppingInLandingZone:
-				CurrentState = PieceState.LandedOnLandingZone;
+			//case PieceState.DroppingInLandingZone:
+				//CurrentState = PieceState.LandedOnLandingZone;
 				//yMove = 0f;
 				//if (!_isLandingZoneStable)
 				//{
@@ -150,8 +161,11 @@ public class PieceManager : MonoBehaviour
 		CurrentState = PieceState.DroppingInLandingZone;
 		_isLandingZoneStable = isLandingZoneStable;
 		yMove = PieceDropSpeed;
+		CalcYDropCollision();
+	}
 
-		// Determine where to drop the piece, using Raycast of colliders below it
+	private void CalcYDropCollision()
+	{
 		Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
 		List<float> potentialYDestCoords = new List<float>();
 		foreach (Collider2D collider in colliders)
@@ -172,9 +186,10 @@ public class PieceManager : MonoBehaviour
 		DestinationYPosn = potentialYDestCoords[0];
 	}
 
-	public void BeginDropToSpringboardUntilCollision()
+	public void BeginDropToSpringUntilCollision()
 	{
-		CurrentState = PieceState.MovingToSpringboard;
+		CurrentState = PieceState.DroppingFromPlayerToSpring;
+		CalcYDropCollision();
 		yMove = PieceDropSpeed;
 	}
 
@@ -255,7 +270,7 @@ public class PieceManager : MonoBehaviour
 	public void StartUnstableAction()
 	{
 		_rotationSpeed = _randomizer.Next(-150, 150);
-		yMove = PieceDropSpeed/4f ;  // slow down the crashes
+		yMove = PieceDropSpeed / 4f;  // slow down the crashes
 		Component[] allChildColliders = gameObject.GetComponentsInChildren(typeof(BoxCollider2D));
 		foreach (BoxCollider2D collider in allChildColliders)
 		{

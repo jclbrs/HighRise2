@@ -269,7 +269,7 @@ public class PlayerController : MonoBehaviour
 					_eventsManager.OnPieceDroppedToSpringboard(_currentXIndex, _attachedPieceManager);
 
 					// Have the piece drop to the springs
-					_attachedPieceManager.BeginDropToSpringboardUntilCollision();
+					_attachedPieceManager.BeginDropToSpringUntilCollision();
 					_attachedPieceManager = null;
 					break;
 			}

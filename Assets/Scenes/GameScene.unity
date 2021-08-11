@@ -1693,7 +1693,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee,
     type: 3}
   m_Color: {r: 0.8287143, g: 0.990566, b: 0.28502133, a: 1}
@@ -2216,12 +2216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1833086f8e38a164bbf26b2bf83275b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialLevel: 4
+  InitialLevel: 1
   PiecePrefab: {fileID: 3053974505066577737, guid: f3ca1f6422012a5409a487781296ec0d,
     type: 3}
   DestroyingPieceParticlesPrefab: {fileID: 5539830578366708729, guid: 907c2197559252541b174113feec84f4,
     type: 3}
   BlockWidth: 0.847
+  BlockHeight: 0.9
   PieceXSpeed: 10
   BlockColors:
   - {r: 1, g: 1, b: 1, a: 1}
@@ -2244,7 +2245,7 @@ MonoBehaviour:
   PlayerFloorY: 0.94
   PlayerXOffsetFromBin: 3
   PlayerXSpeed: 10
-  PlayerYSpeed: 5
+  PlayerYSpeed: 3
   PlayerSuccesDestination: {x: -11.6, y: 22.5}
   SpringboardObject: {fileID: 1036991248}
   SprungPiecesContainer: {fileID: 1769368288}

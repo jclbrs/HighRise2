@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
 					_currentState = PlayerState.MovingToYOnLevelSuccess;
 				break;
 			case PlayerState.MovingToYOnLevelSuccess:
-				transform.position = new Vector3(transform.position.x , transform.position.y + _playerSuccessDestination.y * Time.deltaTime);
+				transform.position = new Vector3(transform.position.x , transform.position.y + _ySpeed * Time.deltaTime);
 				if (transform.position.y >= _playerSuccessDestination.y) { 
 					_currentState = PlayerState.IdleUnderBin; // get ready for next level
 					Debug.LogWarning("Player done climbing.  Time to change to next level");

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts;
 using Assets.Scripts.Enums;
 using Assets.Scripts.SimulationLogic.Models;
@@ -17,16 +18,18 @@ public class PieceManager : MonoBehaviour
 	public float XSpeed;
 	public float DestinationXPosn;
 	public float BlockWidth;
+	public float BlockHeight;
 	private GameObject _destroyingPieceParticlesPrefab;
 	private EventsManager _eventsManager;
 	private bool _isLandingZoneStable;
 	private float _rotationSpeed;
 	private static System.Random _randomizer;
 
-	public void Initialize(EventsManager eventsManager, float blockWidth, GameObject destroyingPieceParticlesPrefab)
+	public void Initialize(EventsManager eventsManager, float blockWidth, float blockHeight, GameObject destroyingPieceParticlesPrefab)
 	{
 		_eventsManager = eventsManager;
 		BlockWidth = blockWidth;
+		BlockHeight = blockHeight;
 		_destroyingPieceParticlesPrefab = destroyingPieceParticlesPrefab;
 		_randomizer = new System.Random();
 	}
@@ -111,27 +114,27 @@ public class PieceManager : MonoBehaviour
 	public void CollisionDetected(Collider2D collider)
 	{
 		Debug.Log("Collision");
-		switch (CurrentState)
-		{
-			case PieceState.FallingUnstable: // ignore collisions if falling due to instability
-				break;
-			//case PieceState.DroppingInLandingZone:
-				//CurrentState = PieceState.LandedOnLandingZone;
-				//yMove = 0f;
-				//if (!_isLandingZoneStable)
-				//{
-				//	Component[] pieceManagersInLandingZone = transform.parent.GetComponentsInChildren(typeof(PieceManager));
-				//	foreach (PieceManager pieceManagerInLandingZone in pieceManagersInLandingZone)
-				//	{
-				//		pieceManagerInLandingZone.CurrentState = PieceState.FallingUnstable;
-				//		pieceManagerInLandingZone.StartUnstableAction();
-				//	}
-				//}
-				break;
-			default:
-				yMove = 0f;
-				break;
-		}
+		//switch (CurrentState)
+		//{
+		//	case PieceState.FallingUnstable: // ignore collisions if falling due to instability
+		//		break;
+		//	//case PieceState.DroppingInLandingZone:
+		//		//CurrentState = PieceState.LandedOnLandingZone;
+		//		//yMove = 0f;
+		//		//if (!_isLandingZoneStable)
+		//		//{
+		//		//	Component[] pieceManagersInLandingZone = transform.parent.GetComponentsInChildren(typeof(PieceManager));
+		//		//	foreach (PieceManager pieceManagerInLandingZone in pieceManagersInLandingZone)
+		//		//	{
+		//		//		pieceManagerInLandingZone.CurrentState = PieceState.FallingUnstable;
+		//		//		pieceManagerInLandingZone.StartUnstableAction();
+		//		//	}
+		//		//}
+		//		break;
+		//	default:
+		//		yMove = 0f;
+		//		break;
+		//}
 	}
 
 	private void DrawDownRay()
@@ -166,24 +169,49 @@ public class PieceManager : MonoBehaviour
 
 	private void CalcYDropCollision()
 	{
+		// To determine which y-coord to set as the destination, we need to allow for unusual shapes 
+		// This algorithm appears to work:
+		//    * On the falling piece, find the lowest blocks (row 0)
+		//	  * Find the highest collision y-coord that correspond to those falling blocks
+		//    * Then on the next row (1), if there are blocks find the highest collision y-coord, and subtract by height of 1 block
+		//    * On the last row (2), if there are blocks find the highest collision y-coord, and subtract by height of 2 blocks
+		//    * The y-coord is the highest value from the 3 groups of rows
+
+		// set up variables
 		Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
-		List<float> potentialYDestCoords = new List<float>();
+		Dictionary<int, List<float>> rowCoords = new Dictionary<int, List<float>>();
+		rowCoords.Add(0, new List<float>());
+		rowCoords.Add(1, new List<float>());
+		rowCoords.Add(2, new List<float>());
+
+		// get the potential yDestinations
 		foreach (Collider2D collider in colliders)
 		{
 			if (collider.transform.name == "Border_btm")
 			{
-				Vector2 rayStartCoord = new Vector2(collider.transform.position.x, collider.transform.position.y - 0.5f);
+				int row = Convert.ToInt32(collider.transform.parent.name.Split('-')[1]);
+				Vector2 rayStartCoord = new Vector2(collider.transform.position.x, collider.transform.position.y - 0.5f); // start outside the current collider
 				RaycastHit2D hit = Physics2D.Raycast(rayStartCoord, Vector2.down);
-				potentialYDestCoords.Add(hit.point.y);
+				//hit.collider
+				rowCoords[row].Add(hit.point.y);
 				Debug.DrawRay(rayStartCoord, Vector2.down * hit.distance, Color.green);
 			}
 		}
+		DestinationYPosn = rowCoords[0][0]; // temp 
 
-		// JOE THIS IS MESSED UP.  FIX!!!
-		// The highest y-Coord is the 1st collision
-		potentialYDestCoords.Sort();
-		potentialYDestCoords.Reverse();
-		DestinationYPosn = potentialYDestCoords[0];
+		// Now that we have the potential yDestinations for all rows, let's find the best candidate for each row
+		List<float> bestRowCandidates = new List<float>();
+		// Find the highest yCoord for each row
+		foreach (int row in rowCoords.Keys)
+		{
+			if (rowCoords[row] != null && rowCoords[row].Count > 0)
+			{
+				float highestYInRow = rowCoords[row].OrderByDescending(y => y).ToList()[0];
+				float highestYAdjustedForRow = highestYInRow - row * BlockHeight;
+				bestRowCandidates.Add(highestYAdjustedForRow);
+			}
+		}
+		DestinationYPosn = bestRowCandidates.OrderByDescending(y => y).ToList()[0];
 	}
 
 	public void BeginDropToSpringUntilCollision()

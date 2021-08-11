@@ -155,6 +155,18 @@ public class CalcStabilityTests
     }
 
     [Test]
+    public void UShapeUnder7Shape_expectStable()
+    {
+        LandingZoneLogic zone = new LandingZoneLogic(18);
+        PlacePieceStatus status;
+        zone.TryPlacePiece(14, 0, 0, out status); // U-shape
+        zone.TryPlacePiece(33, 1, 0, out status); // 7-shape
+
+        bool isStable = zone.CalculateStability();
+        Assert.IsTrue(isStable);
+    }
+
+    [Test]
     public void JoeReminderToAddMoreComplexTests()
 	{
         Assert.IsTrue(false);

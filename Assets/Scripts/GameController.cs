@@ -48,6 +48,7 @@ public class GameController : MonoBehaviour
 			DestroyingPieceParticlesPrefab = _config.DestroyingPieceParticlesPrefab,
 			PieceDropFromBinYSpeed = _config.PieceDropFromBinYSpeed,
 			PieceXSpeed = _config.PieceXSpeed,
+			BlockHeight = _config.BlockHeight,
 			BlockWidth = _config.BlockWidth,
 			EventsManager = _eventsManager,
 			BlockColors = _config.BlockColors

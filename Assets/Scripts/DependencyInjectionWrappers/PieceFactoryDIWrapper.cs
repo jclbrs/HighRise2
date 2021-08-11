@@ -9,6 +9,7 @@ public class PieceFactoryDIWrapper
 	public float PieceDropFromBinYSpeed;
 	public float PieceXSpeed;
 	public float BlockWidth;
+	public float BlockHeight;
 	public EventsManager EventsManager;
 	public List<Color> BlockColors;
 }

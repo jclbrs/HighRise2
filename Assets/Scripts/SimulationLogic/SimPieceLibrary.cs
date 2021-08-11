@@ -25,7 +25,7 @@ namespace Assets.Scripts.SimulationLogic
 		{
 			_pieces = new List<SimPiece>();
 
-			// ============ Level 1: YELLOW (or maybe white) ========
+			// ============ Level 1 ========
 			/*		...
 					...
 					X..			*/
@@ -67,7 +67,7 @@ namespace Assets.Scripts.SimulationLogic
 			SimPieces.Add(new SimPiece(7, 1, true, true, true, true, true, true, true, true, true));
 
 
-			// ============ Level 2: RED ========
+			// ============ Level 2 ========
 			/*		...
 					X..
 					XX.			*/
@@ -109,7 +109,7 @@ namespace Assets.Scripts.SimulationLogic
 			SimPieces.Add(new SimPiece(15, 2, true, false, true, true, true, true, false, false, false));
 
 
-			// ============ Level 3: GREEN ========
+			// ============ Level 3 ========
 			/*		X..
 					X..
 					XX.			*/
@@ -150,7 +150,7 @@ namespace Assets.Scripts.SimulationLogic
 					XXX			*/
 			SimPieces.Add(new SimPiece(23, 3,true, true, true, true, true, false, true, true, false));
 
-			// ============ Level 4: BLUE ========
+			// ============ Level 4 ========
 			/*		.XX
 					.XX
 					XXX			*/
@@ -190,9 +190,6 @@ namespace Assets.Scripts.SimulationLogic
 					XXX
 					XXX			*/
 			SimPieces.Add(new SimPiece(31, 4,true, true, true, true, true, true, false, true, false));
-
-			// ============ MORE PIECES - COLOR TBD ========
-
 
 			// ============ Level 5 ========
 			//--------------------------------------------------------------------------------------

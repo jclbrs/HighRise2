@@ -12,6 +12,7 @@ public class PieceFactory : MonoBehaviour
 	private float _pieceDropSpeed;
 	private float _pieceXSpeed;
 	private float _blockWidth;
+	private float _blockHeight;
 	private List<Color> _blockColors;
 	private EventsManager _eventsManager;
 
@@ -23,6 +24,7 @@ public class PieceFactory : MonoBehaviour
 		_pieceXSpeed = diWrapper.PieceXSpeed;
 		_eventsManager = diWrapper.EventsManager;
 		_blockWidth = diWrapper.BlockWidth;
+		_blockHeight = diWrapper.BlockHeight;
 		_blockColors = diWrapper.BlockColors;
 	}
 
@@ -35,7 +37,7 @@ public class PieceFactory : MonoBehaviour
 		newPieceManager.yMove = 0.0f;
 		newPieceManager.PieceDropSpeed = _pieceDropSpeed;
 		newPieceManager.XSpeed = _pieceXSpeed;
-		newPieceManager.Initialize(_eventsManager,_blockWidth, _destroyingPieceParticlesPrefab);
+		newPieceManager.Initialize(_eventsManager,_blockWidth, _blockHeight, _destroyingPieceParticlesPrefab);
 
 
 		SimPiece simPiece = new SimPiece(SimPieceLibrary.SimPieces[pieceId]);

@@ -2389,6 +2389,7 @@ MonoBehaviour:
   XSpeed: 0
   DestinationXPosn: 0
   BlockWidth: 0
+  BlockHeight: 0
 --- !u!1 &3053974505141213122
 GameObject:
   m_ObjectHideFlags: 0

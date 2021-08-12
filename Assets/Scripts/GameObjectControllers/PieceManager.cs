@@ -291,7 +291,8 @@ public class PieceManager : MonoBehaviour
 	private IEnumerator DestroyPiece()
 	{
 		GameObject particleEffect = Instantiate(_destroyingPieceParticlesPrefab, transform);
-		yield return new WaitForSeconds(3f);
+		gameObject.transform.localScale = new Vector3(0.05f, 0.05f);
+		yield return new WaitForSeconds(2f);
 		Destroy(gameObject);
 	}
 

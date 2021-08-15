@@ -9,6 +9,8 @@ namespace Assets.Scripts.SimulationLogic.Models
 {
     public class SimPiece
     {
+        public static int NEXTPIECEID = 1;
+        public int PieceId { get; private set; }
         public int ShapeId { get; private set; }
         public bool[,] Shape { get; private set; }
         public int LevelFirstAppears { get; private set; }
@@ -18,7 +20,9 @@ namespace Assets.Scripts.SimulationLogic.Models
         public int SpringboardRow { get; set; } // this will be set where the piece is set after dropping into the landing zone
 
         public SimPiece(SimPiece sp): this(sp.ShapeId, sp.LevelFirstAppears, sp.Shape[0, 0], sp.Shape[1, 0], sp.Shape[2, 0], sp.Shape[0, 1], sp.Shape[1, 1], sp.Shape[2, 1], sp.Shape[0, 2], sp.Shape[1, 2], sp.Shape[2, 2])
-		{}
+		{
+            PieceId = NEXTPIECEID++; // This constructor is used to create an actual SimPiece in the game, not just the library of applicable shapes
+        }
 
 		public SimPiece(int id, int levelFirstAppears, bool c0r0, bool c1r0, bool c2r0, bool c0r1, bool c1r1, bool c2r1, bool c0r2, bool c1r2, bool c2r2)
         {

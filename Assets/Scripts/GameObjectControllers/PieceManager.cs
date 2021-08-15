@@ -9,6 +9,9 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
+	[SerializeField]
+	private int PieceId; // Copy of SimPiece.PieceId.  Useful to see in Editor when running the game
+
 	public float yMove = 0;
 	public float PieceDropSpeed;
 
@@ -19,6 +22,7 @@ public class PieceManager : MonoBehaviour
 	public float DestinationXPosn;
 	public float BlockWidth;
 	public float BlockHeight;
+
 	private GameObject _destroyingPieceParticlesPrefab;
 	private EventsManager _eventsManager;
 	private bool _isLandingZoneStable;
@@ -239,6 +243,7 @@ public class PieceManager : MonoBehaviour
 	public void ConstructPieceShape(GameObject pieceContainer, SimPiece simPiece)
 	{
 		SimPiece = simPiece;
+		PieceId = simPiece.PieceId;
 		bool[,] simShape = simPiece.Shape;
 		GameObject currentBlock;
 		int row = int.MinValue;

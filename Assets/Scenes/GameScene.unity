@@ -4275,7 +4275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1833086f8e38a164bbf26b2bf83275b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialLevel: 4
+  InitialLevel: 1
   PiecePrefab: {fileID: 3053974505066577737, guid: f3ca1f6422012a5409a487781296ec0d,
     type: 3}
   DestroyingPieceParticlesPrefab: {fileID: 5539830578366708729, guid: 907c2197559252541b174113feec84f4,

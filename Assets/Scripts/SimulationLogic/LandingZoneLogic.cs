@@ -40,8 +40,8 @@ namespace Assets.Scripts.SimulationLogic
 		public bool MoveSpringboardPiecesToLandingZone(List<SimPiece> simPieces)
 		{
 			DropPiecesToRestingPosition(simPieces);
-			bool isStable = CalculateStability();
-			return isStable;
+			StabilityResult result = CalculateStability();
+			return result.IsStable;
 		}
 
 		private void DropPiecesToRestingPosition(List<SimPiece> pieces)
@@ -172,19 +172,38 @@ namespace Assets.Scripts.SimulationLogic
 
 		// Once a dropping piece gets a collision, it was added to the BuildArea (done elsewhere)
 		// Then this is run to determine if the new structure is stable
-		public bool CalculateStability()
+		public StabilityResult CalculateStability()
 		{
-			bool isStable = false;
+			StabilityResult result = new StabilityResult();
+			result.IsStable = false;
 
 			// Start at the upper row, go through each block in the row
 			// Then work down to lower rows, accumulating the various center of mass values
 			for (int row = NumRowsInLandingZone - 1; row >= 0; row--)
 			{
-				isStable = CalculateRow(row);
-				if (!isStable)
-					return false;
+				result.IsStable = CalculateRow(row);
+				if (!result.IsStable)
+				{
+					result.UnstablePieceIds = GetUnstablePieceIds(row);
+					return result;
+				}
 			}
-			return true;
+			return result;
+		}
+
+		private List<int> GetUnstablePieceIds(int startingRow)
+		{
+			List<int> unstablePieceIds = new List<int>();
+			for (int row = startingRow; row < NumRowsInLandingZone; row++)
+			{
+				for (int col = 0; col < NumColsInLandingZone; col++)
+				{
+					int testPieceId = LandingZone[col, row].PieceId;
+					if (testPieceId > int.MinValue && !unstablePieceIds.Contains(testPieceId))
+						unstablePieceIds.Add(testPieceId);
+				}
+			}
+			return unstablePieceIds;
 		}
 
 		private bool CalculateRow(int row)
@@ -403,7 +422,8 @@ namespace Assets.Scripts.SimulationLogic
 
 		public bool IsLevelSuccess()
 		{
-			return (CalculateStability() && (GetHighestPieceRowIdx() >= _landingSuccessRow));
+			StabilityResult stabilityResult = CalculateStability();
+			return (stabilityResult.IsStable && (GetHighestPieceRowIdx() >= _landingSuccessRow));
 		}
 	}
 }

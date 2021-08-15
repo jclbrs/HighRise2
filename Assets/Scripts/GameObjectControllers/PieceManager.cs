@@ -273,7 +273,7 @@ public class PieceManager : MonoBehaviour
 		}
 		catch (Exception ex)
 		{
-			Debug.LogError($"Error building pieceid {simPiece.Id} at row:{row}, col:{col}");
+			Debug.LogError($"Error building pieceid {simPiece.ShapeId} at row:{row}, col:{col}");
 		}
 	}
 

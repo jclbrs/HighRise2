@@ -48,9 +48,9 @@ namespace Assets.Scripts.SimulationLogic
 		{
 			foreach (SimPiece piece in pieces)
 			{
-				int landingRow = FindLandingPosition(piece.SpringboardColumn, piece.Id);
+				int landingRow = FindLandingPosition(piece.SpringboardColumn, piece.ShapeId);
 				PlacePieceStatus placePieceStatus;
-				if (!TryPlacePiece(piece.Id, landingRow, piece.SpringboardColumn, out placePieceStatus))
+				if (!TryPlacePiece(piece.ShapeId, landingRow, piece.SpringboardColumn, out placePieceStatus))
 				{
 					throw new Exception($"Could not place piece in landing zone: {placePieceStatus}");
 				}
@@ -63,8 +63,8 @@ namespace Assets.Scripts.SimulationLogic
 			PlacePieceStatus placePieceStatus;
 			foreach (SimPiece piece in sprungPieces)
 			{
-				if (!TryPlacePiece(piece.Id, NumRowsInLandingZone - 1 - 3, piece.SpringboardColumn, out placePieceStatus))
-					throw new Exception($"Exception dropping piece {piece.Id} onto landing area at col {piece.SpringboardColumn}");
+				if (!TryPlacePiece(piece.ShapeId, NumRowsInLandingZone - 1 - 3, piece.SpringboardColumn, out placePieceStatus))
+					throw new Exception($"Exception dropping piece {piece.ShapeId} onto landing area at col {piece.SpringboardColumn}");
 			}
 		}
 

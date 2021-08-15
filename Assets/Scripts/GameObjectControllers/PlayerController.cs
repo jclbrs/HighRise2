@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour
 
 		_currentState = PlayerState.PushingPieceToSpringboard;
 		int springIdx;
-		if (_logicController.SpringboardLogic.TryMovePieceToAvailableSpring(pieceManager.SimPiece.ShapeId, pieceManager.SimPiece.GetSimWidth(), out springIdx))
+		if (_logicController.SpringboardLogic.TryMovePieceToAvailableSpring(pieceManager.SimPiece.Id, pieceManager.SimPiece.GetSimWidth(), out springIdx))
 		{
 			_destinationXIndex = springIdx;
 			_pieceXDestination = _springboardXPosns[springIdx];

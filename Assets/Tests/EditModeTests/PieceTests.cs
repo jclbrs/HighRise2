@@ -12,7 +12,7 @@ public class PieceTests
 	public void Instantiate_DataProperlyPlaced()
 	{
 		SimPiece p = new SimPiece(123, 100, true, false, false, true, true, false, true, true, true);
-		bool infoIsOk = (p.LevelFirstAppears == 100) && (p.ShapeId == 123) && (p.Shape[0, 0] = true) &&
+		bool infoIsOk = (p.LevelFirstAppears == 100) && (p.Id == 123) && (p.Shape[0, 0] = true) &&
 			(p.Shape[0, 0] = true) &&
 			(p.Shape[0, 1] = true) &&
 			(p.Shape[0, 2] = true) &&

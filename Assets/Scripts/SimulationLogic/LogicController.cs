@@ -27,7 +27,6 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
         public void SetupLevel(int level, int numBins, int numCellsPerBin, int landingSuccessRow)
 		{
             CurrentLevel = level;
-            SimPiece.NEXTPIECEID = 1;
             BinsLogic.SetupLevel(level, numBins, numCellsPerBin);
             BinsLogic.PopulateAllBins();
 

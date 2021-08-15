@@ -79,8 +79,8 @@ public class BinsManager : MonoBehaviour
 	public void OnDroppingBinPieceToPlayer(int binIdx)
 	{
 		BinsLogic binsLgc = _logicController.BinsLogic;
-		SimPiece simPiece = binsLgc.DropPieceFromBin(binIdx);
-		//Debug.Log($"Received request to drop bin piece from bin:{binIdx}, pieceId:{simPiece.Id}");
+		SimShape simShape = binsLgc.DropPieceFromBin(binIdx);
+		//Debug.Log($"Received request to drop bin piece from bin:{binIdx}, pieceId:{simShape.Id}");
 		StartCoroutine(OpenCloseBinFloors(binIdx));
 		// Drop the selected piece
 		PieceManager pieceManager = _bins[binIdx][0].GetComponent<PieceManager>();

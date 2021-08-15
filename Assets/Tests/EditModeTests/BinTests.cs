@@ -15,7 +15,7 @@ public class BinTests
     {
         BinsLogic binsLogic = new BinsLogic();
         binsLogic.SetupLevel(2, 5, 4);
-        Assert.IsFalse(binsLogic.ApplicableSimPieces.Exists(x => x.LevelFirstAppears > 2));
+        Assert.IsFalse(binsLogic.ApplicableSimShapes.Exists(x => x.LevelFirstAppears > 2));
     }
 
     [Test]
@@ -51,9 +51,9 @@ public class BinTests
         BinsLogic binsLogic = new BinsLogic();
         binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateBin(3);
-        SimPiece bottomPiece = binsLogic.SimBins[3][0];
+        SimShape bottomPiece = binsLogic.SimBins[3][0];
 
-        SimPiece droppedPiece = binsLogic.DropPieceFromBin(3);
+        SimShape droppedPiece = binsLogic.DropPieceFromBin(3);
         Assert.AreEqual(bottomPiece.Id, droppedPiece.Id);
     }
 
@@ -63,7 +63,7 @@ public class BinTests
         BinsLogic binsLogic = new BinsLogic();
         binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateBin(3);
-        SimPiece secondBottomPiece = binsLogic.SimBins[3][1];
+        SimShape secondBottomPiece = binsLogic.SimBins[3][1];
 
         binsLogic.DropPieceFromBin(3);
         Assert.AreEqual(secondBottomPiece.Id, binsLogic.SimBins[3][0].Id);
@@ -75,7 +75,7 @@ public class BinTests
         BinsLogic binsLogic = new BinsLogic();
         binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateBin(3);
-        SimPiece topPiece = binsLogic.SimBins[3][3];
+        SimShape topPiece = binsLogic.SimBins[3][3];
 
         binsLogic.DropPieceFromBin(3);
         Assert.AreEqual(topPiece.Id, binsLogic.SimBins[3][2].Id);
@@ -88,7 +88,7 @@ public class BinTests
         binsLogic.SetupLevel(2, 5, 4);
         binsLogic.PopulateBin(3);
 
-        SimPiece droppedPiece = binsLogic.DropPieceFromBin(3);
+        SimShape droppedPiece = binsLogic.DropPieceFromBin(3);
         Assert.AreEqual(PieceState.OnPlatform, droppedPiece.CurrentState);
     }
 }

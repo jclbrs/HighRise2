@@ -54,7 +54,7 @@ public class BinTests
         SimPiece bottomPiece = binsLogic.SimBins[3][0];
 
         SimPiece droppedPiece = binsLogic.DropPieceFromBin(3);
-        Assert.AreEqual(bottomPiece.Id, droppedPiece.Id);
+        Assert.AreEqual(bottomPiece.ShapeId, droppedPiece.ShapeId);
     }
 
     [Test]
@@ -66,7 +66,7 @@ public class BinTests
         SimPiece secondBottomPiece = binsLogic.SimBins[3][1];
 
         binsLogic.DropPieceFromBin(3);
-        Assert.AreEqual(secondBottomPiece.Id, binsLogic.SimBins[3][0].Id);
+        Assert.AreEqual(secondBottomPiece.ShapeId, binsLogic.SimBins[3][0].ShapeId);
     }
 
     [Test]
@@ -78,7 +78,7 @@ public class BinTests
         SimPiece topPiece = binsLogic.SimBins[3][3];
 
         binsLogic.DropPieceFromBin(3);
-        Assert.AreEqual(topPiece.Id, binsLogic.SimBins[3][2].Id);
+        Assert.AreEqual(topPiece.ShapeId, binsLogic.SimBins[3][2].ShapeId);
     }
 
     [Test]

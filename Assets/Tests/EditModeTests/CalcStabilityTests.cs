@@ -13,7 +13,7 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 0, out status);
+        zone.TryPlacePiece(1,0, 0, 0, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
@@ -24,8 +24,8 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 0, out status);
-        zone.TryPlacePiece(0, 0, 1, out status);
+        zone.TryPlacePiece(1,0, 0, 0, out status);
+        zone.TryPlacePiece(2, 0, 0, 1, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
@@ -36,8 +36,8 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 0, out status);
-        zone.TryPlacePiece(3, 0, 1, out status);
+        zone.TryPlacePiece(1, 0, 0, 0, out status);
+        zone.TryPlacePiece(2, 3, 0, 1, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
@@ -48,8 +48,8 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 0, out status);
-        zone.TryPlacePiece(0, 0, 2, out status);
+        zone.TryPlacePiece(1, 0, 0, 0, out status);
+        zone.TryPlacePiece(2, 0, 0, 2, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
@@ -60,8 +60,8 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 0, out status);
-        zone.TryPlacePiece(3, 0, 2, out status);
+        zone.TryPlacePiece(1, 0, 0, 0, out status);
+        zone.TryPlacePiece(2, 3, 0, 2, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
@@ -72,8 +72,8 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 0, out status);
-        zone.TryPlacePiece(0, 1, 0, out status);
+        zone.TryPlacePiece(1, 0, 0, 0, out status);
+        zone.TryPlacePiece(2, 0, 1, 0, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
@@ -84,8 +84,8 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 0, out status);
-        zone.TryPlacePiece(1, 1, 0, out status);
+        zone.TryPlacePiece(1, 0, 0, 0, out status);
+        zone.TryPlacePiece(2, 1, 1, 0, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
@@ -96,8 +96,8 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 3, out status);
-        zone.TryPlacePiece(1, 1, 2, out status);
+        zone.TryPlacePiece(1, 0, 0, 3, out status);
+        zone.TryPlacePiece(2, 1, 1, 2, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
@@ -108,8 +108,8 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 5, out status);
-        zone.TryPlacePiece(1, 1, 4, out status);
+        zone.TryPlacePiece(1, 0, 0, 5, out status);
+        zone.TryPlacePiece(2, 1, 1, 4, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
@@ -120,9 +120,9 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 0, out status);
-        zone.TryPlacePiece(0, 0, 2, out status);
-        zone.TryPlacePiece(2, 1, 0, out status);
+        zone.TryPlacePiece(1, 0, 0, 0, out status);
+        zone.TryPlacePiece(2,0, 0, 2, out status);
+        zone.TryPlacePiece(3,2, 1, 0, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
@@ -133,9 +133,9 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 0, out status);
-        zone.TryPlacePiece(1, 1, 1, out status);
-        zone.TryPlacePiece(2, 2, 2, out status);
+        zone.TryPlacePiece(1,0, 0, 0, out status);
+        zone.TryPlacePiece(2,1, 1, 1, out status);
+        zone.TryPlacePiece(3,2, 2, 2, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsFalse(isStable);
@@ -146,9 +146,9 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(0, 0, 0, out status);
-        zone.TryPlacePiece(6, 1, 0, out status);
-        zone.TryPlacePiece(6, 4, 1, out status);
+        zone.TryPlacePiece(1,0, 0, 0, out status);
+        zone.TryPlacePiece(2,6, 1, 0, out status);
+        zone.TryPlacePiece(3,6, 4, 1, out status);
 
         bool isStable = zone.CalculateStability();
         Assert.IsFalse(isStable);
@@ -159,16 +159,10 @@ public class CalcStabilityTests
     {
         LandingZoneLogic zone = new LandingZoneLogic(18);
         PlacePieceStatus status;
-        zone.TryPlacePiece(14, 0, 0, out status); // U-shape
-        zone.TryPlacePiece(33, 1, 0, out status); // 7-shape
+        zone.TryPlacePiece(1,14, 0, 0, out status); // U-shape
+        zone.TryPlacePiece(2,33, 1, 0, out status); // 7-shape
 
         bool isStable = zone.CalculateStability();
         Assert.IsTrue(isStable);
     }
-
-    [Test]
-    public void JoeReminderToAddMoreComplexTests()
-	{
-        Assert.IsTrue(false);
-	}
 }

@@ -59,7 +59,7 @@ public class BinsManager : MonoBehaviour
 				List<GameObject> piecesInBin = new List<GameObject>();
 				for (int binCell = 0; binCell < _logicController.BinsLogic.SimBins[0].Count; binCell++)
 				{
-					int pieceId = _logicController.BinsLogic.SimBins[binIdx][binCell].Id;
+					int pieceId = _logicController.BinsLogic.SimBins[binIdx][binCell].ShapeId;
 					float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
 					float yPosn = _bin0Posn.y + binCell * _binPieceYSpacing;
 					GameObject piece = _pieceFactory.CreatePiece(transform.Find("BinPieces").transform, pieceId, xPosn, yPosn);
@@ -102,7 +102,7 @@ public class BinsManager : MonoBehaviour
 		}
 
 		// get the newly created logical piece at the top of the selected bin, to add it to the screen
-		int newPieceId = binsLgc.SimBins[binIdx][binsLgc.NumCellsPerBin - 1].Id;
+		int newPieceId = binsLgc.SimBins[binIdx][binsLgc.NumCellsPerBin - 1].ShapeId;
 		float xPosn = _bin0Posn.x + binIdx * _binXSpacing;
 		yPosn = _bin0Posn.y + binsLgc.NumCellsPerBin * _binPieceYSpacing;
 		GameObject addedPiece = _pieceFactory.CreatePiece(transform.Find("BinPieces").transform, newPieceId, xPosn, yPosn);

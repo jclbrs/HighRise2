@@ -41,7 +41,7 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		{
             for (int i = 0; i < simPiece.GetSimWidth(); i++)
             {
-                Springs[simPiece.SpringboardColumn + i] = simPiece.Id;
+                Springs[simPiece.SpringboardColumn + i] = simPiece.ShapeId;
             }
 
         }

@@ -9,7 +9,9 @@ namespace Assets.Scripts.SimulationLogic.Models
 {
     public class SimPiece
     {
-        public int Id { get; private set; }
+        private static int NEXTPIECEID = 1;
+        public int PieceId; // Uniquely identify each piece within a level
+        public int ShapeId { get; private set; }
         public bool[,] Shape { get; private set; }
         public int LevelFirstAppears { get; private set; }
         public PieceState CurrentState { get; set; }
@@ -17,12 +19,15 @@ namespace Assets.Scripts.SimulationLogic.Models
                                                    // it refers to the bottom left of the piece, even if the piece is '7' shaped, and nothing solid there
         public int SpringboardRow { get; set; } // this will be set where the piece is set after dropping into the landing zone
 
-        public SimPiece(SimPiece sp): this(sp.Id, sp.LevelFirstAppears, sp.Shape[0, 0], sp.Shape[1, 0], sp.Shape[2, 0], sp.Shape[0, 1], sp.Shape[1, 1], sp.Shape[2, 1], sp.Shape[0, 2], sp.Shape[1, 2], sp.Shape[2, 2])
-		{}
+        // This constructor is used to create a piece to use in the actual level, where the base constructor can also be used for getting applicable shapes for the level
+        public SimPiece(SimPiece sp): this(sp.ShapeId, sp.LevelFirstAppears, sp.Shape[0, 0], sp.Shape[1, 0], sp.Shape[2, 0], sp.Shape[0, 1], sp.Shape[1, 1], sp.Shape[2, 1], sp.Shape[0, 2], sp.Shape[1, 2], sp.Shape[2, 2])
+		{
+            PieceId = NEXTPIECEID++;
+        }
 
 		public SimPiece(int id, int levelFirstAppears, bool c0r0, bool c1r0, bool c2r0, bool c0r1, bool c1r1, bool c2r1, bool c0r2, bool c1r2, bool c2r2)
         {
-            Id = id;
+            ShapeId = id;
             LevelFirstAppears = levelFirstAppears;
             CurrentState = PieceState.NotActive;
             SpringboardColumn = int.MinValue;

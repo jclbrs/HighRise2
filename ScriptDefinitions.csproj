@@ -87,9 +87,10 @@
     <Compile Include="Assets\Scripts\Enums\SprungPiecesState.cs" />
     <Compile Include="Assets\Scripts\Enums\PlayerState.cs" />
     <Compile Include="Assets\Scripts\ConfigSettings.cs" />
-    <Compile Include="Assets\Scripts\SimulationLogic\Models\SimPiece.cs" />
+    <Compile Include="Assets\Scripts\SimulationLogic\Models\SimShape.cs" />
     <Compile Include="Assets\Scripts\PieceFactory.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Enums\PlacePieceStatus.cs" />
+    <Compile Include="Assets\Scripts\SimulationLogic\Models\SimPiece.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\ScriptDefinitions.asmdef" />

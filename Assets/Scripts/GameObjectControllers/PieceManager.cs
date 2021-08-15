@@ -9,6 +9,9 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
+	[SerializeField]
+	private int PieceId;
+
 	public float yMove = 0;
 	public float PieceDropSpeed;
 
@@ -239,7 +242,7 @@ public class PieceManager : MonoBehaviour
 	public void ConstructPieceShape(GameObject pieceContainer, SimPiece simPiece)
 	{
 		SimPiece = simPiece;
-		bool[,] simShape = simPiece.Shape;
+		PieceId = simPiece.PieceId;
 		GameObject currentBlock;
 		int row = int.MinValue;
 		int col = int.MinValue;
@@ -251,20 +254,20 @@ public class PieceManager : MonoBehaviour
 				for (col = 0; col < 3; col++)
 				{
 					currentBlock = pieceContainer.transform.Find($"Block_{col}-{row}").gameObject;
-					currentBlock.SetActive(simShape[col, row]);
+					currentBlock.SetActive(simPiece.Shape[col, row]);
 
 					// Activate/Deactivate the borders, based on its neighbors
 					if (currentBlock.activeSelf)
 					{
 						SpriteRenderer renderer = currentBlock.GetComponent<SpriteRenderer>();
 						//renderer.color = Color.red;
-						if (row < 2 && simShape[col, row + 1]) // could have piece above it
+						if (row < 2 && simPiece.Shape[col, row + 1]) // could have piece above it
 							currentBlock.transform.Find("Border_top").gameObject.SetActive(false);
-						if (row > 0 && simShape[col, row - 1]) // could have piece below it
+						if (row > 0 && simPiece.Shape[col, row - 1]) // could have piece below it
 							currentBlock.transform.Find("Border_btm").gameObject.SetActive(false);
-						if (col < 2 && simShape[col + 1, row]) // could have piece to the right
+						if (col < 2 && simPiece.Shape[col + 1, row]) // could have piece to the right
 							currentBlock.transform.Find("Border_rgt").gameObject.SetActive(false);
-						if (col > 0 && simShape[col - 1, row]) // could have piece to the left
+						if (col > 0 && simPiece.Shape[col - 1, row]) // could have piece to the left
 							currentBlock.transform.Find("Border_lft").gameObject.SetActive(false);
 					}
 
@@ -273,7 +276,7 @@ public class PieceManager : MonoBehaviour
 		}
 		catch (Exception ex)
 		{
-			Debug.LogError($"Error building pieceid {simPiece.Id} at row:{row}, col:{col}");
+			Debug.LogError($"Error building pieceid {simPiece.ShapeId} at row:{row}, col:{col}");
 		}
 	}
 

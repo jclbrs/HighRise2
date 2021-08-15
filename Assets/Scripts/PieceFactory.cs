@@ -43,7 +43,7 @@ public class PieceFactory : MonoBehaviour
 		SimPiece simPiece = new SimPiece(SimPieceLibrary.SimPieces[pieceId]);
 		newPieceManager.ConstructPieceShape(selectedPiece, simPiece);
 
-		Color pieceColor = CalculatePieceColor(newPieceManager.SimPiece.Id);
+		Color pieceColor = CalculatePieceColor(newPieceManager.SimPiece.ShapeId);
 		SpriteRenderer[] renderers = newPieceManager.gameObject.GetComponentsInChildren<SpriteRenderer>();
 		foreach (SpriteRenderer renderer in renderers)
 		{

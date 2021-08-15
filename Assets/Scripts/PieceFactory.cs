@@ -40,10 +40,10 @@ public class PieceFactory : MonoBehaviour
 		newPieceManager.Initialize(_eventsManager,_blockWidth, _blockHeight, _destroyingPieceParticlesPrefab);
 
 
-		SimShape simShape = new SimShape(SimShapeLibrary.SimShapes[pieceId]);
-		newPieceManager.ConstructPieceShape(selectedPiece, simShape);
+		SimPiece simPiece = new SimPiece(SimPieceLibrary.SimPieces[pieceId]);
+		newPieceManager.ConstructPieceShape(selectedPiece, simPiece);
 
-		Color pieceColor = CalculatePieceColor(newPieceManager.SimShape.Id);
+		Color pieceColor = CalculatePieceColor(newPieceManager.SimPiece.Id);
 		SpriteRenderer[] renderers = newPieceManager.gameObject.GetComponentsInChildren<SpriteRenderer>();
 		foreach (SpriteRenderer renderer in renderers)
 		{

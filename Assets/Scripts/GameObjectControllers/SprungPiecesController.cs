@@ -58,7 +58,7 @@ public class SprungPiecesController : MonoBehaviour
 		StringBuilder sb = new StringBuilder();
 		foreach(KeyValuePair<int, PieceManager> kvp in sprungPieces)
 		{
-			sb.Append($"{kvp.Key}-{kvp.Value.SimShape.SpringboardColumn} ...");
+			sb.Append($"{kvp.Key}-{kvp.Value.SimPiece.SpringboardColumn} ...");
 		}
 		//Debug.Log($"Sprung pieces released: {sb.ToString()}");
 		// end joe debugging
@@ -85,12 +85,12 @@ public class SprungPiecesController : MonoBehaviour
 		{
 			// pieces (still children of the SprungPiecesController) are now at the top of the landing zone, and ready to drop
 			_currentState = SprungPiecesState.Idle;
-			List<SimShape> simShapes = new List<SimShape>();
+			List<SimPiece> simPieces = new List<SimPiece>();
 			foreach (PieceManager pieceMgr in _sprungPieces.Values)
-				simShapes.Add(pieceMgr.SimShape);
+				simPieces.Add(pieceMgr.SimPiece);
 
 			// calculate newly added pieces to the simulation, and determine if stable
-			bool isStable = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simShapes);
+			bool isStable = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
 			//Debug.Log($"SprungPiecesController. Stable:{isStable}");
 
 			// move all piece out of SprungPiecesController, and have them now be children of LandingZone

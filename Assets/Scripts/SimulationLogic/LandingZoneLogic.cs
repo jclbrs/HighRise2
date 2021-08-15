@@ -37,16 +37,16 @@ namespace Assets.Scripts.SimulationLogic
 		}
 
 
-		public bool MoveSpringboardPiecesToLandingZone(List<SimShape> simShapes)
+		public bool MoveSpringboardPiecesToLandingZone(List<SimPiece> simPieces)
 		{
-			DropPiecesToRestingPosition(simShapes);
+			DropPiecesToRestingPosition(simPieces);
 			bool isStable = CalculateStability();
 			return isStable;
 		}
 
-		private void DropPiecesToRestingPosition(List<SimShape> pieces)
+		private void DropPiecesToRestingPosition(List<SimPiece> pieces)
 		{
-			foreach (SimShape piece in pieces)
+			foreach (SimPiece piece in pieces)
 			{
 				int landingRow = FindLandingPosition(piece.SpringboardColumn, piece.Id);
 				PlacePieceStatus placePieceStatus;
@@ -58,10 +58,10 @@ namespace Assets.Scripts.SimulationLogic
 		}
 
 		// Place all pieces from springboard to top of landing zone
-		public void StartNewPiecesPositioning(List<SimShape> sprungPieces)
+		public void StartNewPiecesPositioning(List<SimPiece> sprungPieces)
 		{
 			PlacePieceStatus placePieceStatus;
-			foreach (SimShape piece in sprungPieces)
+			foreach (SimPiece piece in sprungPieces)
 			{
 				if (!TryPlacePiece(piece.Id, NumRowsInLandingZone - 1 - 3, piece.SpringboardColumn, out placePieceStatus))
 					throw new Exception($"Exception dropping piece {piece.Id} onto landing area at col {piece.SpringboardColumn}");
@@ -70,54 +70,54 @@ namespace Assets.Scripts.SimulationLogic
 
 		public int FindLandingPosition(int zoneIdx, int pieceId)
 		{
-			SimShape piece = SimShapeLibrary.SimShapes[pieceId];
+			SimPiece piece = SimPieceLibrary.SimPieces[pieceId];
 			// start just above the top of landing zone, and work down
 			for (int zoneRow = NumRowsInLandingZone - 3; zoneRow > 0; zoneRow--)
 			{ // joe spelling this out in detail for now, to understand what is needed, then we can improve the algorithm
 			  // piece col 0
-				if (piece.Blocks[0, 0])
+				if (piece.Shape[0, 0])
 				{
 					//if (LandingZone[zoneIdx, 10].PieceId > int.MinValue)
 					if (LandingZone[zoneIdx, zoneRow - 1].PieceId > int.MinValue) // found another piece just below
 						return zoneRow;
 				}
-				if (piece.Blocks[0, 1])
+				if (piece.Shape[0, 1])
 				{
 					if (LandingZone[zoneIdx, zoneRow].PieceId > int.MinValue)
 						return zoneRow;
 				}
-				if (piece.Blocks[0, 2])
+				if (piece.Shape[0, 2])
 				{
 					if (LandingZone[zoneIdx, zoneRow + 1].PieceId > int.MinValue)
 						return zoneRow;
 				}
 
-				if (piece.Blocks[1, 0])
+				if (piece.Shape[1, 0])
 				{
 					if (LandingZone[zoneIdx + 1, zoneRow - 1].PieceId > int.MinValue)
 						return zoneRow;
 				}
-				if (piece.Blocks[1, 1])
+				if (piece.Shape[1, 1])
 				{
 					if (LandingZone[zoneIdx + 1, zoneRow].PieceId > int.MinValue)
 						return zoneRow;
 				}
-				if (piece.Blocks[1, 2])
+				if (piece.Shape[1, 2])
 				{
 					if (LandingZone[zoneIdx + 1, zoneRow + 1].PieceId > int.MinValue)
 						return zoneRow;
 				}
-				if (piece.Blocks[2, 0])
+				if (piece.Shape[2, 0])
 				{
 					if (LandingZone[zoneIdx + 2, zoneRow - 1].PieceId > int.MinValue)
 						return zoneRow;
 				}
-				if (piece.Blocks[2, 1])
+				if (piece.Shape[2, 1])
 				{
 					if (LandingZone[zoneIdx + 2, zoneRow].PieceId > int.MinValue)
 						return zoneRow;
 				}
-				if (piece.Blocks[2, 2])
+				if (piece.Shape[2, 2])
 				{
 					if (LandingZone[zoneIdx + 2, zoneRow + 1].PieceId > int.MinValue)
 						return zoneRow;
@@ -141,10 +141,10 @@ namespace Assets.Scripts.SimulationLogic
 				placePieceStatus = PlacePieceStatus.BadColArg;
 				return false;
 			}
-			SimShape piece = null;
+			SimPiece piece = null;
 			try
 			{
-				piece = SimShapeLibrary.SimShapes[pieceId];
+				piece = SimPieceLibrary.SimPieces[pieceId];
 			}
 			catch (Exception)
 			{
@@ -163,7 +163,7 @@ namespace Assets.Scripts.SimulationLogic
 			{
 				for (int pieceCol = 0; pieceCol < 3; pieceCol++)
 				{
-					if (piece.Blocks[pieceCol, pieceRow] && (col + pieceCol < NumColsInLandingZone))
+					if (piece.Shape[pieceCol, pieceRow] && (col + pieceCol < NumColsInLandingZone))
 						LandingZone[col + pieceCol, row + pieceRow].PieceId = pieceId;
 				}
 			}

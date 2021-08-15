@@ -11,8 +11,8 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 {
     public class BinsLogic
     {
-		public Dictionary<int, List<SimShape>> SimBins { get; private set; }
-		public List<SimShape> ApplicableSimShapes { get; private set; }
+		public Dictionary<int, List<SimPiece>> SimBins { get; private set; }
+		public List<SimPiece> ApplicableSimPieces { get; private set; }
 		public int NumBins { get; private set; }
 		public int NumCellsPerBin { get; private set; }
 		private int _level;
@@ -34,8 +34,8 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 			NumBins = numBins;
 			NumCellsPerBin = numCellsPerBin;
 			_level = level;
-			ApplicableSimShapes = SimShapeLibrary.SimShapes.Where(x => x.LevelFirstAppears <= level).ToList();
-			SimBins = new Dictionary<int, List<SimShape>>();
+			ApplicableSimPieces = SimPieceLibrary.SimPieces.Where(x => x.LevelFirstAppears <= level).ToList();
+			SimBins = new Dictionary<int, List<SimPiece>>();
 
 		}
 
@@ -57,17 +57,17 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 			if (SimBins.ContainsKey(binIdx))
 				SimBins.Remove(binIdx); // clear the bin of any data.  Starting over with new data
 
-			List<SimShape> binPieces = new List<SimShape>();
+			List<SimPiece> binPieces = new List<SimPiece>();
 
 			 //bool joeTempPieceToggle = true;
 
 			for (int i = 0; i < NumCellsPerBin; i++)
 			{
-				SimShape nextPiece = ApplicableSimShapes[_rnd.Next(ApplicableSimShapes.Count)];
+				SimPiece nextPiece = ApplicableSimPieces[_rnd.Next(ApplicableSimPieces.Count)];
 				// start joe testing to just look at 2 specific pieces
 				//int joeTestId = (joeTempPieceToggle ? 0 : 2);
 				//joeTempPieceToggle = !joeTempPieceToggle;
-				//SimShape nextPiece = SimShapeLibrary.SimShapes.Find(x => x.Id == joeTestId);
+				//SimPiece nextPiece = SimPieceLibrary.SimPieces.Find(x => x.Id == joeTestId);
 				// end Joe testing
 				nextPiece.CurrentState = PieceState.InBin;
 				binPieces.Add(nextPiece);
@@ -80,12 +80,12 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
 		/// </summary>
 		/// <param name="binIdx"></param>
 		/// <returns></returns>
-		public SimShape DropPieceFromBin(int binIdx)
+		public SimPiece DropPieceFromBin(int binIdx)
 		{
-			SimShape droppedPiece = SimBins[binIdx][0];
+			SimPiece droppedPiece = SimBins[binIdx][0];
 			droppedPiece.CurrentState = PieceState.OnPlatform;
 			SimBins[binIdx].RemoveAt(0);
-			SimBins[binIdx].Add(ApplicableSimShapes[_rnd.Next(ApplicableSimShapes.Count)]);
+			SimBins[binIdx].Add(ApplicableSimPieces[_rnd.Next(ApplicableSimPieces.Count)]);
 			return droppedPiece;
 		}
 

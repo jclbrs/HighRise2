@@ -37,11 +37,11 @@ namespace ScriptDefinitions.Assets.Scripts.SimulationLogic
             return true;
 		}
 
-        public void DropPieceOntoSpringboard(SimShape simShape) // pieceId, int width, int springIdx)
+        public void DropPieceOntoSpringboard(SimPiece simPiece) // pieceId, int width, int springIdx)
 		{
-            for (int i = 0; i < simShape.GetSimWidth(); i++)
+            for (int i = 0; i < simPiece.GetSimWidth(); i++)
             {
-                Springs[simShape.SpringboardColumn + i] = simShape.Id;
+                Springs[simPiece.SpringboardColumn + i] = simPiece.Id;
             }
 
         }

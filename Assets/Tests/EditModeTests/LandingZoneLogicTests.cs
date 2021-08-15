@@ -86,9 +86,9 @@ public class LandingZoneLogicTests
     [Test]
     public void StartNewPiecesPositioning_1SmallPiece_ExpectSuccess()
 	{
-        SimShape testPiece = SimShapeLibrary.SimShapes[1];
+        SimPiece testPiece = SimPieceLibrary.SimPieces[1];
         testPiece.SpringboardColumn = 0;
-        List<SimShape> pieces = new List<SimShape>
+        List<SimPiece> pieces = new List<SimPiece>
         {
             testPiece
         };

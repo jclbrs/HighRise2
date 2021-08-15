@@ -63,7 +63,7 @@
     <Compile Include="Assets\Scripts\DependencyInjectionWrappers\BinsDIWrapper.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\LandingZoneLogic.cs" />
     <Compile Include="Assets\Scripts\EventsManager.cs" />
-    <Compile Include="Assets\Scripts\SimulationLogic\SimShapeLibrary.cs" />
+    <Compile Include="Assets\Scripts\SimulationLogic\SimPieceLibrary.cs" />
     <Compile Include="Assets\Scripts\GameObjectControllers\RowArrowController.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Models\RowPieceForce.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\LogicController.cs" />
@@ -87,7 +87,7 @@
     <Compile Include="Assets\Scripts\Enums\SprungPiecesState.cs" />
     <Compile Include="Assets\Scripts\Enums\PlayerState.cs" />
     <Compile Include="Assets\Scripts\ConfigSettings.cs" />
-    <Compile Include="Assets\Scripts\SimulationLogic\Models\SimShape.cs" />
+    <Compile Include="Assets\Scripts\SimulationLogic\Models\SimPiece.cs" />
     <Compile Include="Assets\Scripts\PieceFactory.cs" />
     <Compile Include="Assets\Scripts\SimulationLogic\Enums\PlacePieceStatus.cs" />
   </ItemGroup>

@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour
 
 		_currentState = PlayerState.PushingPieceToSpringboard;
 		int springIdx;
-		if (_logicController.SpringboardLogic.TryMovePieceToAvailableSpring(pieceManager.SimShape.Id, pieceManager.SimShape.GetSimWidth(), out springIdx))
+		if (_logicController.SpringboardLogic.TryMovePieceToAvailableSpring(pieceManager.SimPiece.Id, pieceManager.SimPiece.GetSimWidth(), out springIdx))
 		{
 			_destinationXIndex = springIdx;
 			_pieceXDestination = _springboardXPosns[springIdx];
@@ -257,8 +257,8 @@ public class PlayerController : MonoBehaviour
 					break;
 
 				case PlayerState.HoldingPieceOnSpringboard:
-					_attachedPieceManager.SimShape.SpringboardColumn = _currentXIndex;
-					_logicController.SpringboardLogic.DropPieceOntoSpringboard(_attachedPieceManager.SimShape);
+					_attachedPieceManager.SimPiece.SpringboardColumn = _currentXIndex;
+					_logicController.SpringboardLogic.DropPieceOntoSpringboard(_attachedPieceManager.SimPiece);
 					// move player to 1st bin
 					_currentState = PlayerState.MovingToBin;
 					_destinationXIndex = 0;

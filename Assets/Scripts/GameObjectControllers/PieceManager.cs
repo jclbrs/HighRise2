@@ -13,7 +13,7 @@ public class PieceManager : MonoBehaviour
 	public float PieceDropSpeed;
 
 	public PieceState CurrentState;
-	public SimShape SimShape { get; private set; }
+	public SimPiece SimPiece { get; private set; }
 	public float DestinationYPosn;
 	public float XSpeed;
 	public float DestinationXPosn;
@@ -152,7 +152,7 @@ public class PieceManager : MonoBehaviour
 				//Debug.Log($"Hit:{hit.point.x}/{hit.point.y}, distance:{hit.distance}");
 				Debug.DrawRay(rayStartCoord, Vector2.down * hit.distance, Color.green);
 				//float yCollision = hit.point.y;
-				//Debug.Log($"Piece {SimShape.Id} yCollision:{yCollision}");
+				//Debug.Log($"Piece {SimPiece.Id} yCollision:{yCollision}");
 			}
 		}
 		// joe end testing
@@ -226,7 +226,7 @@ public class PieceManager : MonoBehaviour
 		CurrentState = PieceState.DroppingToNextBinCell;
 		DestinationYPosn = yPosn;
 		yMove = PieceDropSpeed;
-		//Debug.Log($"pc{SimShape.Id} from {transform.position.y} to {yPosn}");
+		//Debug.Log($"pc{SimPiece.Id} from {transform.position.y} to {yPosn}");
 	}
 
 	public void BeginDropFromBinToPlayer(float destinationYPosn)
@@ -236,10 +236,10 @@ public class PieceManager : MonoBehaviour
 		yMove = PieceDropSpeed;
 	}
 
-	public void ConstructPieceShape(GameObject pieceContainer, SimShape simShape)
+	public void ConstructPieceShape(GameObject pieceContainer, SimPiece simPiece)
 	{
-		SimShape = simShape;
-		bool[,] blocks = simShape.Blocks;
+		SimPiece = simPiece;
+		bool[,] simShape = simPiece.Shape;
 		GameObject currentBlock;
 		int row = int.MinValue;
 		int col = int.MinValue;
@@ -251,20 +251,20 @@ public class PieceManager : MonoBehaviour
 				for (col = 0; col < 3; col++)
 				{
 					currentBlock = pieceContainer.transform.Find($"Block_{col}-{row}").gameObject;
-					currentBlock.SetActive(blocks[col, row]);
+					currentBlock.SetActive(simShape[col, row]);
 
 					// Activate/Deactivate the borders, based on its neighbors
 					if (currentBlock.activeSelf)
 					{
 						SpriteRenderer renderer = currentBlock.GetComponent<SpriteRenderer>();
 						//renderer.color = Color.red;
-						if (row < 2 && blocks[col, row + 1]) // could have piece above it
+						if (row < 2 && simShape[col, row + 1]) // could have piece above it
 							currentBlock.transform.Find("Border_top").gameObject.SetActive(false);
-						if (row > 0 && blocks[col, row - 1]) // could have piece below it
+						if (row > 0 && simShape[col, row - 1]) // could have piece below it
 							currentBlock.transform.Find("Border_btm").gameObject.SetActive(false);
-						if (col < 2 && blocks[col + 1, row]) // could have piece to the right
+						if (col < 2 && simShape[col + 1, row]) // could have piece to the right
 							currentBlock.transform.Find("Border_rgt").gameObject.SetActive(false);
-						if (col > 0 && blocks[col - 1, row]) // could have piece to the left
+						if (col > 0 && simShape[col - 1, row]) // could have piece to the left
 							currentBlock.transform.Find("Border_lft").gameObject.SetActive(false);
 					}
 
@@ -273,13 +273,13 @@ public class PieceManager : MonoBehaviour
 		}
 		catch (Exception ex)
 		{
-			Debug.LogError($"Error building pieceid {simShape.Id} at row:{row}, col:{col}");
+			Debug.LogError($"Error building pieceid {simPiece.Id} at row:{row}, col:{col}");
 		}
 	}
 
 	public float GetXWidth()
 	{
-		return SimShape.GetSimWidth() * BlockWidth;
+		return SimPiece.GetSimWidth() * BlockWidth;
 	}
 
 	public void TossInGarbage()

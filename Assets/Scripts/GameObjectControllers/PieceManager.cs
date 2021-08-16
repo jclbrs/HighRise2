@@ -24,7 +24,7 @@ public class PieceManager : MonoBehaviour
 	public float BlockHeight;
 	private GameObject _destroyingPieceParticlesPrefab;
 	private EventsManager _eventsManager;
-	private bool _isLandingZoneStable;
+	private StabilityResult _stabilityResult;
 	private float _rotationSpeed;
 	private static System.Random _randomizer;
 
@@ -83,13 +83,17 @@ public class PieceManager : MonoBehaviour
 					transform.position = new Vector3(transform.position.x, DestinationYPosn);
 					CurrentState = PieceState.LandedOnLandingZone;
 					yMove = 0f;
-					if (!_isLandingZoneStable)
+					if (!_stabilityResult.IsStable)
 					{
+						// at least one of the pieces has landed, so let all pieces in landing zone know about the stability result
 						Component[] pieceManagersInLandingZone = transform.parent.GetComponentsInChildren(typeof(PieceManager));
 						foreach (PieceManager pieceManagerInLandingZone in pieceManagersInLandingZone)
 						{
-							pieceManagerInLandingZone.CurrentState = PieceState.FallingUnstable;
-							pieceManagerInLandingZone.StartUnstableAction();
+							if (_stabilityResult.UnstablePieceIds.Contains(pieceManagerInLandingZone.PieceId))
+							{
+								pieceManagerInLandingZone.CurrentState = PieceState.FallingUnstable;
+								pieceManagerInLandingZone.StartUnstableAction();
+							}
 						}
 					}
 				}
@@ -162,10 +166,10 @@ public class PieceManager : MonoBehaviour
 
 	}
 
-	public void BeginDropInLandingZone(bool isLandingZoneStable)
+	public void BeginDropInLandingZone(StabilityResult stabilityResult)
 	{
 		CurrentState = PieceState.DroppingInLandingZone;
-		_isLandingZoneStable = isLandingZoneStable;
+		_stabilityResult = stabilityResult;
 		yMove = PieceDropSpeed;
 		CalcYDropCollision();
 	}

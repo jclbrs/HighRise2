@@ -37,11 +37,28 @@ namespace Assets.Scripts.SimulationLogic
 		}
 
 
-		public bool MoveSpringboardPiecesToLandingZone(List<SimPiece> simPieces)
+		public StabilityResult MoveSpringboardPiecesToLandingZone(List<SimPiece> simPieces)
 		{
 			DropPiecesToRestingPosition(simPieces);
 			StabilityResult result = CalculateStability();
-			return result.IsStable;
+			if (!result.IsStable)
+			{
+				RemoveUnstablePieces(result.UnstablePieceIds);
+			}
+			return result;
+		}
+
+		private void RemoveUnstablePieces(List<int> unstablePieceIds)
+		{
+			for (int col = 0; col < NumColsInLandingZone; col++)
+			{
+				for (int row = 0; row < NumRowsInLandingZone; row++)
+				{
+					int pieceIdInLandingZone = LandingZone[col, row].PieceId;
+					if (unstablePieceIds.Contains(pieceIdInLandingZone))
+						LandingZone[col, row].PieceId = int.MinValue;
+				}
+			}
 		}
 
 		private void DropPiecesToRestingPosition(List<SimPiece> pieces)

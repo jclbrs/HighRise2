@@ -90,13 +90,14 @@ public class SprungPiecesController : MonoBehaviour
 				simPieces.Add(pieceMgr.SimPiece);
 
 			// calculate newly added pieces to the simulation, and determine if stable
-			bool isStable = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
+			StabilityResult stabilityResult = _logicController.LandingZoneLogic.MoveSpringboardPiecesToLandingZone(simPieces);
+			bool isStable = stabilityResult.IsStable;
 			//Debug.Log($"SprungPiecesController. Stable:{isStable}");
 
 			// move all piece out of SprungPiecesController, and have them now be children of LandingZone
 			foreach (PieceManager pieceMgr in _sprungPieces.Values)
 			{
-				pieceMgr.BeginDropInLandingZone(isStable);
+				pieceMgr.BeginDropInLandingZone(stabilityResult);
 				GameObject landingPiecesGO = GameObject.Find("/LandingZone/LandingPieces");
 				pieceMgr.transform.SetParent(landingPiecesGO.transform);
 			}
@@ -117,8 +118,9 @@ public class SprungPiecesController : MonoBehaviour
 					_eventsManager.OnSuccessfulLevel();
 				}
 			}
-			else
-				_logicController.LandingZoneLogic.ClearLandingZone();
+			// Joe, temporarily comment on clearing the landing zone, letting the player keep on trying
+			//else
+			//	_logicController.LandingZoneLogic.ClearLandingZone();
 			
 		}
 	}
